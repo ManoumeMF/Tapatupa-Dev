@@ -184,8 +184,6 @@ class ObjekRetribusiController extends Controller
         $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idObjekRetribusi') . ')');
         $objekRetribusiTemp = $objekRetribusiData[0];
 
-        //dd($objekRetribusiTemp);
-
         if ($objekRetribusiTemp) {
             $id = $request->get('idObjekRetribusi');
 
@@ -443,6 +441,8 @@ class ObjekRetribusiController extends Controller
             'IsDinilai' => $isStatusPenilaian,
             'NamaPenilai' => $request->get('namaPenilai'),
             'NominalTarif' => $request->get('tarifObjek'),
+            'HargaTanah' => $request->get('hargaTanah'),
+            'HargaBangunan' => $request->get('hargaBangunan'),
             'Keterangan' => $request->get('keterangan'),
             'FileHasilPenilaian' => $filePath
         ]);
@@ -568,6 +568,8 @@ class ObjekRetribusiController extends Controller
             //'StatusPenilaian' => $isStatusPenilaian,
             'NamaPenilai' => $request->get('namaPenilai'),
             'NominalTarif' => $request->get('tarifObjek'),
+            'HargaTanah' => $request->get('hargaTanah'),
+            'HargaBangunan' => $request->get('hargaBangunan'),
             'Keterangan' => $request->get('keterangan'),
             'FileHasilPenilaian' => $filePath
         ]);

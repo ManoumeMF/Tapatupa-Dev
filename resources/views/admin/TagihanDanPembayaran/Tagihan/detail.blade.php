@@ -145,13 +145,86 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                
+            <div class="row gy-3">     
+            <form class="row g-3 needs-validation" action="{{route('Tagihan.checkout')}}" method="post">
+            {{ csrf_field() }}
+                    <div class="col-xl-6">
+                        <input type="hidden" name="idPerjanjian" value="{{ $headTagihanDetail->idPerjanjianSewa }}">
+                        <div class="d-flex gap-3">
+                            <div class="flex-fill">
+                                <h6 class="mb-1 fs-13">Nomor Perjanjian</h6>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                    {{ $headTagihanDetail->nomorSuratPerjanjian }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex gap-3">
+                            <div class="flex-fill">
+                                <h6 class="mb-1 fs-13">Tanggal Perjanjian</h6>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                 {{ date('d F Y', strtotime($headTagihanDetail->tanggalDisahkan )) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex gap-3">
+                            <div class="flex-fill">
+                                <h6 class="mb-1 fs-13">Jangka Waktu</h6>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                {{ $headTagihanDetail->durasiSewa }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex gap-3">
+                            <div class="flex-fill">
+                                <h6 class="mb-1 fs-13">Pembayaran Per Tahun</h6>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                {{ $headTagihanDetail->jumlahPembayaran }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex gap-3">
+                            <div class="flex-fill">
+                                <h6 class="mb-1 fs-13">Wajib Retribusi</h6>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                NPWRD: {{ $headTagihanDetail->npwrd }}
+                                </span>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                Nama Wajib Retribusi: {{ $headTagihanDetail->namaWajibRetribusi }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="d-flex gap-3">
+                            <div class="flex-fill">
+                                <h6 class="mb-1 fs-13">Objek Retribusi</h6>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                Objek Retribusi: {{ $headTagihanDetail->kodeObjekRetribusi }} / {{ $headTagihanDetail->objekRetribusi }}
+                                </span>
+                                <span class="d-block fs-13 text-muted fw-normal">
+                                Alamat Objek Retribusi: {{ $headTagihanDetail->alamatLengkap }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="table-responsive border-top">
                     <table class="table text-nowrap table-hover">
                         <thead>
                             <tr>
                                 <th>
-                                    <input class="form-check-input check-all" type="checkbox" id="all-tasks" value=""
-                                        aria-label="...">
+                                    <!--<input class="form-check-input check-all" type="checkbox" id="all-tasks" value=""
+                                        aria-label="...">--> Pilih
                                 </th>
                                 <th scope="col">#</th>
                                 <th scope="col">Nomor Tagihan</th>
@@ -167,8 +240,16 @@
                             @if (isset($tagihanDetail) && count($tagihanDetail) > 0)
                                 @foreach ($tagihanDetail as $indexKey => $tD)
                                     <tr class="task-list">
-                                        <td class="task-checkbox"><input class="form-check-input" type="checkbox" value=""
-                                                aria-label="..."></td>
+                                        <td class="task-checkbox">
+                                        @if($tD->idStatus == 11)
+                                        <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
+                                        aria-label="..." name="idTagihan[]" disabled></td>
+                                            @else
+                                            <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
+                                            aria-label="..." name="idTagihan[]"></td>
+                                            @endif
+                                        </td>
+                                            
                                         <td>
                                             <span class="fw-medium">{{ ++$indexKey }}/{{ count($tagihanDetail) }}</span>
                                         </td>
@@ -213,43 +294,17 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--End::row-1 -->
-
-<!-- Start:: Delete Pekerjaan-->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Hapus Data</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="deleteJenisStatusForm">
-                @csrf
-                <div class="modal-body">
-                    <div class="text-center px-5 pb-0 svg-danger">
-                        <svg class="custom-alert-icon" xmlns="http://www.w3.org/2000/svg" height="3.5rem"
-                            viewBox="0 0 24 24" width="3.5rem" fill="#000000">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path
-                                d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z" />
-                        </svg>
-
-                        <h5>Anda yakin untuk menghapus data?</h5>
+                <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
+                        <button class="btn btn-danger m-1" type="reset">Batal<i
+                                class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
+                        <button class="btn btn-primary m-1" type="submit">Bayar <i
+                                class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
                     </div>
-                    <input type="hidden" id="deleting_id" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tidak</button>
-                    <button type="submit" class="btn btn-danger delete_data">Ya</button>
-                </div>
+            </div>
             </form>
         </div>
     </div>
 </div>
-<!-- End:: Delete Pekerjaan -->
+<!--End::row-1 -->
 
 @endsection

@@ -9,8 +9,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title> TAPATUPA - Transformasi Pengelolaan Aset Tanah </title>
-    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
-    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="Description" content="TAPATUPA - Transformasi Pengelolaan Aset Tanah">
+    <meta name="Ardiles Sinaga" content="Badan Keuangan dan Aset Daerah">
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('admin_resources/assets/images/brand-logos/favicon2.ico') }}" type="image/x-icon">
@@ -92,29 +92,6 @@
                 </div>
                 <!-- End::header-content-left -->
 
-                <!-- Start::header-content-right -->
-                <div class="header-content-right">
-
-                    <!-- Start::header-element -->
-                    <div class="header-element align-items-center">
-                        <!-- Start::header-link|switcher-icon -->
-                        <div class="btn-list d-lg-none d-flex">
-                            <a href="sign-up-basic.html" class="btn btn-primary-light">
-                                Sign Up
-                            </a>
-                            <button
-                                class="btn btn-icon btn-success switcher-icon d-flex align-items-center justify-content-center"
-                                data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
-                                <i class="ri-settings-3-line"></i>
-                            </button>
-                        </div>
-                        <!-- End::header-link|switcher-icon -->
-                    </div>
-                    <!-- End::header-element -->
-
-                </div>
-                <!-- End::header-content-right -->
-
             </div>
             <!-- End::main-header-container -->
 
@@ -132,7 +109,7 @@
                     <nav class="main-menu-container nav nav-pills sub-open">
                         <div class="landing-logo-container">
                             <div class="horizontal-logo">
-                                <a href="index.html" class="header-logo">
+                                <a href="{{ "/home" }}" class="header-logo">
                                     <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}"
                                         alt="logo" class="desktop-logo">
                                     <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}"
@@ -1301,20 +1278,20 @@
                                                     <label for="contact-address-name" class="form-label ">Nama Lengkap
                                                         :</label>
                                                     <input type="text" class="form-control" id="contact-address-name"
-                                                        placeholder="Enter Name">
+                                                        placeholder="Masukkan Nama Lengkap">
                                                 </div>
                                                 <div class="col-xl-12">
                                                     <label for="contact-address-phone" class="form-label ">Nomor
                                                         Telepon/WhatsApp
                                                         :</label>
                                                     <input type="text" class="form-control" id="contact-address-phone"
-                                                        placeholder="Enter Phone No">
+                                                        placeholder="Masukkan Nomor Telepon/WhatsApp">
                                                 </div>
                                                 <div class="col-xl-12">
-                                                    <label for="contact-address-address" class="form-label ">Alamat
+                                                    <label for="contact-address-address" class="form-label">Alamat
                                                         :</label>
-                                                    <textarea class="form-control" id="contact-address-address"
-                                                        rows="1"></textarea>
+                                                    <textarea class="form-control" id="contact-address-address"  placeholder="Masukkan Alamat"
+                                                        rows="2"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -1372,7 +1349,7 @@
                                     </div>
                                     <div class="">
                                         <div class="card custom-card border mb-0 shadow-none overflow-hidden">
-                                            <div style="overflow:hidden;max-width:100%;width:560px;height:150px;">
+                                            <div style="overflow:hidden;max-width:100%;width:600px;height:175px;">
                                                 <div id="embedded-map-display"
                                                     style="height:100%; width:100%;max-width:100%;"><iframe
                                                         style="height:100%;width:100%;border:0;" frameborder="0"
@@ -1405,6 +1382,8 @@
                     <div class="row">
                         <div class="col-md-5 col-sm-6 col-12 mb-md-0 mb-3">
                             <div class="px-4">
+                            <p class="fw-medium mb-3"><a href="{{ "/home" }}"><img height="40px"
+                            src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt=""></a></p>
                                 <p class="mb-2 op-6 fw-normal">
                                     Badan Keuangan dan Aset Daerah bertanggungjawab atas penganggaran APBD,
                                     penatausahaan keuangan, pengelolaan aset daerah dan penyusunan laporan serta

@@ -50,6 +50,8 @@
                     $('#d_tanggalDinilai').text(response.tarifObjek.tanggalDinilai);
                     $('#d_namaPenilai').text(response.tarifObjek.namaPenilai);
                     $('#d_tarifObjek').text("Rp. " + response.tarifObjek.nominalTarif);
+                    $('#d_hargaTanah').text("Rp. " + response.tarifObjek.hargaTanah);
+                    $('#d_hargaBangunan').text("Rp. " + response.tarifObjek.hargaBangunan);
                     $('#d_keterangan').text(response.tarifObjek.keterangan);
                     if (fileExist) {
                         $(this).parent('.filePenilaian').remove();
@@ -167,9 +169,9 @@
                         <tr>
                             <th>Objek Retribusi</th>
                             <th>Alamat</th>
-                            <th>No. Bangunan</th>
                             <th>Perioditas</th>
                             <th>Tarif Objek</th>
+                            <th>Harga Tanah</th>
                             <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
@@ -186,14 +188,14 @@
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center"><a
                                                         href="javascript:void(0);">{{ $tR->kodeObjekRetribusi }}</a></p>
-                                                <p class="fs-12 text-muted mb-0">{{ $tR->objekRetribusi }}</p>
+                                                <p class="fs-12 text-muted mb-0">{{ $tR->noBangunan }} - {{ $tR->objekRetribusi }}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>{{ $tR->alamatLengkap }}</td>
-                                    <td>{{ $tR->noBangunan }}</td>
                                     <td>{{ $tR->jenisJangkaWaktu }}</td>
                                     <td>{{ $tR->nominalTarif }}</td>
+                                    <td>{{ $tR->hargaTanah }}</td>
                                     <td>{{ $tR->keterangan }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -411,10 +413,30 @@
                                         <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Tarif Onjek Retribusi (per meter<sup>2</sup>)
+                                                    <h6 class="mb-1 fs-13">Tarif Objek Retribusi (per meter<sup>2</sup>)
                                                     </h6>
                                                     <span class="d-block fs-13 text-muted fw-normal"
                                                         id="d_tarifObjek"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Harga Tanah
+                                                    </h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_hargaTanah"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Harga Bangunan
+                                                    </h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_hargaBangunan"></span>
                                                 </div>
                                             </div>
                                         </div>

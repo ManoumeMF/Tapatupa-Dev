@@ -160,8 +160,9 @@
                                                         class="w-100 h-100" alt="..."></span>
                                             @endif
                                             <div class="ms-2">
-                                                <p class="fw-semibold mb-0 d-flex align-items-center">{{ $tS->namaWajibRetribusi }}</p>
-                                                <p class="fs-12 text-muted mb-0">NIK: {{ $tS->nik }}</p>
+                                                <p class="fw-semibold mb-0 d-flex align-items-center">
+                                                    {{ $tS->namaWajibRetribusi }}</p>
+                                                <p class="fs-12 text-muted mb-0">NPWRD: {{ $tS->npwrd }}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -196,7 +197,8 @@
                                                 <li>
                                                     <a class="dropdown-item"
                                                         href="{{ route('Tagihan.detail', $tS->idPerjanjianSewa) }}">
-                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail Tagihan
+                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
+                                                        Tagihan
                                                     </a>
                                                 </li>
                                             </ul>
