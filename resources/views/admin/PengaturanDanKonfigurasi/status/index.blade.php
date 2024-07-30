@@ -1,6 +1,5 @@
 @extends('layouts.admin.template')
 @section('content')
-
 <script>
     //-------------------------------------------------------------------------------------------------
     //Ajax Form Detail Data
@@ -14,7 +13,7 @@
 
         $.ajax({
             method: "GET",
-            url: "{{ route('JenisStatus.detail') }}",
+            url: "{{ route('Status.detail') }}",
             data: {
                 id: st_id
             },
@@ -28,8 +27,9 @@
                     }).show();
                 } else {
                     //console.log(response.fieldEducation.nama_bidang_pendidikan)
-                    $('#d_jenis_status').text(response.statusType.jenisStatus);
-                    $('#d_keterangan').text(response.statusType.keterangan);
+                    $('#d_status').text(response.status.namaStatus);
+                    $('#d_jenis_status').text(response.status.jenisStatus);
+                    $('#d_keterangan').text(response.status.keterangan);
                 }
             }
         });
@@ -54,8 +54,10 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idJenisStatus': id,
+            'idStatus': id,
         }
+
+        //console.log(data);
 
         $.ajaxSetup({
             headers: {
@@ -65,7 +67,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('JenisStatus.delete') }}",
+            url: "{{ route('Status.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -91,18 +93,19 @@
             }
         });
     });
+
 </script>
 
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Jenis Status</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Status</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">General</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Jenis Status</li>
+                    <li class="breadcrumb-item active" aria-current="page">Status</li>
                 </ol>
             </nav>
         </div>
@@ -116,12 +119,11 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Jenis Status
+                    Daftar Status
                 </div>
                 <div class="prism-toggle">
-                    <a class="btn btn-primary btn-wave waves-effect waves-light"
-                        href="{{ route('JenisStatus.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Jenis Status
+                    <a class="btn btn-primary btn-wave waves-effect waves-light" href="{{ route('Status.create') }}">
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Status
                     </a>
                 </div>
             </div>
@@ -129,17 +131,19 @@
                 <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
+                            <th>Status</th>
                             <th>Jenis Status</th>
                             <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($statusType) && count($statusType) > 0)
-                            @foreach ($statusType as $st)
+                        @if (isset($status) && count($status) > 0)
+                            @foreach ($status as $sts)
                                 <tr>
-                                    <td>{{ $st->jenisStatus }}</td>
-                                    <td>{{ $st->keterangan }}</td>
+                                    <td>{{ $sts->namaStatus }}</td>
+                                    <td>{{ $sts->jenisStatus }}</td>
+                                    <td>{{ $sts->keterangan }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -148,19 +152,18 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <button type="button" value="{{ $st->idJenisStatus }}"
+                                                    <button type="button" value="{{ $sts->idStatus }}"
                                                         class="dropdown-item detailBtn">
                                                         <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('JenisStatus.edit', $st->idJenisStatus) }}"><i
+                                                        href="{{ route('Status.edit', $sts->idStatus) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $st->idJenisStatus }}"
+                                                <li><button type="button" value="{{ $sts->idStatus }}"
                                                         class="dropdown-item deleteBtn">
-                                                        <i
-                                                            class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
+                                                        <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -176,13 +179,21 @@
 </div>
 <!--End::row-1 -->
 
-<!-- Start:: Detail Jenis Status -->
+<!-- Start:: Detail Status-->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Detail Jenis Status</h6>
+                <h6 class="modal-title">Detail Status</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4">
+                <div class="d-flex gap-3">
+                    <div class="flex-fill">
+                        <h6 class="mb-1 fs-13">Status</h6>
+                        <span class="d-block fs-13 text-muted fw-normal" id="d_status"></span>
+                    </div>
+                </div>
             </div>
             <div class="modal-body px-4">
                 <div class="d-flex gap-3">
@@ -206,9 +217,9 @@
         </div>
     </div>
 </div>
-<!-- End:: Detail Jenis Status -->
+<!-- End:: Detail Status -->
 
-<!-- Start:: Delete Jenis Status-->
+<!-- Start:: Delete Status-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -216,7 +227,7 @@
                 <h6 class="modal-title">Hapus Data</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteJenisStatusForm">
+            <form id="deleteStatusForm">
                 @csrf
                 <div class="modal-body">
                     <div class="text-center px-5 pb-0 svg-danger">
@@ -226,7 +237,7 @@
                             <path
                                 d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z" />
                         </svg>
-
+                        
                         <h5>Anda yakin untuk menghapus data?</h5>
                     </div>
                     <input type="hidden" id="deleting_id" />
@@ -239,6 +250,6 @@
         </div>
     </div>
 </div>
-<!-- End:: Delete Jenis Status -->
+<!-- End:: Delete Status -->
 
 @endsection

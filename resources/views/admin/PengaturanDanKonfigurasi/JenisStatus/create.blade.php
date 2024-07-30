@@ -22,7 +22,8 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('JenisStatus.store')}}" method="post" novalidate>
+            {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
@@ -32,7 +33,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label">Jenis Status</label>
-                        <input type="text" class="form-control" id="validationCustom01"
+                        <input type="text" class="form-control" id="validationCustom01" name="jenisStatus"
                             placeholder="Masukkan Jenis Status" required>
                         <div class="invalid-feedback">
                             Jenis Status Tidak Boleh Kosong
@@ -40,7 +41,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="validationTextarea" class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="validationTextarea" placeholder="Masukkan Keterangan" rows="4"></textarea>
+                        <textarea class="form-control" id="validationTextarea" name="keterangan"
+                            placeholder="Masukkan Keterangan" rows="4"></textarea>
                     </div>
 
                 </div>

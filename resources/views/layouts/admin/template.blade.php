@@ -3,17 +3,30 @@
     data-width="fullwidth" data-menu-styles="dark" data-toggled="close" loader="disable">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('admin_resources/assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
 
     <!-- Choices JS -->
     <script src="{{ asset('admin_resources/assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
 
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('admin_resources/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Jquery Cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+
     <!-- Main Theme Js -->
     <script src="{{ asset('admin_resources/assets/js/main.js') }}"></script>
 
     <!-- Bootstrap Css -->
     <link id="style" href="{{ asset('admin_resources/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Toastify JS -->
+    <script src="{{ asset('admin_resources/assets/libs/toastify-js/src/toastify.js') }}"></script>
 
     <!-- Style Css -->
     <link href="{{ asset('admin_resources/assets/css/styles.css') }}" rel="stylesheet">
@@ -42,9 +55,14 @@
     <link rel="stylesheet"
         href="{{ asset('admin_resources/assets/libs/@tarekraafat/autocomplete.js/css/autoComplete.css') }}">
 
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/toastify-js/src/toastify.css') }}">
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -769,7 +787,7 @@
                                     <a href="{{ route('JenisStatus.index') }}" class="side-menu__item">Jenis Status</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="profile-settings.html" class="side-menu__item">Status</a>
+                                    <a href="{{ route('Status.index') }}" class="side-menu__item">Status</a>
                                 </li>
                             </ul>
                         </li>
@@ -1037,6 +1055,8 @@
         <div class="main-content app-content">
             <div class="container-fluid">
 
+                @include('flash_message')
+
                 @yield('content')
 
             </div>
@@ -1076,7 +1096,8 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
     <!-- Scroll To Top -->
     <div class="scrollToTop">
@@ -1087,9 +1108,6 @@
 
     <!-- Popper JS -->
     <script src="{{ asset('admin_resources/assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('admin_resources/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Defaultmenu JS -->
     <script src="{{ asset('admin_resources/assets/js/defaultmenu.min.js') }}"></script>
@@ -1136,6 +1154,24 @@
     <!-- Internal Datatables JS -->
     <script src="{{ asset('admin_resources/assets/js/datatables.js') }}"></script>
 
+    <!-- Select2 Cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    @if ($message = Session::get('success'))
+        <script>
+            const primarytoastSuccess = document.getElementById('primaryToast')
+            const toast = new bootstrap.Toast(primarytoastSuccess)
+            toast.show()
+        </script>
+    @endif
+
+    @if ($message = Session::get('error'))
+        <script>
+            const primarytoastError = document.getElementById('dangerToast')
+            const toast = new bootstrap.Toast(primarytoastError)
+            toast.show()
+        </script>
+    @endif
 </body>
 
 </html>
