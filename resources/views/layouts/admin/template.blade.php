@@ -778,7 +778,7 @@
                                     <a href="javascript:void(0)">General</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="chat.html" class="side-menu__item">Pekerjaan</a>
+                                    <a href="{{ route('Pekerjaan.index') }}" class="side-menu__item">Pekerjaan</a>
                                 </li>
                                 <li class="slide">
                                     <a href="chat.html" class="side-menu__item">Jenis Kegiatan</a>
