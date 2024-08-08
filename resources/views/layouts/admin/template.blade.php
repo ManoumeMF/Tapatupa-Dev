@@ -781,7 +781,7 @@
                                     <a href="{{ route('Pekerjaan.index') }}" class="side-menu__item">Pekerjaan</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="chat.html" class="side-menu__item">Jenis Kegiatan</a>
+                                    <a href="{{ route('JenisKegiatan.index') }}" class="side-menu__item">Jenis Kegiatan</a>
                                 </li>
                                 <li class="slide">
                                     <a href="{{ route('JenisStatus.index') }}" class="side-menu__item">Jenis Status</a>
