@@ -8,23 +8,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
-class StatusController extends Controller
+class ObjekRetribusiController extends Controller
 {
     public function index()
     {
-        $status = DB::select('CALL viewAll_Status()'); 
+        $objekRetribusi = DB::select('CALL viewAll_objekRetribusi()'); 
 
-        return view('admin.PengaturanDanKonfigurasi.Status.index', ['status' => $status]);
+        return view('admin.Master.ObjekRetribusi.index', ['objekRetribusi' => $objekRetribusi]);
 
-        //return view('admin.PengaturanDanKonfigurasi.Status.index');
+        //return view('admin.Master.ObjekRetribusi.index');
         
     }
 
     public function create()
     {
-        $statusTypeCombo = DB::select('CALL cbo_JenisStatus()');  
+        $objectType = DB::select('CALL cbo_jenisObjekRetribusi()');  
+        $objectLocation = DB::select('CALL cbo_lokasiObjekRetribusi()');  
 
-        return view('admin.PengaturanDanKonfigurasi.Status.create', compact('statusTypeCombo'));
+        return view('admin.Master.ObjekRetribusi.create', compact('objectType', 'objectLocation'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }

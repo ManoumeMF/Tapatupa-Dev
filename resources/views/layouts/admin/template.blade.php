@@ -18,15 +18,16 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
-
     <!-- Main Theme Js -->
     <script src="{{ asset('admin_resources/assets/js/main.js') }}"></script>
+
+    <!-- Toastify JS -->
+    <script src="{{ asset('admin_resources/assets/libs/toastify-js/src/toastify.js') }}"></script>
+
 
     <!-- Bootstrap Css -->
     <link id="style" href="{{ asset('admin_resources/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- Toastify JS -->
-    <script src="{{ asset('admin_resources/assets/libs/toastify-js/src/toastify.js') }}"></script>
 
     <!-- Style Css -->
     <link href="{{ asset('admin_resources/assets/css/styles.css') }}" rel="stylesheet">
@@ -63,6 +64,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -781,7 +783,8 @@
                                     <a href="{{ route('Pekerjaan.index') }}" class="side-menu__item">Pekerjaan</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="{{ route('JenisKegiatan.index') }}" class="side-menu__item">Jenis Kegiatan</a>
+                                    <a href="{{ route('JenisKegiatan.index') }}" class="side-menu__item">Jenis
+                                        Kegiatan</a>
                                 </li>
                                 <li class="slide">
                                     <a href="{{ route('JenisStatus.index') }}" class="side-menu__item">Jenis Status</a>
