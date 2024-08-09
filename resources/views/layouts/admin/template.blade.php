@@ -863,19 +863,19 @@
                                     <a href="404-error.html" class="side-menu__item">Jenis Objek Retribusi</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="500-error.html" class="side-menu__item">Jenis Jangka Waktu</a>
+                                    <a href="{{ route('jenisJangkaWaktu.index') }}" class="side-menu__item">Jenis Jangka Waktu</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="401-error.html" class="side-menu__item">Jangka Waktu Sewa</a>
+                                    <a href="{{ route('JangkaWaktuSewa.index') }}" class="side-menu__item">Jangka Waktu Sewa</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="404-error.html" class="side-menu__item">Jenis Permohonan</a>
+                                    <a href="{{ route('JenisPermohonan.index') }}" class="side-menu__item">Jenis Permohonan</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="500-error.html" class="side-menu__item">Peruntukan Sewa</a>
+                                    <a href="{{ route('PeruntukanSewa.index') }}" class="side-menu__item">Peruntukan Sewa</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="500-error.html" class="side-menu__item">Jenis Dokumen</a>
+                                    <a href="{{ route('JenisDokumen.index') }}" class="side-menu__item">Jenis Dokumen</a>
                                 </li>
                                 <li class="slide">
                                     <a href="500-error.html" class="side-menu__item">Dokumen Sewa</a>
