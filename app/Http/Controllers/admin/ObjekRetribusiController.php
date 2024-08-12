@@ -50,18 +50,19 @@ class ObjekRetribusiController extends Controller
 
     public function edit($id)
     {      
-        $statusTypeCombo = DB::select('CALL cbo_JenisStatus()');
+        $objectType = DB::select('CALL cbo_jenisObjekRetribusi()');  
+        $objectLocation = DB::select('CALL cbo_lokasiObjekRetribusi()'); 
 
-        $statusData = DB::select('CALL view_statusById(' . $id . ')');
-        $status = $statusData[0];
+        //$statusData = DB::select('CALL view_statusById(' . $id . ')');
+        //$status = $statusData[0];
 
-        if ($status) {
+        /*if ($status) {
             return view('admin.PengaturanDanKonfigurasi.Status.edit', ['statusType' => $statusTypeCombo], ['status' => $status]);
          } else {
              return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
-         }
+         }*/
 
-         //return view('admin.PengaturanDanKonfigurasi.Status.edit');
+         return view('admin.Master.ObjekRetribusi.edit', compact('objectType', 'objectLocation'));
     }
 
 

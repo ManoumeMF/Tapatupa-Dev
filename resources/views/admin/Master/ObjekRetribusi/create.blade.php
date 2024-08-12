@@ -39,6 +39,43 @@
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
+
+        $(".jangka-waktu-sewa").select2({
+            placeholder: "Pilih Jangka Waktu Sewa",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        // jQuery button click event to add Anggota Keluarga row
+        $("#tambahFoto").on("click", function () {
+
+            // Adding a row inside the tbody.
+            $("#tblFoto tbody").append('<tr>' +
+                '<td>' +
+                '<input type="text" class="form-control" id="namaFoto[]"' +
+                'placeholder="Masukkan Nama Foto" required>' +
+                '</td>' +
+                '<td>' +
+                '<input type="file" class="foto-objek" name="fileFoto[]" multiple' +
+                'data-allow-reorder="true" data-max-file-size="5MB"' +
+                'data-max-files="1">' +
+                '</td>' +
+                '<td>' +
+                '<textarea class="form-control" id="keterangan" rows="2" name="keteranganFoto"' +
+                'placeholder="Masukkan Keterangan Foto"></textarea>' +
+                '</td>' +
+                '<td  style="text-align: center">' +
+                '<button class="btn btn-icon btn-outline-secondary rounded-pill btn-wave" type="button" id="delFoto">' +
+                '<i class="bi bi-x-lg"></i>' +
+                '</button>' +
+                '</td>' +
+                '</tr>');
+        });
+
+        $(document).on('click', '#delFoto', function () {
+            $(this).closest('tr').remove();
+            return false;
+        });
     });
 
 </script>
@@ -213,14 +250,6 @@
                                                 <textarea class="form-control" id="keterangan" rows="3"
                                                     placeholder="Masukkan Keterangan"></textarea>
                                             </div>
-                                            <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
-                                                <input type="file" class="product-Images" name="fileDenahTanah" multiple
-                                                    data-allow-reorder="true" data-max-file-size="5MB"
-                                                    data-max-files="1">
-                                            </div>
-                                            <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
-                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -228,7 +257,7 @@
                             <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
                                 <div class="card custom-card shadow-none mb-0 border-0">
                                     <div class="card-body p-0">
-                                        <div class="row gy-4">
+                                        <div class="row gy-3">
                                             <div class="col-xl-4">
                                                 <label for="panajng-tanah" class="form-label">Panjang Tanah
                                                     (meter)</label>
@@ -268,63 +297,66 @@
                                                 <input type="text" class="form-control" id="jumlah-lantai"
                                                     placeholder="Masukkan Jumlah lantai" name="jumlahLantai">
                                             </div>
-                                            <div class="col-xl-12 border-top">
-                                            <br>
-                                                <label for="publish-date" class="form-label">Nama Gambar</label>
-                                                <input type="text" class="form-control" id="publish-date"
-                                                    placeholder="Choose date">
+                                            <div class="col-xl-6">
+                                                <label for="jumlah-lantai" class="form-label">Jangka Waktu Sewa</label>
+                                                <select class="jangka-waktu-sewa form-control" name="jangkaWaktuSewa"
+                                                    required>
+                                                    <option></option>
+                                                    @foreach ($objectLocation as $oL)
+                                                        <option value="{{ $oL->idLokasiObjekRetribusi }}">
+                                                            {{ $oL->lokasiobjekretribusi }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="jumlah-lantai" class="form-label">Tarif Sewa Objek
+                                                    Retribusi</label>
+                                                <input type="text" class="form-control" id="tarif-sewa"
+                                                    placeholder="Masukkan Tarif Sewa" name="tarifSewa">
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <label for="keterangan" class="form-label">Keterangan</label>
+                                                <textarea class="form-control" id="keteranganTarifSewa" rows="2"
+                                                    placeholder="Masukkan Keterangan Tarif Sewa"></textarea>
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Foto Objek Retribusi :</p>
+                                                <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
                                                 <input type="file" class="product-Images" name="fileDenahTanah" multiple
                                                     data-allow-reorder="true" data-max-file-size="5MB"
                                                     data-max-files="1">
                                             </div>
-
-                                            <div class="col-xl-6">
-                                                <label for="publish-date" class="form-label">Publish Date</label>
-                                                <input type="text" class="form-control" id="publish-date"
-                                                    placeholder="Choose date">
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <label for="publish-time" class="form-label">Publish Time</label>
-                                                <input type="text" class="form-control" id="publish-time"
-                                                    placeholder="Choose time">
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <label for="product-status-add" class="form-label">Published
-                                                    Status</label>
-                                                <select class="form-control" data-trigger name="product-status-add"
-                                                    id="product-status-add">
-                                                    <option value="">Select</option>
-                                                    <option value="Published">Published</option>
-                                                    <option value="Scheduled">Scheduled</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <label for="product-tags" class="form-label">Product Tags</label>
-                                                <select class="form-control" name="product-tags" id="product-tags"
-                                                    multiple>
-                                                    <option value="Relaxed" selected>Relaxed</option>
-                                                    <option value="Solid">Solid</option>
-                                                    <option value="Washed">Washed</option>
-                                                    <option value="Plain" selected>Plain</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-xl-12">
-                                                <label for="product-status-add1" class="form-label">Availability</label>
-                                                <select class="form-control" data-trigger name="product-status-add1"
-                                                    id="product-status-add1">
-                                                    <option value="">Select</option>
-                                                    <option value="In Stock">In Stock</option>
-                                                    <option value="Out Of Stock">Out Of Stock</option>
-                                                </select>
-                                            </div>
+                                            <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="px-4 py-3 border-top">
+                        <div class="d-sm-flex justify-content-end">
+                            <button class="btn btn-primary m-1" id="tambahFoto" type="button"><span
+                                    class="bi bi-plus-circle align-middle me-1 fw-medium"></span>
+                                Tambah Foto
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table text-nowrap table-hover" id="tblFoto">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Foto</th>
+                                        <th>File Foto</th>
+                                        <th>Keterangan</th>
+                                        <th width="20px">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                     <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
                         <button class="btn btn-danger m-1" type="reset">Batal<i
