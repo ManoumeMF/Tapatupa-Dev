@@ -191,6 +191,7 @@ CREATE TABLE `jenisobjekretribusi`  (
   PRIMARY KEY (`idJenisObjekRetribusi`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
+select * from jenisobjekretribusi j 
 -- ----------------------------
 -- Records of jenisobjekretribusi
 -- ----------------------------
