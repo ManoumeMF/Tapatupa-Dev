@@ -808,6 +808,12 @@
                                     <a href="{{ route('JenisStatus.index') }}" class="side-menu__item">Jenis Status</a>
                                 </li>
                                 <li class="slide">
+                                    <a href="{{ route('JenisRetribusi.index') }}" class="side-menu__item">Jenis Retribusi</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{ route('JenisObjekRetribusi.index') }}" class="side-menu__item">Jenis Objek Retribusi</a>
+                                </li>
+                                <li class="slide">
                                     <a href="{{ route('Status.index') }}" class="side-menu__item">Status</a>
                                 </li>
                             </ul>
