@@ -508,6 +508,21 @@ CREATE TABLE `wajibretribusi`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for JenisRetribusi
+-- ----------------------------
+
+CREATE TABLE `JenisRetribusi` (
+  `idJenisRetribusi` int NOT null AUTO_INCREMENT,
+  `JenisRetribusi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `isDeleted` tinyint(1) NULL DEFAULT 0,
+  PRIMARY KEY (`idJenisRetribusi`) USING BTREE
+)
+
+select * from JenisRetribusi
+-- ----------------------------
 -- Procedure structure for cbo_JenisStatus
 -- ----------------------------
 DROP PROCEDURE IF EXISTS `cbo_JenisStatus`;
