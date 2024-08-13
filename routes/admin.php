@@ -2,6 +2,8 @@
 
 //use App\Http\Controllers\admin\BidangPendidikanController;
 
+use App\Http\Controllers\admin\DokumenKelengkapanController;
+use App\Http\Controllers\admin\JabatanBidangController;
 use App\Http\Controllers\admin\JangkaWaktuSewaController;
 use App\Http\Controllers\admin\JenisDokumenController;
 use App\Http\Controllers\admin\JenisJangkaWaktuController;
@@ -11,7 +13,9 @@ use App\Http\Controllers\admin\JenisStatusController;
 use App\Http\Controllers\admin\PekerjaanController;
 use App\Http\Controllers\admin\StatusController;
 use App\Http\Controllers\admin\ObjekRetribusiController;
+use App\Http\Controllers\admin\PegawaiController;
 use App\Http\Controllers\admin\PeruntukanSewaController;
+use App\Http\Controllers\admin\WajibRetribusiController;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
 /*
@@ -121,3 +125,30 @@ Route::get("/jenis-dokumen/ubah/{id}", [JenisDokumenController::class, 'edit'])-
 Route::post("/jenis-dokumen/update/{id}", [JenisDokumenController::class, 'update'])->name('JenisDokumen.update');
 Route::delete("/jenis-dokumen/hapus", [JenisDokumenController::class, 'delete'])->name('JenisDokumen.delete');
 Route::get("/jenis-dokumen/detail", [JenisDokumenController::class, 'detail'])->name('JenisDokumen.detail');
+
+// Route untuk Dokumen Kelengkapan
+Route::get("/dokumen-kelengkapan", [DokumenKelengkapanController::class, 'index'])->name('DokumenKelengkapan.index');
+Route::get("/dokumen-kelengkapan/tambah", [DokumenKelengkapanController::class, 'create'])->name('DokumenKelengkapan.create');
+Route::post("/dokumen-kelengkapan/simpan", [DokumenKelengkapanController::class, 'store'])->name('DokumenKelengkapan.store');
+Route::get("/dokumen-kelengkapan/ubah/{id}", [DokumenKelengkapanController::class, 'edit'])->name('DokumenKelengkapan.edit');
+Route::post("/dokumen-kelengkapan/update/{id}", [DokumenKelengkapanController::class, 'update'])->name('DokumenKelengkapan.update');
+Route::delete("/dokumen-kelengkapan/hapus", [DokumenKelengkapanController::class, 'delete'])->name('DokumenKelengkapan.delete');
+Route::get("/dokumen-kelengkapan/detail", [DokumenKelengkapanController::class, 'detail'])->name('DokumenKelengkapan.detail');
+
+// Route untuk Jabatan Bidang
+Route::get("/jabatan-bidang", [JabatanBidangController::class, 'index'])->name('JabatanBidang.index');
+Route::get("/jabatan-bidang/tambah", [JabatanBidangController::class, 'create'])->name('JabatanBidang.create');
+Route::post("/jabatan-bidang/simpan", [JabatanBidangController::class, 'store'])->name('JabatanBidang.store');
+Route::get("/jabatan-bidang/ubah/{id}", [JabatanBidangController::class, 'edit'])->name('JabatanBidang.edit');
+Route::post("/jabatan-bidang/update/{id}", [JabatanBidangController::class, 'update'])->name('JabatanBidang.update');
+Route::delete("/jabatan-bidang/hapus", [JabatanBidangController::class, 'delete'])->name('JabatanBidang.delete');
+Route::get("/jabatan-bidang/detail", [JabatanBidangController::class, 'detail'])->name('JabatanBidang.detail');
+
+// Route untuk Pegawai
+Route::get("/pegawai", [PegawaiController::class, 'index'])->name('Pegawai.index');
+Route::get("/pegawai/tambah", [PegawaiController::class, 'create'])->name('Pegawai.create');
+Route::post("/pegawai/simpan", [PegawaiController::class, 'store'])->name('Pegawai.store');
+Route::get("/pegawai/ubah/{id}", [PegawaiController::class, 'edit'])->name('Pegawai.edit');
+Route::post("/pegawai/update/{id}", [PegawaiController::class, 'update'])->name('Pegawai.update');
+Route::delete("/pegawai/hapus", [PegawaiController::class, 'delete'])->name('Pegawai.delete');
+Route::get("/pegawai/detail", [PegawaiController::class, 'detail'])->name('Pegawai.detail');

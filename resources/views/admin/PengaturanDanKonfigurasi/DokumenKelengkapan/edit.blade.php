@@ -5,7 +5,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         /* single select with placeholder */
         $(".js-example-placeholder-single").select2({
-            placeholder: "Pilih Jenis Status",
+            placeholder: "Pilih Jenis Dokumen",
             allowClear: true,
             width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
         });
@@ -16,13 +16,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Jangka Waktu Sewa</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Dokumen Kelengkapan</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Penyewaan Aset</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Jangka Waktu Sewa</li>
+                    <li class="breadcrumb-item active" aria-current="page">Dokumen Kelengkapan</li>
                 </ol>
             </nav>
         </div>
@@ -33,42 +33,42 @@
 <!-- Start:: row-1 -->
 <div class="row">
     <div class="col-xl-12">
-        <form class="row g-3 needs-validation" action="{{ route('JangkaWaktuSewa.update', $JangkaWaktuSewa -> idJangkaWaktuSewa)}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{ route('DokumenKelengkapan.update', $dataDokumenKelengkapan -> idDokumenKelengkapan)}}" method="post" novalidate>
         {{ csrf_field() }}      
         <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Ubah Jangka Waktu Sewa
+                        Ubah Dokumen Kelengkapan
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Jenis Jangka Waktu</label>
-                        <select class="js-example-placeholder-single form-control" name="jenisJangkaWaktu" required>
+                        <label for="validationCustom01" class="form-label">Jenis Dokumen</label>
+                        <select class="js-example-placeholder-single form-control" name="jenisDokumen" required>
                             <option></option>
-                            @foreach ($jangkaWaktuTypeCombo as $sT)
-                                <option value="{{ $sT->idjenisJangkaWaktu }}" 
-                                    {{ $sT->idjenisJangkaWaktu === $JangkaWaktuSewa->idJenisJangkaWaktu ? 'selected' : '' }}>
-                                    {{ $sT->jenisJangkaWaktu }}
+                            @foreach ($dataDokumenKelengkapanCombo as $sT)
+                                <option value="{{ $sT->idJenisDokumen }}" 
+                                    {{ $sT->idJenisDokumen === $dataDokumenKelengkapan->idJenisDokumen ? 'selected' : '' }}>
+                                    {{ $sT->jenisDokumen }}
                                 </option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback">
-                            Jenis Status Tidak Boleh Kosong
+                            Jenis Dokumen Tidak Boleh Kosong
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Jangka Waktu Sewa</label>
-                        <input type="text" class="form-control" id="validationCustom01" placeholder="Masukkan Status" name="jangkaWaktu"
-                            value="{{ $JangkaWaktuSewa->jangkaWaktu }}" required>
+                        <label for="validationCustom01" class="form-label">Dokumen Kelengkapan</label>
+                        <input type="text" class="form-control" id="validationCustom01" placeholder="Masukkan Dokumen Kelengkapan" name="dokumenKelengkapan"
+                            value="{{ $dataDokumenKelengkapan->dokumenKelengkapan }}" required>
                         <div class="invalid-feedback">
-                            Status Tidak Boleh Kosong
+                            Dokumen Kelengkapan Tidak Boleh Kosong
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="validationTextarea" class="form-label">Keterangan</label>
                         <textarea class="form-control" id="validationTextarea" placeholder="Masukkan Keterangan" name="keterangan"
-                            rows="4">{{ $JangkaWaktuSewa->keterangan }}</textarea>
+                            rows="4">{{ $dataDokumenKelengkapan->keterangan }}</textarea>
                     </div>
 
                 </div>
