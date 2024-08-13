@@ -24,10 +24,23 @@
     <!-- Toastify JS -->
     <script src="{{ asset('admin_resources/assets/libs/toastify-js/src/toastify.js') }}"></script>
 
+    <!-- Filepond JS -->
+    <script src="{{ asset('admin_resources/assets/libs/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-transform/filepond-plugin-image-transform.min.js') }}"></script>
+
+
 
     <!-- Bootstrap Css -->
     <link id="style" href="{{ asset('admin_resources/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
 
     <!-- Style Css -->
     <link href="{{ asset('admin_resources/assets/css/styles.css') }}" rel="stylesheet">
@@ -64,6 +77,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+
+    <!-- Filepond CSS -->
+    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.css') }}">
 
 </head>
 

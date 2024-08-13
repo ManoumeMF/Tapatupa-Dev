@@ -7,6 +7,8 @@ use App\Http\Controllers\admin\JenisStatusController;
 use App\Http\Controllers\admin\PekerjaanController;
 use App\Http\Controllers\admin\StatusController;
 use App\Http\Controllers\admin\ObjekRetribusiController;
+use App\Http\Controllers\admin\WajibRetribusiController;
+use App\Http\Controllers\admin\PermohonanSewaController;
 
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
@@ -72,3 +74,21 @@ Route::get("/objek-retribusi/ubah/{id}", [ObjekRetribusiController::class, 'edit
 Route::post("/objek-retribusi/update/{id}", [ObjekRetribusiController::class, 'update'])->name('ObjekRetribusi.update');
 Route::get("/objek-retribusi/detail", [ObjekRetribusiController::class, 'detail'])->name('ObjekRetribusi.detail');
 Route::delete("/objek-retribusi/hapus", [ObjekRetribusiController::class, 'delete'])->name('ObjekRetribusi.delete');
+
+// Route untuk wajib Retribusi
+Route::get("/wajib-retribusi", [WajibRetribusiController::class, 'index'])->name('WajibRetribusi.index');
+Route::get("/wajib-retribusi/tambah", [WajibRetribusiController::class, 'create'])->name('WajibRetribusi.create');
+Route::post("/wajib-retribusi/simpan", [WajibRetribusiController::class, 'store'])->name('WajibRetribusi.store');
+Route::get("/wajib-retribusi/ubah/{id}", [WajibRetribusiController::class, 'edit'])->name('WajibRetribusi.edit');
+Route::post("/wajib-retribusi/update/{id}", [WajibRetribusiController::class, 'update'])->name('WajibRetribusi.update');
+Route::get("/wajib-retribusi/detail", [WajibRetribusiController::class, 'detail'])->name('WajibRetribusi.detail');
+Route::delete("/wajib-retribusi/hapus", [WajibRetribusiController::class, 'delete'])->name('WajibRetribusi.delete');
+
+// Route untuk Permohonan Sewa
+Route::get("/permohonan-sewa", [PermohonanSewaController::class, 'index'])->name('PermohonanSewa.index');
+Route::get("/permohonan-sewa/tambah", [PermohonanSewaController::class, 'create'])->name('PermohonanSewa.create');
+Route::post("/permohonan-sewa/simpan", [PermohonanSewaController::class, 'store'])->name('PermohonanSewa.store');
+Route::get("/permohonan-sewa/ubah/{id}", [PermohonanSewaController::class, 'edit'])->name('PermohonanSewa.edit');
+Route::post("/permohonan-sewa/update/{id}", [PermohonanSewaController::class, 'update'])->name('PermohonanSewa.update');
+Route::get("/permohonan-sewa/detail", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
+Route::delete("/permohonan-sewa/hapus", [PermohonanSewaController::class, 'delete'])->name('PermohonanSewa.delete');
