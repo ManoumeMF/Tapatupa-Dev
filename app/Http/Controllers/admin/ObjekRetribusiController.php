@@ -24,8 +24,9 @@ class ObjekRetribusiController extends Controller
     {
         $objectType = DB::select('CALL cbo_jenisObjekRetribusi()');  
         $objectLocation = DB::select('CALL cbo_lokasiObjekRetribusi()');  
+        $province = DB::select('CALL cbo_province()');  
 
-        return view('admin.Master.ObjekRetribusi.create', compact('objectType', 'objectLocation'));
+        return view('admin.Master.ObjekRetribusi.create', compact('objectType', 'objectLocation','province'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
@@ -128,7 +129,7 @@ class ObjekRetribusiController extends Controller
         if ($status) {
             return response()->json([
                 'status'=> 200,
-                'status' => $status
+                'message' => $status
             ]);
         }else{
             return response()->json([

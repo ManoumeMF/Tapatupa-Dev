@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\StatusController;
 use App\Http\Controllers\admin\ObjekRetribusiController;
 use App\Http\Controllers\admin\WajibRetribusiController;
 use App\Http\Controllers\admin\PermohonanSewaController;
+use App\Http\Controllers\admin\DropdownLokasiContoller;
 
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
@@ -112,3 +113,7 @@ Route::get("/jenis-objek-retribusi/ubah/{id}", [JenisObjekRetribusiController::c
 Route::post("/jenis-objek-retribusi/update/{id}", [JenisObjekRetribusiController::class, 'update'])->name('JenisObjekRetribusi.update');
 Route::get("/jenis-objek-retribusi/detail", [JenisObjekRetribusiController::class, 'detail'])->name('JenisObjekRetribusi.detail');
 Route::delete("/jenis-objek-retribusi/hapus", [JenisObjekRetribusiController::class, 'delete'])->name('JenisObjekRetribusi.delete');
+
+// Route untuk Kota/Kabupaten
+Route::get("/dropdown/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
+Route::get("/dropdown/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
