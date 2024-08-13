@@ -3,6 +3,7 @@
 //use App\Http\Controllers\admin\BidangPendidikanController;
 
 use App\Http\Controllers\admin\JenisKegiatanController;
+use App\Http\Controllers\admin\JenisObjekRetribusiController;
 use App\Http\Controllers\admin\JenisRetribusiController;
 use App\Http\Controllers\admin\JenisStatusController;
 use App\Http\Controllers\admin\PekerjaanController;
@@ -82,3 +83,12 @@ Route::get("/jenis-retribusi/ubah/{id}", [JenisRetribusiController::class, 'edit
 Route::post("/jenis-retribusi/update/{id}", [JenisRetribusiController::class, 'update'])->name('JenisRetribusi.update');
 Route::get("/jenis-retribusi/detail", [JenisRetribusiController::class, 'detail'])->name('JenisRetribusi.detail');
 Route::delete("/jenis-retribusi/hapus", [JenisRetribusiController::class, 'delete'])->name('JenisRetribusi.delete');
+
+// Route untuk Jenis Objek Retribusi
+Route::get("/jenis-objek-retribusi", [JenisObjekRetribusiController::class, 'index'])->name('JenisObjekRetribusi.index');
+Route::get("/jenis-objek-retribusi/tambah", [JenisObjekRetribusiController::class, 'create'])->name('JenisObjekRetribusi.create');
+Route::post("/jenis-objek-retribusi/simpan", [JenisObjekRetribusiController::class, 'store'])->name('JenisObjekRetribusi.store');
+Route::get("/jenis-objek-retribusi/ubah/{id}", [JenisObjekRetribusiController::class, 'edit'])->name('JenisObjekRetribusi.edit');
+Route::post("/jenis-objek-retribusi/update/{id}", [JenisObjekRetribusiController::class, 'update'])->name('JenisObjekRetribusi.update');
+Route::get("/jenis-objek-retribusi/detail", [JenisObjekRetribusiController::class, 'detail'])->name('JenisObjekRetribusi.detail');
+Route::delete("/jenis-objek-retribusi/hapus", [JenisObjekRetribusiController::class, 'delete'])->name('JenisObjekRetribusi.delete');
