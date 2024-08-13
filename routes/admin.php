@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\JenisKegiatanController;
 use App\Http\Controllers\admin\JenisObjekRetribusiController;
 use App\Http\Controllers\admin\JenisRetribusiController;
 use App\Http\Controllers\admin\JenisStatusController;
+use App\Http\Controllers\admin\LokasiObjekRetribusiController;
 use App\Http\Controllers\admin\PekerjaanController;
 use App\Http\Controllers\admin\StatusController;
 use App\Http\Controllers\admin\ObjekRetribusiController;
@@ -114,6 +115,3 @@ Route::post("/jenis-objek-retribusi/update/{id}", [JenisObjekRetribusiController
 Route::get("/jenis-objek-retribusi/detail", [JenisObjekRetribusiController::class, 'detail'])->name('JenisObjekRetribusi.detail');
 Route::delete("/jenis-objek-retribusi/hapus", [JenisObjekRetribusiController::class, 'delete'])->name('JenisObjekRetribusi.delete');
 
-// Route untuk Kota/Kabupaten
-Route::get("/dropdown/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
-Route::get("/dropdown/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
