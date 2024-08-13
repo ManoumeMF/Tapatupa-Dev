@@ -115,3 +115,15 @@ Route::post("/jenis-objek-retribusi/update/{id}", [JenisObjekRetribusiController
 Route::get("/jenis-objek-retribusi/detail", [JenisObjekRetribusiController::class, 'detail'])->name('JenisObjekRetribusi.detail');
 Route::delete("/jenis-objek-retribusi/hapus", [JenisObjekRetribusiController::class, 'delete'])->name('JenisObjekRetribusi.delete');
 
+// Route untuk Kota/Kabupaten
+Route::get("/dropdown/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
+Route::get("/dropdown/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
+
+// Route untuk Lokasi Objek Retribusi
+Route::get("/lokasi-objek-retribusi", [LokasiObjekRetribusiController::class, 'index'])->name('LokasiObjekRetribusi.index');
+Route::get("/lokasi-objek-retribusi/tambah", [LokasiObjekRetribusiController::class, 'create'])->name('LokasiObjekRetribusi.create');
+Route::post("/lokasi-objek-retribusi/simpan", [LokasiObjekRetribusiController::class, 'store'])->name('LokasiObjekRetribusi.store');
+Route::get("/lokasi-objek-retribusi/ubah/{id}", [LokasiObjekRetribusiController::class, 'edit'])->name('LokasiObjekRetribusi.edit');
+Route::post("/lokasi-objek-retribusi/update/{id}", [LokasiObjekRetribusiController::class, 'update'])->name('LokasiObjekRetribusi.update');
+Route::get("/lokasi-objek-retribusi/detail", [LokasiObjekRetribusiController::class, 'detail'])->name('LokasiObjekRetribusi.detail');
+Route::delete("/lokasi-objek-retribusi/hapus", [LokasiObjekRetribusiController::class, 'delete'])->name('LokasiObjekRetribusi.delete');
