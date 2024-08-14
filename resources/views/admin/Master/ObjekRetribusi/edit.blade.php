@@ -61,12 +61,11 @@
                 'data-max-files="1">' +
                 '</td>' +
                 '<td>' +
-                '<textarea class="form-control" id="keterangan" rows="2" name="keteranganFoto"' +
+                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto"' +
                 'placeholder="Masukkan Keterangan Foto"></textarea>' +
                 '</td>' +
                 '<td  style="text-align: center">' +
-                '<button class="btn btn-icon btn-outline-secondary rounded-pill btn-wave" type="button" id="delFoto">' +
-                '<i class="bi bi-x-lg"></i>' +
+                '<button class="btn btn-sm btn-icon btn-danger-light" type="button" id="delFoto"><i class="ri-delete-bin-5-line"></i>' +
                 '</button>' +
                 '</td>' +
                 '</tr>');
@@ -362,13 +361,12 @@
                                                 data-allow-reorder="true" data-max-file-size="5MB" data-max-files="1">
                                         </td>
                                         <td>
-                                            <textarea class="form-control" id="keterangan" rows="2"
+                                            <textarea class="form-control" id="keterangan" rows="1"
                                                 name="keteranganFoto" placeholder="Masukkan Keterangan Foto"></textarea>
                                         </td>
                                         <td style="text-align: center">
-                                            <button class="btn btn-icon btn-outline-secondary rounded-pill btn-wave"
-                                                type="button" id="delFoto"><i class="bi bi-x-lg"></i>
-                                            </button>
+                                        <button class="btn btn-sm btn-icon btn-danger-light" type="button" id="delFoto"><i class="ri-delete-bin-5-line"></i></button>
+                                        
                                         </td>
                                     </tr>
                                 </tbody>
