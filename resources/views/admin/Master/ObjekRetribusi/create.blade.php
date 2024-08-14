@@ -91,7 +91,7 @@
         });
 
         //saat pilihan provinsi di pilih, maka akan mengambil data kota menggunakan ajax
-        $('#provinsi').on('change', function () {
+        /*$('#provinsi').on('change', function () {
             var id = $(this).val();
 
             if (id) {
@@ -153,7 +153,7 @@
             } else {
                 $('#distrik').empty();
             }
-        });
+        });*/
     });
 </script>
 
@@ -178,7 +178,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('Pekerjaan.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.store')}}" method="post" enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -197,7 +197,7 @@
                                                 <label for="validationCustom01" class="form-label">Jenis Objek
                                                     Retribusi</label>
                                                 <select class="jenis-objek-retribusi form-control"
-                                                    name="jenisObjekRetribusi" data-trigger name="product-brand-add" required>
+                                                    name="jenisObjekRetribusi" data-trigger required>
                                                     <option></option>
                                                     @foreach ($objectType as $oT)
                                                         <option value="{{ $oT->idJenisObjekRetribusi }}">
@@ -213,21 +213,21 @@
                                                 <label for="kode-objek-retribusi" class="form-label">Kode Objek
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="kodeObjekRetribusi"
-                                                    placeholder="Masukkan Kode Objek Retribusi" required>
+                                                    placeholder="Masukkan Kode Objek Retribusi" name="kodeObjekRetribusi" required>
                                                 <div class="invalid-feedback">
                                                     Kode Objek Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="nomor-bangunan" class="form-label">Nomor bangunan</label>
-                                                <input type="text" class="form-control" id="nomorBangunan"
+                                                <input type="text" class="form-control" id="nomorBangunan" name="nomorBangunan"
                                                     placeholder="Masukkan Nomor Bangunan">
                                             </div>
                                             <div class="col-xl-8">
                                                 <label for="nama-objek-retribusi" class="form-label">Nama Objek
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="namaObjekRetribusi"
-                                                    placeholder="Masukkan Nama Objek Retribusi" required>
+                                                    placeholder="Masukkan Nama Objek Retribusi" name="namaObjekRetribusi" required>
                                                 <div class="invalid-feedback">
                                                     Nama Objek Retribusi Tidak Boleh Kosong
                                                 </div>
@@ -268,6 +268,11 @@
                                                 <select class="kabupaten-kota form-control" name="kabupatenKota"
                                                     id="kota" required>
                                                     <option></option>
+                                                    @foreach ($kota as $kT)
+                                                        <option value="{{ $kT->city_id }}">
+                                                            {{ $kT->city_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kabupaten/Kota Tidak Boleh Kosong
@@ -278,6 +283,11 @@
                                                 <select class="kecamatan form-control" name="kecamatan" id="distrik"
                                                     required>
                                                     <option></option>
+                                                    @foreach ($kecamatan as $kC)
+                                                        <option value="{{ $kC->dis_id }}">
+                                                            {{ $kC->dis_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kecamatan Tidak Boleh Kosong
@@ -288,9 +298,9 @@
                                                 <select class="kelurahan-desa form-control" name="kelurahan"
                                                     id="kelurahan" required>
                                                     <option></option>
-                                                    @foreach ($objectLocation as $oL)
-                                                        <option value="{{ $oL->idLokasiObjekRetribusi }}">
-                                                            {{ $oL->lokasiobjekretribusi }}
+                                                    @foreach ($kelurahan as $kL)
+                                                        <option value="{{ $kL->subdis_id }}">
+                                                            {{ $kL->subdis_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -303,21 +313,24 @@
                                                     Retribusi</label>
                                                 <textarea class="form-control" id="alamat-objek" rows="2"
                                                     name="alamatObjekRetribusi"
-                                                    placeholder="Masukkan Alamat Objek Retribusi"></textarea>
+                                                    placeholder="Masukkan Alamat Objek Retribusi" required></textarea>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                    Alamat Tidak Boleh Kosong
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="longitude" class="form-label">Longitude (Kordinat X)</label>
-                                                <input type="text" class="form-control" id="longitudu-x"
+                                                <input type="text" class="form-control" id="longitudu-x" name="longitudu"
                                                     placeholder="Masukkan Kordinat X">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="latitude" class="form-label">Latitude (Kordinat Y)</label>
-                                                <input type="text" class="form-control" id="latitude-y"
+                                                <input type="text" class="form-control" id="latitude-y" name="latitude"
                                                     placeholder="Masukkan Kordinat Y">
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                                <textarea class="form-control" id="keterangan" rows="3"
+                                                <textarea class="form-control" id="keterangan" rows="3" name="keterangan"
                                                     placeholder="Masukkan Keterangan"></textarea>
                                             </div>
                                         </div>
@@ -372,9 +385,9 @@
                                                 <select class="jangka-waktu-sewa form-control" name="jangkaWaktuSewa"
                                                     required>
                                                     <option></option>
-                                                    @foreach ($objectLocation as $oL)
-                                                        <option value="{{ $oL->idLokasiObjekRetribusi }}">
-                                                            {{ $oL->lokasiobjekretribusi }}
+                                                    @foreach ($jangkaWaktu as $jW)
+                                                        <option value="{{ $jW->idJangkaWaktuSewa }}">
+                                                            {{ $jW->jangkaWaktu }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -392,9 +405,12 @@
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
                                                 <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
-                                                <input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah" multiple
-                                                    data-allow-reorder="true" data-max-file-size="3MB"
-                                                    data-max-files="6">
+                                                <input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah"
+                                                    data-allow-reorder="true" data-max-file-size="5MB"
+                                                    data-max-files="1">
+                                                    <!--<input type="file" class="foto-objek" name="fileGambarDenahTanah"
+                                                    data-allow-reorder="true" data-max-file-size="5MB"
+                                                    data-max-files="1">-->
                                             </div>
                                             <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
                                             </label>
