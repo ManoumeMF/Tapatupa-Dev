@@ -2,6 +2,7 @@
 
 //use App\Http\Controllers\admin\BidangPendidikanController;
 
+use App\Http\Controllers\admin\DepartemenController;
 use App\Http\Controllers\admin\JenisKegiatanController;
 use App\Http\Controllers\admin\JenisObjekRetribusiController;
 use App\Http\Controllers\admin\JenisRetribusiController;
@@ -102,3 +103,13 @@ Route::get("/lokasi-objek-retribusi/ubah/{id}", [LokasiObjekRetribusiController:
 Route::post("/lokasi-objek-retribusi/update/{id}", [LokasiObjekRetribusiController::class, 'update'])->name('LokasiObjekRetribusi.update');
 Route::get("/lokasi-objek-retribusi/detail", [LokasiObjekRetribusiController::class, 'detail'])->name('LokasiObjekRetribusi.detail');
 Route::delete("/lokasi-objek-retribusi/hapus", [LokasiObjekRetribusiController::class, 'delete'])->name('LokasiObjekRetribusi.delete');
+
+// Route untuk Departemen
+Route::get("/departemen", [DepartemenController::class, 'index'])->name('Departemen.index');
+Route::get("/departemen/tambah", [DepartemenController::class, 'create'])->name('Departemen.create');
+Route::post("/departemen/simpan", [DepartemenController::class, 'store'])->name('Departemen.store');
+Route::get("/departemen/ubah/{id}", [DepartemenController::class, 'edit'])->name('Departemen.edit');
+Route::post("/departemen/update/{id}", [DepartemenController::class, 'update'])->name('Departemen.update');
+Route::get("/departemen/detail", [DepartemenController::class, 'detail'])->name('Departemen.detail');
+Route::delete("/departemen/hapus", [DepartemenController::class, 'delete'])->name('Departemen.delete');
+
