@@ -814,9 +814,6 @@
                                     <a href="{{ route('JenisObjekRetribusi.index') }}" class="side-menu__item">Jenis Objek Retribusi</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="{{ route('LokasiObjekRetribusi.index') }}" class="side-menu__item">Lokasi Objek Retribusi</a>
-                                </li>
-                                <li class="slide">
                                     <a href="{{ route('Status.index') }}" class="side-menu__item">Status</a>
                                 </li>
                             </ul>
@@ -884,7 +881,7 @@
                                     <a href="javascript:void(0)">Penyewaan Aset</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="401-error.html" class="side-menu__item">Lokasi Retribusi</a>
+                                    <a href="{{ route('LokasiObjekRetribusi.index') }}" class="side-menu__item">Lokasi Objek Retribusi</a>
                                 </li>
                                 <li class="slide">
                                     <a href="404-error.html" class="side-menu__item">Jenis Objek Retribusi</a>
@@ -906,6 +903,48 @@
                                 </li>
                                 <li class="slide">
                                     <a href="500-error.html" class="side-menu__item">Dokumen Sewa</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- End::slide -->
+
+                        <!-- Start::slide -->
+                        <li class="slide has-sub">
+                            <a href="javascript:void(0);" class="side-menu__item">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon"
+                                    enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"
+                                    fill="#5f6368">
+                                    <g>
+                                        <path d="M0,0h24v24H0V0z" fill="none" />
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <path
+                                                d="M6,6.39v4.7c0,4,2.55,7.7,6,8.83c3.45-1.13,6-4.82,6-8.83v-4.7l-6-2.25L6,6.39z M13,16h-2v-2h2V16z M13,12 h-2V7h2V12z"
+                                                opacity=".3" />
+                                            <path
+                                                d="M12,2L4,5v6.09c0,5.05,3.41,9.76,8,10.91c4.59-1.15,8-5.86,8-10.91V5L12,2z M18,11.09c0,4-2.55,7.7-6,8.83 c-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25l6,2.25V11.09z M11,16h2v-2h-2V16z M11,12h2V7h-2V12z" />
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span class="side-menu__label">Organisasi</span>
+                                <i class="ri-arrow-right-s-line side-menu__angle"></i>
+                            </a>
+                            <ul class="slide-menu child1">
+                                <li class="slide side-menu__label1">
+                                    <a href="javascript:void(0)">Organisasi</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{ route('Departemen.index') }}" class="side-menu__item">Departemen</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="404-error.html" class="side-menu__item">Jabatan</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="500-error.html" class="side-menu__item">Jabatan Bidang</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="401-error.html" class="side-menu__item">Bidang</a>
                                 </li>
                             </ul>
                         </li>
