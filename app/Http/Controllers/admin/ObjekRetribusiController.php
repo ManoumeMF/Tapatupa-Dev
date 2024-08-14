@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,12 +59,16 @@ class ObjekRetribusiController extends Controller
         //$denahTanah = $request->file("fileGambarDenahTanah")->storeAs("public/images/objectRetribusi");
         //$fileName = str_replace("public/","storage/",$denahTanah);
 
-        if ($request->hasFile('fileGambarDenahTanah')) {
+        /*if ($request->hasFile('fileGambarDenahTanah')) {
             // $path = Storage::disk('local')->put($request->file('photo')->getClientOriginalName(),$request->file('photo')->get());
             $path = $request->file('fileGambarDenahTanah')->store('/images/objekRetribusi');
-        }
+        }*/
 
-        dd($path);
+        $uploadedFile = $request->file('fileGambarDenahTanah');
+        $photo = "my-prefix" . "_" . time() . "." . $uploadedFile->getClientOriginalExtension();
+        $photoPath = Storage::disk('local')->putFileAs("public/images/objekRetribusi", $uploadedFile, $photo);
+
+        //dd($photoPath);
 
         $objekRetribusi = json_encode([
             'KodeObjekRetribusi' => $request->get('kodeObjekRetribusi'),
@@ -83,7 +88,7 @@ class ObjekRetribusiController extends Controller
             'Longitude' => $request->get('longitudu'),
             'Keterangan' => $request->get('keterangan'),
             'JumlahLantai' => $request->get('jumlahLantai'),
-            'GambarDenahTanah' => 3
+            'GambarDenahTanah' => $photoPath
         ]);
 
         //dd($objekRetribusi);

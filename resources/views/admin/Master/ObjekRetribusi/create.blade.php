@@ -178,7 +178,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.store')}}" method="post" enctype="multipart/form-data" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.store')}}" method="post"  enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -405,12 +405,12 @@
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
                                                 <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
-                                                <input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah"
-                                                    data-allow-reorder="true" data-max-file-size="5MB"
-                                                    data-max-files="1">
-                                                    <!--<input type="file" class="foto-objek" name="fileGambarDenahTanah"
+                                                <!--<input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah"
                                                     data-allow-reorder="true" data-max-file-size="5MB"
                                                     data-max-files="1">-->
+                                                    <input type="file" class="foto-objek" name="fileGambarDenahTanah"
+                                                    data-allow-reorder="true" data-max-file-size="5MB"
+                                                    data-max-files="1">
                                             </div>
                                             <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
                                             </label>
