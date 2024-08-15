@@ -21,6 +21,7 @@ use App\Http\Controllers\admin\PeruntukanSewaController;
 use App\Http\Controllers\admin\WajibRetribusiController;
 use App\Http\Controllers\admin\JenisRetribusiController;
 use App\Http\Controllers\admin\JenisObjekRetribusiController;
+use App\Http\Controllers\admin\DropdownLokasiContoller;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
 /*
@@ -203,3 +204,7 @@ Route::post("/bidang/update/{id}", [BidangController::class, 'update'])->name('B
 Route::get("/bidang/detail", [BidangController::class, 'detail'])->name('Bidang.detail');
 Route::delete("/bidang/hapus", [BidangController::class, 'delete'])->name('Bidang.delete');
 Route::post("/bidang/simpan-departmen", [BidangController::class, 'storeDepartmen'])->name('Bidang.storeDepartmen');
+
+//Route untuk DropdownLokasi
+Route::get("/kota", [DropdownLokasiContoller::class, 'index'])->name('DropdownLokasi.kota');
+Route::get("/kecamatan", [DropdownLokasiContoller::class, 'create'])->name('DropdownLokasi.kecamatan');
