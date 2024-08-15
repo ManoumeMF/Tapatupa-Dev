@@ -38,7 +38,11 @@
         <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
+<<<<<<< HEAD
                         Ubah Jangka Waktu Sewa
+=======
+                        Ubah Status
+>>>>>>> main
                     </div>
                 </div>
                 <div class="card-body">
