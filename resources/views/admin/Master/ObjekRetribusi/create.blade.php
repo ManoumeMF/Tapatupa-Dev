@@ -28,16 +28,16 @@
             // Adding a row inside the tbody.
             $("#tblFoto tbody").append('<tr>' +
                 '<td>' +
-                '<input type="text" class="form-control" id="namaFoto[]"' +
+                '<input type="text" class="form-control" id="namaFoto" name="namaFoto[]"' +
                 'placeholder="Masukkan Nama Foto" required>' +
                 '</td>' +
                 '<td>' +
-                '<input type="file" class="foto-objek" name="fileFoto[]" multiple' +
+                '<input type="file" class="foto-objek" name="fileFoto[]"' +
                 'data-allow-reorder="true" data-max-file-size="5MB"' +
                 'data-max-files="1">' +
                 '</td>' +
                 '<td>' +
-                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto"' +
+                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
                 'placeholder="Masukkan Keterangan Foto"></textarea>' +
                 '</td>' +
                 '<td  style="text-align: center">' +
@@ -386,8 +386,8 @@
                                                     required>
                                                     <option></option>
                                                     @foreach ($jangkaWaktu as $jW)
-                                                        <option value="{{ $jW->idJangkaWaktuSewa }}">
-                                                            {{ $jW->jangkaWaktu }}
+                                                        <option value="{{ $jW->idjenisJangkaWaktu }}">
+                                                            {{ $jW->jenisJangkaWaktu }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -400,7 +400,7 @@
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                                <textarea class="form-control" id="keteranganTarifSewa" rows="2"
+                                                <textarea class="form-control" id="keteranganTarifSewa" rows="2" name="keteranganTarifSewa"
                                                     placeholder="Masukkan Keterangan Tarif Sewa"></textarea>
                                             </div>
                                             <div class="col-xl-12 product-documents-container">

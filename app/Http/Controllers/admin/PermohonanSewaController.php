@@ -28,7 +28,7 @@ class PermohonanSewaController extends Controller
         $jangkaWaktu = DB::select('CALL cbo_jangkaWaktu()'); 
         $peruntukanSewa = DB::select('CALL cbo_peruntukanSewa()'); 
 
-        return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa'));
+        return view('admin.SewaAset.Permohona.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
