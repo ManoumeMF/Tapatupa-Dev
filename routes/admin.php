@@ -156,3 +156,12 @@ Route::get("/pegawai/ubah/{id}", [PegawaiController::class, 'edit'])->name('Pega
 Route::post("/pegawai/update/{id}", [PegawaiController::class, 'update'])->name('Pegawai.update');
 Route::delete("/pegawai/hapus", [PegawaiController::class, 'delete'])->name('Pegawai.delete');
 Route::get("/pegawai/detail", [PegawaiController::class, 'detail'])->name('Pegawai.detail');
+
+// Route untuk Jenis Retribusi
+Route::get("/jenis-retribusi", [JenisRetribusiController::class, 'index'])->name('JenisRetribusi.index');
+Route::get("/jenis-retribusi/tambah", [JenisRetribusiController::class, 'create'])->name('JenisRetribusi.create');
+Route::post("/jenis-retribusi/simpan", [JenisRetribusiController::class, 'store'])->name('JenisRetribusi.store');
+Route::get("/jenis-retribusi/ubah/{id}", [JenisRetribusiController::class, 'edit'])->name('JenisRetribusi.edit');
+Route::post("/jenis-retribusi/update/{id}", [JenisRetribusiController::class, 'update'])->name('JenisRetribusi.update');
+Route::delete("/jenis-retribusi/hapus", [JenisRetribusiController::class, 'delete'])->name('JenisRetribusi.delete');
+Route::get("/jenis-retribusi/detail", [JenisRetribusiController::class, 'detail'])->name('JenisRetribusi.detail');
