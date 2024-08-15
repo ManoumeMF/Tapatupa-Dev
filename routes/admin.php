@@ -10,7 +10,9 @@ use App\Http\Controllers\admin\JenisJangkaWaktuController;
 use App\Http\Controllers\admin\BidangController;
 use App\Http\Controllers\admin\DepartemenController;
 use App\Http\Controllers\admin\JenisKegiatanController;
+use App\Http\Controllers\admin\JenisObjekRetribusiController;
 use App\Http\Controllers\admin\JenisPermohonanController;
+use App\Http\Controllers\admin\JenisRetribusiController;
 use App\Http\Controllers\admin\JenisStatusController;
 use App\Http\Controllers\admin\LokasiObjekRetribusiController;
 use App\Http\Controllers\admin\PekerjaanController;
@@ -19,8 +21,7 @@ use App\Http\Controllers\admin\ObjekRetribusiController;
 use App\Http\Controllers\admin\PegawaiController;
 use App\Http\Controllers\admin\PeruntukanSewaController;
 use App\Http\Controllers\admin\WajibRetribusiController;
-use App\Http\Controllers\admin\JenisRetribusiController;
-use App\Http\Controllers\admin\JenisObjekRetribusiController;
+use App\Http\Controllers\admin\JabatanController;
 use App\Http\Controllers\admin\DropdownLokasiContoller;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
@@ -177,7 +178,7 @@ Route::post("/jenis-objek-retribusi/update/{id}", [JenisObjekRetribusiController
 Route::delete("/jenis-objek-retribusi/hapus", [JenisObjekRetribusiController::class, 'delete'])->name('JenisObjekRetribusi.delete');
 Route::get("/jenis-objek-retribusi/detail", [JenisObjekRetribusiController::class, 'detail'])->name('JenisObjekRetribusi.detail');
 
-// Route untuk Jenis objek Retribusi
+// Route untuk Lokasi Objek Retribusi
 Route::get("/lokasi-objek-retribusi", [LokasiObjekRetribusiController::class, 'index'])->name('LokasiObjekRetribusi.index');
 Route::get("/lokasi-objek-retribusi/tambah", [LokasiObjekRetribusiController::class, 'create'])->name('LokasiObjekRetribusi.create');
 Route::post("/lokasi-objek-retribusi/simpan", [LokasiObjekRetribusiController::class, 'store'])->name('LokasiObjekRetribusi.store');
@@ -204,6 +205,15 @@ Route::post("/bidang/update/{id}", [BidangController::class, 'update'])->name('B
 Route::get("/bidang/detail", [BidangController::class, 'detail'])->name('Bidang.detail');
 Route::delete("/bidang/hapus", [BidangController::class, 'delete'])->name('Bidang.delete');
 Route::post("/bidang/simpan-departmen", [BidangController::class, 'storeDepartmen'])->name('Bidang.storeDepartmen');
+
+// Route untuk Jabatan
+Route::get("/jabatan", [JabatanController::class, 'index'])->name('Jabatan.index');
+Route::get("/jabatan/tambah", [JabatanController::class, 'create'])->name('Jabatan.create');
+Route::post("/jabatan/simpan", [JabatanController::class, 'store'])->name('Jabatan.store');
+Route::get("/jabatan/ubah/{id}", [JabatanController::class, 'edit'])->name('Jabatan.edit');
+Route::post("/jabatan/update/{id}", [JabatanController::class, 'update'])->name('Jabatan.update');
+Route::delete("/jabatan/hapus", [JabatanController::class, 'delete'])->name('Jabatan.delete');
+Route::get("/jabatan/detail", [JabatanController::class, 'detail'])->name('Jabatan.detail');
 
 //Route untuk DropdownLokasi
 Route::get("/kota", [DropdownLokasiContoller::class, 'index'])->name('DropdownLokasi.kota');

@@ -543,14 +543,16 @@ CREATE TABLE `jenisUser` (
 -- Table structure for Jabatan
 -- ----------------------------
 CREATE TABLE `jabatan` (
-  `idJabatan` int NOT NULL,
+  `idJabatan` int NOT null AUTO_INCREMENT,
   `jabatan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `createAt` timestamp NULL DEFAULT NULL,
-  `updateAt` timestamp NULL DEFAULT NULL,
-  `isDeleted` tinyint(1) DEFAULT NULL,
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `isDeleted` tinyint(1) NULL DEFAULT 0,
   PRIMARY KEY (`idJabatan`) USING BTREE
 )
+
+select * from jabatan j
 
 -- ----------------------------
 -- Table structure for Departemen
@@ -565,7 +567,7 @@ CREATE TABLE `departemen` (
   `isDeleted` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idDepartemen`) USING BTREE
 )
-
+select * from departemen d 
 
 -- ----------------------------
 -- Table structure for Bidang
@@ -583,6 +585,8 @@ CREATE TABLE `bidang` (
   KEY `idDepartemen` (`idDepartemen`) USING BTREE,
   CONSTRAINT `idDepartemen` FOREIGN KEY (`idDepartemen`) REFERENCES `departemen` (`idDepartemen`) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
+
+select * from bidang b 
 -- ----------------------------
 -- Procedure structure for cbo_JenisStatus
 -- ----------------------------
