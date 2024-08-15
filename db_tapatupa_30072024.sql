@@ -191,6 +191,7 @@ CREATE TABLE `jenisobjekretribusi`  (
   PRIMARY KEY (`idJenisObjekRetribusi`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
+select * from jenisobjekretribusi j 
 -- ----------------------------
 -- Records of jenisobjekretribusi
 -- ----------------------------
@@ -507,6 +508,81 @@ CREATE TABLE `wajibretribusi`  (
 -- Records of wajibretribusi
 -- ----------------------------
 
+-- ----------------------------
+-- Table structure for JenisRetribusi
+-- ----------------------------
+
+CREATE TABLE `JenisRetribusi` (
+  `idJenisRetribusi` int NOT null AUTO_INCREMENT,
+  `JenisRetribusi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `isDeleted` tinyint(1) NULL DEFAULT 0,
+  PRIMARY KEY (`idJenisRetribusi`) USING BTREE
+)
+
+select * from JenisRetribusi
+
+
+-- ----------------------------
+-- Table structure for JenisUser
+-- ----------------------------
+CREATE TABLE `jenisUser` (
+  `idJenisUser` int NOT NULL,
+  `jenisUser` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `isDeleted` tinyint(1) NULL DEFAULT 0
+  PRIMARY KEY (`idJenisUser`) USING BTREE
+)
+
+
+-- ----------------------------
+-- Table structure for Jabatan
+-- ----------------------------
+CREATE TABLE `jabatan` (
+  `idJabatan` int NOT NULL,
+  `jabatan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `updateAt` timestamp NULL DEFAULT NULL,
+  `isDeleted` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`idJabatan`) USING BTREE
+)
+
+-- ----------------------------
+-- Table structure for Bidang
+-- ----------------------------
+
+CREATE TABLE `departemen` (
+  `idDepartemen` int NOT NULL,
+  `namaDepartmen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `updateAt` timestamp NULL DEFAULT NULL,
+  `isDeleted` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`idDepartemen`) USING BTREE
+)
+
+
+-- ----------------------------
+-- Table structure for Bidang
+-- ----------------------------
+CREATE TABLE `bidang` (
+  `idBidang` int NOT NULL,
+  `idDepartemen` int NOT NULL,
+  `parentBidang` int NOT NULL,
+  `namaBidang` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `updateAt` timestamp NULL DEFAULT NULL,
+  `isDeleted` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`idBidang`) USING BTREE,
+  KEY `idDepartemen` (`idDepartemen`) USING BTREE,
+  CONSTRAINT `idDepartemen` FOREIGN KEY (`idDepartemen`) REFERENCES `departemen` (`idDepartemen`) ON DELETE RESTRICT ON UPDATE RESTRICT
+)
 -- ----------------------------
 -- Procedure structure for cbo_JenisStatus
 -- ----------------------------

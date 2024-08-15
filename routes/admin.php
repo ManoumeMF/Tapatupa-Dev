@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\JenisJangkaWaktuController;
 use App\Http\Controllers\admin\JenisKegiatanController;
 use App\Http\Controllers\admin\JenisPermohonanController;
 use App\Http\Controllers\admin\JenisStatusController;
+use App\Http\Controllers\admin\LokasiObjekRetribusiController;
 use App\Http\Controllers\admin\PekerjaanController;
 use App\Http\Controllers\admin\StatusController;
 use App\Http\Controllers\admin\ObjekRetribusiController;
