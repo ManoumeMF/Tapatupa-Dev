@@ -12,18 +12,18 @@ class JabatanBidangController extends Controller
 {
     public function index()
     {
-        $jabatanbidang = DB::select('CALL viewAll_jabatanBidang()');  
+        $jabatanbidang = DB::select('CALL viewAll_jabatanBidang()');
 
         return view('admin.PengaturanDanKonfigurasi.JabatanBidang.index', compact('jabatanbidang'));
 
         //return view('admin.PengaturanDanKonfigurasi.JenisStatus.index');
-        
+
     }
 
     public function create()
     {
         $jabatanCombo = DB::select('CALL cbo_jabatan()');
-        $bidangCombo = DB::select('CALL cbo_bidang()'); 
+        $bidangCombo = DB::select('CALL cbo_bidang()');
 
         return view('admin.PengaturanDanKonfigurasi.JabatanBidang.create', compact('jabatanCombo','bidangCombo'));
 
@@ -54,7 +54,7 @@ class JabatanBidangController extends Controller
     public function edit($id)
     {
         $jabatanCombo = DB::select('CALL cbo_jabatan()');
-        $bidangCombo = DB::select('CALL cbo_bidang()'); 
+        $bidangCombo = DB::select('CALL cbo_bidang()');
 
         $jabatanBidangData = DB::select('CALL view_jabatanBidangById(' . $id . ')');
         $jabatanBidang = $jabatanBidangData[0];
@@ -79,13 +79,13 @@ class JabatanBidangController extends Controller
             'NamaJabatanBidang' => $request->get('namajabatanBidang'),
             'Keterangan' => $request->get('keterangan')
         ]);
-    
+
         $jabatanBidangData = DB::select('CALL view_jabatanBidangById(?)', [$id]);
         $jabatanBidangTemp = $jabatanBidangData[0] ?? null;
-        
+
         if ($jabatanBidangTemp) {
             $response = DB::statement('CALL update_jabatanBidang(?)', [$jabatanBidang]);
-    
+
             if ($response) {
                 return redirect()->route('JabatanBidang.index')->with('success', 'Jabatan Bidang Berhasil Diubah!');
             } else {
@@ -93,9 +93,9 @@ class JabatanBidangController extends Controller
             }
         } else {
             return redirect()->route('JabatanBidang.index')->with('error', 'Jabatan Bidang Tidak Ditemukan!');
-        }     
+        }
     }
-    
+
     public function delete(Request $request)
     {
         $jabatanBidangData = DB::select('CALL view_jabatanBidangById(' . $request -> get('idJabatanBidang') . ')');
@@ -105,7 +105,7 @@ class JabatanBidangController extends Controller
                 $id = $request -> get('idJabatanBidang');
 
                 $response = DB::statement('CALL delete_jabatanBidang(?)', [$id]);
-                
+
                 return response()->json([
                     'status' => 200,
                     'message'=> 'Jabatan Bidang Berhasil Dihapus!'
@@ -119,7 +119,7 @@ class JabatanBidangController extends Controller
     }
 
     public function detail(Request $request)
-    {      
+    {
         $id = $request->id;
 
         $jabatanBidangData = DB::select('CALL view_jabatanBidangById('  . $id . ')');
