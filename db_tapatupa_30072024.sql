@@ -553,7 +553,7 @@ CREATE TABLE `jabatan` (
 )
 
 -- ----------------------------
--- Table structure for Bidang
+-- Table structure for Departemen
 -- ----------------------------
 
 CREATE TABLE `departemen` (

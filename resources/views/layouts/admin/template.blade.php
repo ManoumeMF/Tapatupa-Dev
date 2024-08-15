@@ -978,7 +978,7 @@
                                     <a href="500-error.html" class="side-menu__item">Jabatan Bidang</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="401-error.html" class="side-menu__item">Bidang</a>
+                                    <a href="{{ route('Bidang.index') }}" class="side-menu__item">Bidang</a>
                                 </li>
                             </ul>
                         </li>
