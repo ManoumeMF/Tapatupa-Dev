@@ -15,7 +15,7 @@ class ObjekRetribusiController extends Controller
     {
         $objekRetribusi = DB::select('CALL viewAll_objekRetribusi()');
 
-        return view('admin.Master.ObjekRetribusi.index', ['objekRetribusi' => $objekRetribusi]);
+        return view('admin.Master.ObjekRetribusi.index', compact('objekRetribusi'));
 
         //return view('admin.Master.ObjekRetribusi.index');
 
@@ -180,9 +180,11 @@ class ObjekRetribusiController extends Controller
         $tarifRetribusiData = DB::select('CALL view_TarifObjekRetribusiById(' . $id . ')');
         $tarifRetribusi = $tarifRetribusiData[0];
 
+        $fotoObjek = DB::select('CALL view_photoObjekRetribusiById(' . $id . ')');
+
         //dd($fieldEducation);
 
-        return view('admin.Master.ObjekRetribusi.detail', compact('objekRetribusi', 'tarifRetribusi'));
+        return view('admin.Master.ObjekRetribusi.detail', compact('objekRetribusi', 'tarifRetribusi', 'fotoObjek'));
     }
 
     public function storeStatusType(Request $request)

@@ -43,6 +43,12 @@
     <!-- Google Maps JS -->
     <script src="{{ asset('admin_resources/assets/libs/gmaps/gmaps.min.js') }}"></script>
 
+    <!-- Gallery JS -->
+    <script src="{{ asset('admin_resources/assets/libs/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('admin_resources/assets/js/gallery.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('admin_resources/assets/js/custom.js') }}"></script>
 
     <!-- Bootstrap Css -->
     <link id="style" href="{{ asset('admin_resources/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -87,6 +93,9 @@
     <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond/filepond.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.css') }}">
+
+    <!-- GLightbox CSS -->
+    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/glightbox/css/glightbox.min.css') }}">
 
 </head>
 

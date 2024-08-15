@@ -112,10 +112,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 product-documents-container" >
+                                        <div class="col-xl-12 product-documents-container">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
+                                                    <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
                                                     <div id="map-markers"></div>
                                                 </div>
                                             </div>
@@ -218,13 +218,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12">
+                                        <div class="col-xl-12 border-top">
                                             <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Keterangan Tarif Sewa Objek Retribusi</h6>
-                                                    
-                                                    <img src="{{asset('storage/images/objekRetribusi/353353-Denah Tanah-1723715195.png') }}" />
+                                                <div class="flex-fill"><br>
+                                                    <h6 class="mb-1 fs-13">Gambar Denah Tanah</h6>
+                                                        <a href="{{url('storage/' . $objekRetribusi->gambarDenahTanah)}}"
+                                                            download="{{ $objekRetribusi->objekRetribusi }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-underline">
+                                                            Download Gambar/Dokumen
+                                                        </a>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-12 border-top">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill"><br>
+                                                    <h6 class="mb-1 fs-13">Foto-foto Objek Retribusi</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                            @if (isset($fotoObjek) && count($fotoObjek) > 0)
+                                                    @foreach ($fotoObjek as $fO)
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                                        <a href="{{url('storage/' . $fO->photoObjekRetribusi)}}" class="glightbox card" data-gallery="gallery1">
+                                                            <img src="{{asset('storage/' . $fO->photoObjekRetribusi) }}" alt="image"/>
+                                                        </a>
+                                                    </div>
+                                                    @endforeach
+                                                    @endif
                                             </div>
                                         </div>
                                     </div>
