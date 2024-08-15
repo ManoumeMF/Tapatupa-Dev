@@ -34,7 +34,7 @@
 <div class="row">
     <div class="col-xl-12">
         <form class="row g-3 needs-validation" action="{{ route('Status.update', $status -> idStatus)}}" method="post" novalidate>
-        {{ csrf_field() }}      
+        {{ csrf_field() }}
         <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
