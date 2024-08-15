@@ -2,6 +2,7 @@
 
 //use App\Http\Controllers\admin\BidangPendidikanController;
 
+use App\Http\Controllers\admin\BidangController;
 use App\Http\Controllers\admin\DepartemenController;
 use App\Http\Controllers\admin\JenisKegiatanController;
 use App\Http\Controllers\admin\JenisObjekRetribusiController;
@@ -137,4 +138,14 @@ Route::get("/departemen/ubah/{id}", [DepartemenController::class, 'edit'])->name
 Route::post("/departemen/update/{id}", [DepartemenController::class, 'update'])->name('Departemen.update');
 Route::get("/departemen/detail", [DepartemenController::class, 'detail'])->name('Departemen.detail');
 Route::delete("/departemen/hapus", [DepartemenController::class, 'delete'])->name('Departemen.delete');
+
+//Route untuk Bidang
+Route::get("/bidang", [BidangController::class, 'index'])->name('Bidang.index');
+Route::get("/bidang/tambah", [BidangController::class, 'create'])->name('Bidang.create');
+Route::post("/bidang/simpan", [BidangController::class, 'store'])->name('Bidang.store');
+Route::get("/bidang/ubah/{id}", [BidangController::class, 'edit'])->name('Bidang.edit');
+Route::post("/bidang/update/{id}", [BidangController::class, 'update'])->name('Bidang.update');
+Route::get("/bidang/detail", [BidangController::class, 'detail'])->name('Bidang.detail');
+Route::delete("/bidang/hapus", [BidangController::class, 'delete'])->name('Bidang.delete');
+Route::post("/bidang/simpan-departmen", [BidangController::class, 'storeDepartmen'])->name('Bidang.storeDepartmen');
 
