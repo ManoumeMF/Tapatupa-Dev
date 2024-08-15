@@ -85,7 +85,7 @@ Route::get("/objek-retribusi/tambah", [ObjekRetribusiController::class, 'create'
 Route::post("/objek-retribusi/simpan", [ObjekRetribusiController::class, 'store'])->name('ObjekRetribusi.store');
 Route::get("/objek-retribusi/ubah/{id}", [ObjekRetribusiController::class, 'edit'])->name('ObjekRetribusi.edit');
 Route::post("/objek-retribusi/update/{id}", [ObjekRetribusiController::class, 'update'])->name('ObjekRetribusi.update');
-Route::get("/objek-retribusi/detail", [ObjekRetribusiController::class, 'detail'])->name('ObjekRetribusi.detail');
+Route::get("/objek-retribusi/detail/{id}", [ObjekRetribusiController::class, 'detail'])->name('ObjekRetribusi.detail');
 Route::delete("/objek-retribusi/hapus", [ObjekRetribusiController::class, 'delete'])->name('ObjekRetribusi.delete');
 
 // Route untuk Jenis Jangka Waktu

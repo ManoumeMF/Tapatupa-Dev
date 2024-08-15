@@ -37,6 +37,11 @@
     <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
     <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-transform/filepond-plugin-image-transform.min.js') }}"></script>
 
+    <!-- Google Maps API -->
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyCW16SmpzDNLsrP-npQii6_8vBu_EJvEjA"></script>
+
+    <!-- Google Maps JS -->
+    <script src="{{ asset('admin_resources/assets/libs/gmaps/gmaps.min.js') }}"></script>
 
 
     <!-- Bootstrap Css -->

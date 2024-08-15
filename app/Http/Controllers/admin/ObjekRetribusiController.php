@@ -41,7 +41,9 @@ class ObjekRetribusiController extends Controller
                
         $uploadedFile = $request->file('fileGambarDenahTanah');
         $photo = $request->get('kodeObjekRetribusi') . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
-        $photoPath = Storage::disk('local')->putFileAs("public/images/objekRetribusi", $uploadedFile, $photo);
+        $photoPath = Storage::disk('public')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
+
+        //dd($photoPath);
 
         $namaFoto = $request->input('namaFoto');
         $fileFoto = $request->file('fileFoto');
@@ -51,8 +53,8 @@ class ObjekRetribusiController extends Controller
 
         for ($count = 0; $count < collect($namaFoto)->count(); $count++) {
             $uploadedFileFoto = $fileFoto[$count];
-            $fotoObjek = $request->get('kodeObjekRetribusi') . "Foto Objek Retribusi" . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
-            $fotoObjekPath = Storage::disk('local')->putFileAs("public/images/objekRetribusi/fotoObjekRetribusi", $uploadedFileFoto, $fotoObjek);
+            $fotoObjek = $count . "-" . $request->get('kodeObjekRetribusi') . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
+            $fotoObjekPath = Storage::disk('public')->putFileAs("images/objekRetribusi/fotoObjekRetribusi", $uploadedFileFoto, $fotoObjek);
 
             $detailobjekRetribusi[] = [
                 'NamaFoto' => $namaFoto[$count],
@@ -169,26 +171,18 @@ class ObjekRetribusiController extends Controller
         }
     }
 
-    public function detail(Request $request)
+    public function detail($id)
     {
-        $id = $request->id;
 
-        $statusData = DB::select('CALL view_statusById(' . $id . ')');
-        $status = $statusData[0];
+        $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $id . ')');
+        $objekRetribusi = $objekRetribusiData[0];
+
+        $tarifRetribusiData = DB::select('CALL view_TarifObjekRetribusiById(' . $id . ')');
+        $tarifRetribusi = $tarifRetribusiData[0];
 
         //dd($fieldEducation);
 
-        if ($status) {
-            return response()->json([
-                'status' => 200,
-                'message' => $status
-            ]);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data Status Tidak Ditemukan.'
-            ]);
-        }
+        return view('admin.Master.ObjekRetribusi.detail', compact('objekRetribusi', 'tarifRetribusi'));
     }
 
     public function storeStatusType(Request $request)
