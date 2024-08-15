@@ -29,7 +29,7 @@ class ObjekRetribusiController extends Controller
         $kota = DB::select('CALL cbo_cities(' . 2 . ')');
         $kecamatan = DB::select('CALL cbo_districts(' . 28 . ')');
         $kelurahan = DB::select('CALL cbo_subdistricts(' . 358 . ')');
-        $jangkaWaktu = DB::select('CALL cbo_jangkaWaktu()');
+        $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
 
         return view('admin.Master.ObjekRetribusi.create', compact('objectType', 'objectLocation', 'province', 'kota', 'kecamatan', 'kelurahan', 'jangkaWaktu'));
 
@@ -38,37 +38,30 @@ class ObjekRetribusiController extends Controller
 
     public function store(Request $request)
     {
-        //$request->validate([
-        //   'fileGambarDenahTanah' => 'required|image|mimes:png,jpg,jpeg,svg|max:2048',
-        //]);
-
-        //$denahTanah = time().'.'.$request->fileGambarDenahTanah->extension();  
-
-        /*$denahTanah= '';
-
-        if($request->file('fileGambarDenahTanah')){
-            $file= $request->file('fileGambarDenahTanah');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('images'), $filename);
-            $denahTanah = $filename;
-        }*/
-
-        //$imageName = time().'_'.$request->image->extension(); 
-        //$request->image->storeAs('images/objectRetribusi', $imageName);
-
-        //$denahTanah = $request->file("fileGambarDenahTanah")->storeAs("public/images/objectRetribusi");
-        //$fileName = str_replace("public/","storage/",$denahTanah);
-
-        /*if ($request->hasFile('fileGambarDenahTanah')) {
-            // $path = Storage::disk('local')->put($request->file('photo')->getClientOriginalName(),$request->file('photo')->get());
-            $path = $request->file('fileGambarDenahTanah')->store('/images/objekRetribusi');
-        }*/
-
+               
         $uploadedFile = $request->file('fileGambarDenahTanah');
-        $photo = "my-prefix" . "_" . time() . "." . $uploadedFile->getClientOriginalExtension();
+        $photo = $request->get('kodeObjekRetribusi') . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
         $photoPath = Storage::disk('local')->putFileAs("public/images/objekRetribusi", $uploadedFile, $photo);
 
-        //dd($photoPath);
+        $namaFoto = $request->input('namaFoto');
+        $fileFoto = $request->file('fileFoto');
+        $keteranganFoto = $request->input('keteranganFoto');
+
+        $detailobjekRetribusi = [];
+
+        for ($count = 0; $count < collect($namaFoto)->count(); $count++) {
+            $uploadedFileFoto = $fileFoto[$count];
+            $fotoObjek = $request->get('kodeObjekRetribusi') . "Foto Objek Retribusi" . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
+            $fotoObjekPath = Storage::disk('local')->putFileAs("public/images/objekRetribusi/fotoObjekRetribusi", $uploadedFileFoto, $fotoObjek);
+
+            $detailobjekRetribusi[] = [
+                'NamaFoto' => $namaFoto[$count],
+                'FileFoto' => $fotoObjekPath,
+                'KeteranganFoto' => $keteranganFoto[$count],
+            ];
+        }
+
+        //dd($detailobjekRetribusi);
 
         $objekRetribusi = json_encode([
             'KodeObjekRetribusi' => $request->get('kodeObjekRetribusi'),
@@ -88,7 +81,11 @@ class ObjekRetribusiController extends Controller
             'Longitude' => $request->get('longitudu'),
             'Keterangan' => $request->get('keterangan'),
             'JumlahLantai' => $request->get('jumlahLantai'),
-            'GambarDenahTanah' => $photoPath
+            'JangkaWaktu' => $request->get('jangkaWaktuSewa'),
+            'TarifSewa' => $request->get('tarifSewa'),
+            'KeteranganTarif' => $request->get('keteranganTarifSewa'),
+            'GambarDenahTanah' => $photoPath, 
+            'FotoObjekRetribusi' => $detailobjekRetribusi
         ]);
 
         //dd($objekRetribusi);

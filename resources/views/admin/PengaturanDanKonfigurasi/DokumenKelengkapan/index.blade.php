@@ -1,25 +1,24 @@
 @extends('layouts.admin.template')
 @section('content')
-
 <script>
     //-------------------------------------------------------------------------------------------------
-    //Ajax Form Detail Data
+    // Ajax Form Detail Data
     //-------------------------------------------------------------------------------------------------
-    $(document).on('click', '.detailBtn', function (e) {
+        $(document).on('click', '.detailBtn', function (e) {
         e.preventDefault();
 
         var st_id = $(this).val();
+        console.log("ID Jangka Waktu Sewa: ", st_id); // Tambahkan ini untuk debugging
 
         $("#detailModal").modal('show');
 
         $.ajax({
             method: "GET",
-            url: "{{ route('Pekerjaan.detail') }}",
+            url: "{{ route('DokumenKelengkapan.detail') }}",
             data: {
                 id: st_id
             },
             success: function (response) {
-                //console.log(response);
                 if (response.status == 404) {
                     new Noty({
                         text: response.message,
@@ -27,16 +26,24 @@
                         modal: true
                     }).show();
                 } else {
-                    //console.log(response.fieldEducation.nama_bidang_pendidikan)
-                    $('#d_nama_pekerjaan').text(response.pekerjaan.namaPekerjaan);
-                    $('#d_keterangan').text(response.pekerjaan.keterangan);
+                    $('#d_jenis_dokumen').text(response.dataDokumenKelengkapan.jenisDokumen);  // Perbaiki penanganan respons
+                    $('#d_dokumen_kelengkapan').text(response.dataDokumenKelengkapan.dokumenKelengkapan);
+                    $('#d_keterangan').text(response.dataDokumenKelengkapan.keterangan);
                 }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                new Noty({
+                    text: 'Terjadi kesalahan saat mengambil data.',
+                    type: 'error',
+                    modal: true
+                }).show();
             }
         });
     });
 
     //-------------------------------------------------------------------------------------------------
-    //Ajax Form Delete Data
+    // Ajax Form Delete Data
     //-------------------------------------------------------------------------------------------------
     $(document).on('click', '.deleteBtn', function (e) {
         var st_id = $(this).val();
@@ -46,7 +53,7 @@
     });
 
     //-------------------------------------------------------------------------------------------------
-    //Ajax Delete Data
+    // Ajax Delete Data
     //-------------------------------------------------------------------------------------------------
     $(document).on('click', '.delete_data', function (e) {
         e.preventDefault();
@@ -54,7 +61,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idPekerjaan': id,
+            'idDokumenKelengkapan': id,
         }
 
         $.ajaxSetup({
@@ -65,7 +72,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('Pekerjaan.delete') }}",
+            url: "{{ route('DokumenKelengkapan.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -86,7 +93,9 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Pekerjaan.index') }}'", 2500);
+                    setTimeout(function() {
+                        window.location='{{ route('DokumenKelengkapan.index') }}';
+                    }, 2500);
                 }
             }
         });
@@ -96,13 +105,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Objek Retribusi</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Dokumen Kelengkapan</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Master</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Objek Retribusi</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Daftar Objek Restribusi</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Penyewaan Aset</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dokumen Kelengkapan</li>
                 </ol>
             </nav>
         </div>
@@ -116,12 +125,11 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Objek Retribusi
+                    Daftar Dokumen Kelengkapan
                 </div>
                 <div class="prism-toggle">
-                    <a class="btn btn-primary btn-wave waves-effect waves-light"
-                        href="{{ route('ObjekRetribusi.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Objek Retribusi
+                    <a class="btn btn-primary btn-wave waves-effect waves-light" href="{{ route('DokumenKelengkapan.create') }}">
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Dokumen Kelengkapan
                     </a>
                 </div>
             </div>
@@ -129,23 +137,19 @@
                 <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
-                            <th>Kode Objek Retribusi</th>
-                            <th>Objek Retribusi</th>
-                            <th>Objek No. Bangunan</th>
-                            <th>Jenis Objek Retribusi</th>
-                            <th>Lokasi Objek Retribusi</th>
+                            <th>Jenis Dokumen</th>
+                            <th>Dokumen Kelengkapan</th>
+                            <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($objekRetribusi) && count($objekRetribusi) > 0)
-                            @foreach ($objekRetribusi as $oR)
+                        @if (isset($dokumenKelengkapan) && count($dokumenKelengkapan) > 0)
+                            @foreach ($dokumenKelengkapan as $st)
                                 <tr>
-                                    <td>{{ $oR->kodeObjekRetribusi }}</td>
-                                    <td>{{ $oR->objekRetribusi }}</td>
-                                    <td>{{ $oR->noBangunan }}</td>
-                                    <td>{{ $oR->jenisObjekRetribusi }}</td>
-                                    <td>{{ $oR->lokasiObjekRetribusi }}</td>
+                                    <td>{{ $st->jenisDokumen }}</td>
+                                    <td>{{ $st->dokumenKelengkapan }}</td>
+                                    <td>{{ $st->keterangan }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -154,19 +158,18 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <button type="button" value="{{ $oR->idObjekRetribusi }}"
+                                                    <button type="button" value="{{ $st->idDokumenKelengkapan }}"
                                                         class="dropdown-item detailBtn">
-                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
+                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i> Detail
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Pekerjaan.edit', $oR->idObjekRetribusi) }}"><i
-                                                            class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
+                                                        href="{{ route('DokumenKelengkapan.edit', $st->idDokumenKelengkapan) }}"><i
+                                                            class="ri-edit-line me-1 align-middle d-inline-block"></i> Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $oR->idObjekRetribusi }}"
+                                                <li><button type="button" value="{{ $st->idDokumenKelengkapan }}"
                                                         class="dropdown-item deleteBtn">
-                                                        <i
-                                                            class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
+                                                        <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i> Hapus</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -180,21 +183,29 @@
         </div>
     </div>
 </div>
-<!--End::row-1 -->
+<!-- End::row-1 -->
 
-<!-- Start:: Detail Pekerjaan -->
+<!-- Start:: Detail Jangka Waktu Sewa-->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Detail Pekerjaan</h6>
+                <h6 class="modal-title">Detail Status</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <div class="modal-body px-4">
+                <div class="d-flex gap-3">
+                    <div class="flex-fill">
+                        <h6 class="mb-1 fs-13">Jenis Dokumen</h6>
+                        <span class="d-block fs-13 text-muted fw-normal" id="d_jenis_dokumen"></span>
+                    </div>
+                </div>
             </div>
             <div class="modal-body px-4">
                 <div class="d-flex gap-3">
                     <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Pekerjaan</h6>
-                        <span class="d-block fs-13 text-muted fw-normal" id="d_nama_pekerjaan"></span>
+                        <h6 class="mb-1 fs-13">Dokumen Kelengkapan</h6>
+                        <span class="d-block fs-13 text-muted fw-normal" id="d_dokumen_kelengkapan"></span>
                     </div>
                 </div>
             </div>
@@ -212,9 +223,9 @@
         </div>
     </div>
 </div>
-<!-- End:: Detail Pekerjaan -->
+<!-- End:: Detail Jangka Waktu Sewa -->
 
-<!-- Start:: Delete Pekerjaan-->
+<!-- Start:: Delete Jangka Waktu Sewa-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -222,7 +233,7 @@
                 <h6 class="modal-title">Hapus Data</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteJenisStatusForm">
+            <form id="deleteStatusForm">
                 @csrf
                 <div class="modal-body">
                     <div class="text-center px-5 pb-0 svg-danger">
@@ -232,7 +243,7 @@
                             <path
                                 d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z" />
                         </svg>
-
+                        
                         <h5>Anda yakin untuk menghapus data?</h5>
                     </div>
                     <input type="hidden" id="deleting_id" />
@@ -245,6 +256,6 @@
         </div>
     </div>
 </div>
-<!-- End:: Delete Pekerjaan -->
+<!-- End:: Delete Jangka Waktu Sewa -->
 
 @endsection
