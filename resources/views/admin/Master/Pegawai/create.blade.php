@@ -148,7 +148,7 @@
                             <select class="js-example-placeholder-single form-control" id="jabatanBidang" name="jabatanBidang" required>
                                 <option></option>
                                 @foreach ($jabatanBidang as $sT)
-                                    <option value="{{ $sT->idJabatan }}">{{ $sT->jabatan }}</option>
+                                    <option value="{{ $sT->idJabatanBidang }}">{{ $sT->namaJabatanBidang }}</option>
                                 @endforeach
                             </select>
                             <button type="button" class="btn btn-outline-primary">

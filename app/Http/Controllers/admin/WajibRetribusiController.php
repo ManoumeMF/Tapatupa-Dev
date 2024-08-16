@@ -12,9 +12,9 @@ class WajibRetribusiController extends Controller
 {
     public function index()
     {
-        $objekRetribusi = DB::select('CALL viewAll_objekRetribusi()'); 
+        $wajibRetribusi = DB::select('CALL viewAll_wajibRetribusi()'); 
 
-        return view('admin.Master.ObjekRetribusi.index', ['objekRetribusi' => $objekRetribusi]);
+        return view('admin.Master.WajibRetribusi.index', compact('wajibRetribusi'));
 
         //return view('admin.Master.ObjekRetribusi.index');
         
