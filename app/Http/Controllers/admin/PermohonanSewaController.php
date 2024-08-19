@@ -12,11 +12,11 @@ class PermohonanSewaController extends Controller
 {
     public function index()
     {
-        $objekRetribusi = DB::select('CALL viewAll_objekRetribusi()'); 
+        //$objekRetribusi = DB::select('CALL viewAll_objekRetribusi()'); 
 
-        return view('admin.Master.ObjekRetribusi.index', ['objekRetribusi' => $objekRetribusi]);
+        //return view('admin.Master.ObjekRetribusi.index', compact(''));
 
-        //return view('admin.Master.ObjekRetribusi.index');
+        return view('admin.SewaAset.Permohonan.index');
         
     }
 
