@@ -969,24 +969,29 @@
                         <!-- End::slide__category -->
 
                         <!-- Start::slide -->
-                        <li class="slide">
+                        <li class="slide has-sub">
                             <a href="javascript:void(0);" class="side-menu__item">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon"
-                                    enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"
-                                    fill="#5f6368">
-                                    <g>
-                                        <path d="M0,0h24v24H0V0z" fill="none" />
-                                    </g>
-                                    <g>
-                                        <path
-                                            d="M15,5H5v14h14V9h-4V5z M7,7h5v2H7V7z M17,17H7v-2h10V17z M17,11v2H7v-2H17z"
-                                            opacity=".3" />
-                                        <path
-                                            d="M7,13h10v-2H7V13z M7,17h10v-2H7V17z M16,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V8L16,3z M19,19H5V5 h10v4h4V19z M12,7H7v2h5V7z" />
-                                    </g>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" height="24px"
+                                    viewBox="0 0 24 24" width="24px" fill="#5f6368">
+                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                    <path d="M5 5h15v3H5zm12 5h3v9h-3zm-7 0h5v9h-5zm-5 0h3v9H5z" opacity=".3" />
+                                    <path
+                                        d="M20 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM8 19H5v-9h3v9zm7 0h-5v-9h5v9zm5 0h-3v-9h3v9zm0-11H5V5h15v3z" />
                                 </svg>
-                                <span class="side-menu__label" onclick="window.location.href='{{ route('ObjekRetribusi.index') }}'">Objek Retribusi</span>
+                                <span class="side-menu__label">Objek Retribusi</span>
+                                <i class="ri-arrow-right-s-line side-menu__angle"></i>
                             </a>
+                            <ul class="slide-menu child1">
+                                <li class="slide side-menu__label1">
+                                    <a href="javascript:void(0)">Objek Retribusi</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="{{ route('ObjekRetribusi.index') }}" class="side-menu__item">Objek Retribusi</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="grid-tables.html" class="side-menu__item">Tarif Objek Retribusi</a>
+                                </li>
+                            </ul>
                         </li>
                         <!-- End::slide -->
 

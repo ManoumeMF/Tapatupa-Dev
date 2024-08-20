@@ -96,13 +96,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Objek Retribusi</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Tarif Objek Retribusi</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Master</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Objek Retribusi</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Daftar Objek Restribusi</li>
+                    <li class="breadcrumb-item active" aria-current="page">Daftar Tarif Objek Restribusi</li>
                 </ol>
             </nav>
         </div>
@@ -116,12 +116,12 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Objek Retribusi
+                    Daftar Tarif Objek Retribusi
                 </div>
                 <div class="prism-toggle">
                     <a class="btn btn-primary btn-wave waves-effect waves-light"
                         href="{{ route('ObjekRetribusi.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Objek Retribusi
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Tarif Objek Retribusi
                     </a>
                 </div>
             </div>
@@ -132,20 +132,18 @@
                             <th>Kode Objek Retribusi</th>
                             <th>Objek Retribusi</th>
                             <th>No. Bangunan</th>
-                            <th>Jenis Objek Retribusi</th>
-                            <th>Lokasi Objek Retribusi</th>
+                            <th>Jenis Jangka Waktu</th>
+                            <th>Tarif Objek</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($objekRetribusi) && count($objekRetribusi) > 0)
-                            @foreach ($objekRetribusi as $oR)
                                 <tr>
-                                    <td>{{ $oR->kodeObjekRetribusi }}</td>
-                                    <td>{{ $oR->objekRetribusi }}</td>
-                                    <td>{{ $oR->noBangunan }}</td>
-                                    <td>{{ $oR->jenisObjekRetribusi }}</td>
-                                    <td>{{ $oR->lokasiObjekRetribusi }}</td>
+                                    <td>Kode Objek Retribusi</td>
+                                    <td>Objek Retribusi</td>
+                                    <td>No. Banguna</td>
+                                    <td>Jenis Jangka Waktu</td>
+                                    <td>Tarif Objek</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -155,14 +153,14 @@
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('ObjekRetribusi.detail', $oR->idObjekRetribusi) }}"><i
+                                                        href=""><i
                                                             class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Pekerjaan.edit', $oR->idObjekRetribusi) }}"><i
+                                                        href=""><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $oR->idObjekRetribusi }}"
+                                                <li><button type="button" value=""
                                                         class="dropdown-item deleteBtn">
                                                         <i
                                                             class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>

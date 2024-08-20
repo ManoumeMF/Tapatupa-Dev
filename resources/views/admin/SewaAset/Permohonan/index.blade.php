@@ -131,9 +131,10 @@
                         <tr>
                             <th>Nomor Permohonan</th>
                             <th>Nama Wajib Retribusi/Pemohon</th>
+                            <th>Tanggal Permohonan</th>
                             <th>Objek Retribusi</th>
                             <th>Jangka Waktu</th>
-                            <th>Status Permohonan</th>
+                            <th>Status</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
@@ -152,9 +153,138 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>Nama Wajib Retribusi</td>
+                            <td>12 Agustus 2024</td>
+                            <td>Objek Retribusi</td>
                             <td>Jangka Waktu</td>
-                            <td>Status Permohonan</td>
+                            <td>
+                                <span class="badge bg-primary">Baru</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fe fe-align-justify"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="">
+                                        <li>
+                                            <a class="dropdown-item" href=""><i
+                                                    class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href=""><i
+                                                    class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
+                                        </li>
+                                        <li><button type="button" value="" class="dropdown-item deleteBtn">
+                                                <i
+                                                    class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>120-0200-03039</td>
+                            <td>
+                                <div class="d-flex">
+                                    <span class="avatar avatar-md avatar-square bg-light"><img
+                                            src="../assets/images/ecommerce/png/30.png" class="w-100 h-100"
+                                            alt="..."></span>
+                                    <div class="ms-2">
+                                        <p class="fw-semibold mb-0 d-flex align-items-center"><a
+                                                href="javascript:void(0);">Nama Pemohon</a></p>
+                                        <p class="fs-12 text-muted mb-0">NIK Pemohon</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>12 Agustus 2024</td>
+                            <td>Objek Retribusi</td>
+                            <td>Jangka Waktu</td>
+                            <td>
+                                <span class="badge bg-success">Diterima</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fe fe-align-justify"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="">
+                                        <li>
+                                            <a class="dropdown-item" href=""><i
+                                                    class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href=""><i
+                                                    class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
+                                        </li>
+                                        <li><button type="button" value="" class="dropdown-item deleteBtn">
+                                                <i
+                                                    class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>120-0200-03039</td>
+                            <td>
+                                <div class="d-flex">
+                                    <span class="avatar avatar-md avatar-square bg-light"><img
+                                            src="../assets/images/ecommerce/png/30.png" class="w-100 h-100"
+                                            alt="..."></span>
+                                    <div class="ms-2">
+                                        <p class="fw-semibold mb-0 d-flex align-items-center"><a
+                                                href="javascript:void(0);">Nama Pemohon</a></p>
+                                        <p class="fs-12 text-muted mb-0">NIK Pemohon</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>12 Agustus 2024</td>
+                            <td>Objek Retribusi</td>
+                            <td>Jangka Waktu</td>
+                            <td>
+                                <span class="badge bg-danger">Ditolak</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fe fe-align-justify"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="">
+                                        <li>
+                                            <a class="dropdown-item" href=""><i
+                                                    class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href=""><i
+                                                    class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
+                                        </li>
+                                        <li><button type="button" value="" class="dropdown-item deleteBtn">
+                                                <i
+                                                    class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>120-0200-03039</td>
+                            <td>
+                                <div class="d-flex">
+                                    <span class="avatar avatar-md avatar-square bg-light"><img
+                                            src="../assets/images/ecommerce/png/30.png" class="w-100 h-100"
+                                            alt="..."></span>
+                                    <div class="ms-2">
+                                        <p class="fw-semibold mb-0 d-flex align-items-center"><a
+                                                href="javascript:void(0);">Nama Pemohon</a></p>
+                                        <p class="fs-12 text-muted mb-0">NIK Pemohon</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>12 Agustus 2024</td>
+                            <td>Objek Retribusi</td>
+                            <td>Jangka Waktu</td>
+                            <td>
+                                <span class="badge bg-warning">Sedang Diproses</span>
+                            </td>
                             <td>
                                 <div class="dropdown">
                                     <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"

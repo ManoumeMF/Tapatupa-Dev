@@ -218,4 +218,14 @@ class ObjekRetribusiController extends Controller
 
         return response()->json($statusTypeCombo);
     }
+
+    public function tarif()
+    {
+        $tarifRetribusi = DB::select('CALL viewAll_objekRetribusi()');
+
+        return view('admin.Master.ObjekRetribusi.tarif', compact('tarifRetribusi'));
+
+        //return view('admin.Master.ObjekRetribusi.index');
+
+    }
 }
