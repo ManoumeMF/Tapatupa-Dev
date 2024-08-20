@@ -328,11 +328,7 @@
                                                 <input type="text" class="form-control" id="latitude-y" name="latitude"
                                                     placeholder="Masukkan Kordinat Y">
                                             </div>
-                                            <div class="col-xl-12">
-                                                <label for="keterangan" class="form-label">Keterangan</label>
-                                                <textarea class="form-control" id="keterangan" rows="3" name="keterangan"
-                                                    placeholder="Masukkan Keterangan"></textarea>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -357,19 +353,19 @@
                                                 <input type="text" class="form-control" id="luas-tanah" name="luasTanah"
                                                     placeholder="Masukkan Luas Tanah" name="luasTanah">
                                             </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <label for="panjang-bangunan" class="form-label">Panjang Bangunan
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="panjang-bangunan"
                                                     placeholder="Masukkan Panjang Bangunan" name="panjangBangunan">
                                             </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <label for="lebar-bangunan" class="form-label">Lebar Bangunan
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="lebar-bangunan"
                                                     placeholder="Masukkan Lebar Bangunan" name="lebarBangunan">
                                             </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <label for="luas-bangunan" class="form-label">Luas Bangunan
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="luas-bangunan"
@@ -381,27 +377,9 @@
                                                     placeholder="Masukkan Jumlah lantai" name="jumlahLantai">
                                             </div>
                                             <div class="col-xl-6">
-                                                <label for="jumlah-lantai" class="form-label">Jangka Waktu Sewa</label>
-                                                <select class="jangka-waktu-sewa form-control" name="jangkaWaktuSewa"
-                                                    required>
-                                                    <option></option>
-                                                    @foreach ($jangkaWaktu as $jW)
-                                                        <option value="{{ $jW->idjenisJangkaWaktu }}">
-                                                            {{ $jW->jenisJangkaWaktu }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <label for="jumlah-lantai" class="form-label">Tarif Sewa Objek
-                                                    Retribusi</label>
-                                                <input type="text" class="form-control" id="tarif-sewa"
-                                                    placeholder="Masukkan Tarif Sewa" name="tarifSewa">
-                                            </div>
-                                            <div class="col-xl-12">
-                                                <label for="keterangan" class="form-label">Keterangan</label>
-                                                <textarea class="form-control" id="keteranganTarifSewa" rows="2" name="keteranganTarifSewa"
-                                                    placeholder="Masukkan Keterangan Tarif Sewa"></textarea>
+                                                <label for="jumlah-lantai" class="form-label">Kapasitas</label>
+                                                <input type="text" class="form-control" id="kapasitasi"
+                                                    placeholder="Masukkan Tarif Sewa" name="kapasitasi">
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
                                                 <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
@@ -414,6 +392,11 @@
                                             </div>
                                             <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
                                             </label>
+                                            <div class="col-xl-12">
+                                                <label for="keterangan" class="form-label">Keterangan</label>
+                                                <textarea class="form-control" id="keterangan" rows="5" name="keterangan"
+                                                    placeholder="Masukkan Keterangan"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

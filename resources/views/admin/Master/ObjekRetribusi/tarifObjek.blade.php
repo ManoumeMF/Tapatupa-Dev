@@ -120,7 +120,7 @@
                 </div>
                 <div class="prism-toggle">
                     <a class="btn btn-primary btn-wave waves-effect waves-light"
-                        href="{{ route('ObjekRetribusi.create') }}">
+                        href="{{ route('ObjekRetribusi.createTarif') }}">
                         <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Tarif Objek Retribusi
                     </a>
                 </div>
@@ -169,8 +169,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
-                        @endif
                     </tbody>
                 </table>
             </div>

@@ -96,13 +96,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Permohonan Sewa</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Perjanjian Sewa</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Sewa Aset</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Permohonan Sewa</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Daftar Permohonan Sewa</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Perjanjian Sewa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Daftar Perjanjian Sewa</li>
                 </ol>
             </nav>
         </div>
@@ -116,12 +116,12 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Permohonan Sewa
+                    Daftar Perjanjian Sewa
                 </div>
                 <div class="prism-toggle">
                     <a class="btn btn-primary btn-wave waves-effect waves-light"
-                        href="{{ route('PermohonanSewa.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Permohonan Sewa
+                        href="{{ route('Perjanjian.create') }}">
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Perjanjian Sewa
                     </a>
                 </div>
             </div>
@@ -129,9 +129,9 @@
                 <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
-                            <th>Nomor Permohonan</th>
+                            <th>Nomor Perjanjian</th>
                             <th>Nama Wajib Retribusi/Pemohon</th>
-                            <th>Tanggal Permohonan</th>
+                            <th>Tanggal Perjanjian</th>
                             <th>Objek Retribusi</th>
                             <th>Jangka Waktu</th>
                             <th>Status</th>

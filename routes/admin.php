@@ -23,6 +23,7 @@ use App\Http\Controllers\admin\PeruntukanSewaController;
 use App\Http\Controllers\admin\WajibRetribusiController;
 use App\Http\Controllers\admin\JabatanController;
 use App\Http\Controllers\admin\PermohonanSewaController;
+use App\Http\Controllers\admin\PerjanjianController;
 use App\Http\Controllers\admin\DropdownLokasiContoller;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
@@ -90,7 +91,8 @@ Route::get("/objek-retribusi/detail/{id}", [ObjekRetribusiController::class, 'de
 Route::delete("/objek-retribusi/hapus", [ObjekRetribusiController::class, 'delete'])->name('ObjekRetribusi.delete');
 
 // Route untuk Tarif Objek Retribusi
-Route::get("/objek-retribusi/tarif", [ObjekRetribusiController::class, 'index'])->name('ObjekRetribusi.tarif');
+Route::get("/objek-retribusi/tarif", [ObjekRetribusiController::class, 'tarif'])->name('ObjekRetribusi.tarif');
+Route::get("/objek-retribusi/tambah-tarif", [ObjekRetribusiController::class, 'createTarif'])->name('ObjekRetribusi.createTarif');
 
 // Route untuk Wajib Retribusi
 Route::get("/wajib-retribusi", [WajibRetribusiController::class, 'index'])->name('WajibRetribusi.index');
@@ -236,6 +238,16 @@ Route::get("/permohonan-sewa/ubah/{id}", [PermohonanSewaController::class, 'edit
 Route::post("/permohonan-sewa/update/{id}", [PermohonanSewaController::class, 'update'])->name('PermohonanSewa.update');
 Route::delete("/permohonan-sewa/hapus", [PermohonanSewaController::class, 'delete'])->name('PermohonanSewa.delete');
 Route::get("/permohonan-sewa/detail", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
+
+// Route untuk Perjanjian Sewa
+Route::get("/perjanjian-sewa", [PerjanjianController::class, 'index'])->name('Perjanjian.index');
+Route::get("/perjanjian-sewa/tambah", [PerjanjianController::class, 'create'])->name('Perjanjian.create');
+Route::post("/perjanjian-sewa/simpan", [PerjanjianController::class, 'store'])->name('Perjanjian.store');
+Route::get("/perjanjian-sewa/ubah/{id}", [PerjanjianController::class, 'edit'])->name('Perjanjian.edit');
+Route::post("/perjanjian-sewa/update/{id}", [PerjanjianController::class, 'update'])->name('Perjanjian.update');
+Route::delete("/perjanjian-sewa/hapus", [PerjanjianController::class, 'delete'])->name('Perjanjian.delete');
+Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
+
 
 //Route untuk DropdownLokasi
 Route::get("/kota", [DropdownLokasiContoller::class, 'index'])->name('DropdownLokasi.kota');

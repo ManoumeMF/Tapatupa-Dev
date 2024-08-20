@@ -139,17 +139,31 @@
                             <th>Nama Pegawai</th>
                             <th>Golongan</th>
                             <th>Jabatan Bidang</th>
-                            <th>Alamat</th>
+                            <th>Bidang/Unit</th>
+                            <th>Dinas/Badan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($dokumenKelengkapan) && count($dokumenKelengkapan) > 0)
-                            @foreach ($dokumenKelengkapan as $st)
+                        @if (isset($pegawai) && count($pegawai) > 0)
+                            @foreach ($pegawai as $pg)
                                 <tr>
-                                    <td>{{ $st->jenisDokumen }}</td>
-                                    <td>{{ $st->dokumenKelengkapan }}</td>
-                                    <td>{{ $st->keterangan }}</td>
+                                <td>
+                                        <div class="d-flex">
+                                            <span class="avatar avatar-md avatar-square bg-light"><img
+                                                    src="../assets/images/ecommerce/png/30.png" class="w-100 h-100"
+                                                    alt="..."></span>
+                                            <div class="ms-2">
+                                                <p class="fw-semibold mb-0 d-flex align-items-center"><a
+                                                        href="javascript:void(0);">{{ $pg->namaPegawai }}</a></p>
+                                                <p class="fs-12 text-muted mb-0">{{ $pg->nip }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ $pg->golongan }}</td>
+                                    <td>{{ $pg->namaJabatanBidang }}</td>
+                                    <td>{{ $pg->namaBidang }}</td>
+                                    <td>{{ $pg->namaDepartmen }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -158,16 +172,16 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <button type="button" value="{{ $st->idDokumenKelengkapan }}"
+                                                    <button type="button" value="{{ $pg->idPegawai }}"
                                                         class="dropdown-item detailBtn">
                                                         <i class="ri-eye-line me-1 align-middle d-inline-block"></i> Detail
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('DokumenKelengkapan.edit', $st->idDokumenKelengkapan) }}"><i
+                                                        href="{{ route('DokumenKelengkapan.edit', $pg->idPegawai) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i> Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $st->idDokumenKelengkapan }}"
+                                                <li><button type="button" value="{{ $pg->idPegawai }}"
                                                         class="dropdown-item deleteBtn">
                                                         <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i> Hapus</a>
                                                 </li>

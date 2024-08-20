@@ -4,8 +4,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         /* single select with placeholder */
-        $(".objek-retribusi").select2({
-            placeholder: "Pilih Objek Retribusi",
+        $(".permohonan-sewa").select2({
+            placeholder: "Pilih Nomor Permohonan",
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
@@ -34,13 +34,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-    <h1 class="page-title fw-medium fs-18 mb-2">Tarif Objek Retribusi</h1>
+    <h1 class="page-title fw-medium fs-18 mb-2">Perjanjian Sewa</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Master</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Objek Retribusi</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tambah Tarif Objek Restribusi</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Sewa Aset</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Perjanjian Sewa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tambah Perjanjian Sewa</li>
                 </ol>
             </nav>
         </div>
@@ -52,12 +52,12 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('Perjanjian.store')}}" method="post" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Tambah Tarif Objek Restribusi
+                        Tambah Perjanjian Sewa
                     </div>
                 </div>
                 <div class="card-body tambah-wajib-retribusi p-0">
@@ -68,24 +68,23 @@
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
                                             <div class="col-xl-12">
-                                                <label for="objek-retribusi" class="form-label">Nama Objek Retribusi</label>
-                                                <select class="objek-retribusi form-control" name="objekRetribusi" required>
+                                                <label for="permohonan-sewa" class="form-label">Nomor Permohonan Sewa</label>
+                                                <select class="permohonan-sewa form-control" name="permohonanSewa" required>
                                                     <option></option>
-                                                    @foreach ($objekRetribusi as $oR)
-                                                        <option value="{{ $oR->idObjekRetribusi }}">
-                                                            {{ $oR->kodeObjekRetribusi }} - {{ $oR->objekRetribusi }}
-                                                        </option>
-                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Objek Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-6">
                                                 <label for="nik" class="form-label">Nomor bangunan</label>
                                                 <input type="text" class="form-control" id="noBangunan" disabled>
                                             </div>
-                                            <div class="col-xl-8">
+                                            <div class="col-xl-6">
+                                                <label for="kodeObjek" class="form-label">Kode Objek Retribusi</label>
+                                                <input type="text" class="form-control" id="kodeObjek" disabled>
+                                            </div>
+                                            <div class="col-xl-12">
                                                 <label for="nik" class="form-label">Nama Objek Retribusi</label>
                                                 <input type="text" class="form-control" id="objekRetribusi" disabled>
                                             </div>
@@ -153,11 +152,6 @@
                                                 <select class="jangka-waktu-sewa form-control" name="jangkaWaktu"
                                                     required>
                                                     <option></option>
-                                                    @foreach ($jangkaWaktu as $jW)
-                                                        <option value="{{ $jW->idjenisJangkaWaktu }}">
-                                                            {{ $jW->jenisJangkaWaktu }}
-                                                        </option>
-                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Jenis Jangka Waktu Tidak Boleh Kosong

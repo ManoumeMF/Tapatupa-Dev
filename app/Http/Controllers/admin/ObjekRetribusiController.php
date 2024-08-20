@@ -223,9 +223,19 @@ class ObjekRetribusiController extends Controller
     {
         $tarifRetribusi = DB::select('CALL viewAll_objekRetribusi()');
 
-        return view('admin.Master.ObjekRetribusi.tarif', compact('tarifRetribusi'));
+        return view('admin.Master.ObjekRetribusi.tarifObjek', compact('tarifRetribusi'));
 
         //return view('admin.Master.ObjekRetribusi.index');
 
+    }
+
+    public function createTarif()
+    {
+        $objekRetribusi = DB::select('CALL cbo_objekRetribusi()'); 
+        $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
+
+        return view('admin.Master.ObjekRetribusi.tambahTarif', compact('objekRetribusi', 'jangkaWaktu'));
+
+        //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
 }
