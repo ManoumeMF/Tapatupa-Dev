@@ -17,16 +17,58 @@
         });
 
         // for product images upload
-        const MultipleElement1 = document.querySelector('.file-penilaian');
-        FilePond.create(MultipleElement1,);
+        /*const MultipleElement1 = document.querySelector('.file-penilaian');
+        FilePond.create(MultipleElement1,);*/
 
         /* For Human Friendly dates */
-    flatpickr("#tanggalDinilai", {
-        altInput: true,
-        altFormat: "j F Y",
-        dateFormat: "Y-m-d",
-        disableMobile: true
-    });
+        flatpickr("#tanggalDinilai", {
+            altInput: true,
+            altFormat: "j F Y",
+            dateFormat: "m/d/Y",
+            disableMobile: true
+        });
+
+
+        //saat pilihan objek retribusi di pilih, maka akan mengambil data objek retribusi menggunakan ajax
+        $('#objekRetribusi').on('change', function () {
+            var id = $(this).val();
+
+            if (id) {
+                var data = {
+                    'idObjek': id,
+                }
+
+                $.ajax({
+                    method: "GET",
+                    url: "{{ route('ObjekRetribusi.detailObjekToTarif') }}",
+                    data: data,
+                    success: function (response) {
+                        if (response.status == 404) {
+                            new Noty({
+                                text: response.message,
+                                type: 'warning',
+                                modal: true
+                            }).show();
+                        } else {
+                            $("#noBangunan").val(response.objekRetribusi.noBangunan);
+                            $("#jenisObjekRetribusi").val(response.objekRetribusi.jenisObjekRetribusi);
+                            $("#lokasiObjekRetribusi").val(response.objekRetribusi.lokasiObjekRetribusi);
+                            $("#alamatWajibRetribusi").text(response.objekRetribusi.alamatLengkap);
+                            $("#panjangTanah").val(response.objekRetribusi.panjangTanah);
+                            $("#lebarTanah").val(response.objekRetribusi.lebarTanah);
+                            $("#luasTanah").val(response.objekRetribusi.luasTanah);
+                            $("#panjangBangunan").val(response.objekRetribusi.panjangBangunan);
+                            $("#lebarBangunan").val(response.objekRetribusi.lebarBangunan);
+                            $("#luasBangunan").val(response.objekRetribusi.luasBangunan);
+                            $("#jumlahLantai").val(response.objekRetribusi.jumlahLantai);
+                            $("#kapasitas").val(response.objekRetribusi.kapasitas);
+                        }
+                    }
+                });
+            } else {
+                $('#kota').empty();
+            }
+        });
     });
 
 </script>
@@ -34,7 +76,7 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-    <h1 class="page-title fw-medium fs-18 mb-2">Tarif Objek Retribusi</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Tarif Objek Retribusi</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
@@ -52,7 +94,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.storeTarif')}}" method="post"  enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -68,8 +110,10 @@
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
                                             <div class="col-xl-12">
-                                                <label for="objek-retribusi" class="form-label">Nama Objek Retribusi</label>
-                                                <select class="objek-retribusi form-control" name="objekRetribusi" required>
+                                                <label for="objek-retribusi" class="form-label">Nama Objek
+                                                    Retribusi</label>
+                                                <select class="objek-retribusi form-control" name="objekRetribusi"
+                                                    id="objekRetribusi" required>
                                                     <option></option>
                                                     @foreach ($objekRetribusi as $oR)
                                                         <option value="{{ $oR->idObjekRetribusi }}">
@@ -85,59 +129,63 @@
                                                 <label for="nik" class="form-label">Nomor bangunan</label>
                                                 <input type="text" class="form-control" id="noBangunan" disabled>
                                             </div>
-                                            <div class="col-xl-8">
-                                                <label for="nik" class="form-label">Nama Objek Retribusi</label>
-                                                <input type="text" class="form-control" id="objekRetribusi" disabled>
+                                            <div class="col-xl-4">
+                                                <label for="nik" class="form-label">Jenis Objek Retribusi</label>
+                                                <input type="text" class="form-control" id="jenisObjekRetribusi" disabled>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <label for="nik" class="form-label">Lokasi Objek Retribusi</label>
+                                                <input type="text" class="form-control" id="lokasiObjekRetribusi" disabled>
                                             </div>
                                             <div class="col-xl-12">
-                                                <label for="alamat-wajib-retribusi" class="form-label">Alamat Wajib
+                                                <label for="alamat-wajib-retribusi" class="form-label">Alamat Objek
                                                     Retribusi</label>
-                                                <textarea class="form-control" id="alamat-wajib" rows="2"
+                                                <textarea class="form-control" id="alamatWajibRetribusi" rows="2"
                                                     name="alamatWajibRetribusi" disabled></textarea>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="panajng-tanah" class="form-label">Panjang Tanah
                                                     (meter)</label>
-                                                <input type="text" class="form-control" id="panjang-tanah"
+                                                <input type="text" class="form-control" id="panjangTanah"
                                                     name="panjangTanah" disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="lebar-tanah" class="form-label">Lebar Tanah (meter)</label>
-                                                <input type="text" class="form-control" id="panjang-tanah"
+                                                <input type="text" class="form-control" id="lebarTanah"
                                                     name="lebarTanah" disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="luas-tanah" class="form-label">Luas Tanah (meter)</label>
-                                                <input type="text" class="form-control" id="luas-tanah" name="luasTanah"
-                                                   name="luasTanah" disabled>
+                                                <input type="text" class="form-control" id="luasTanah" name="luasTanah"
+                                                    name="luasTanah" disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="panjang-bangunan" class="form-label">Panjang Bangunan
                                                     (meter)</label>
-                                                <input type="text" class="form-control" id="panjang-bangunan"
+                                                <input type="text" class="form-control" id="panjangBangunan"
                                                     name="panjangBangunan" disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="lebar-bangunan" class="form-label">Lebar Bangunan
                                                     (meter)</label>
-                                                <input type="text" class="form-control" id="lebar-bangunan"
-                                                   name="lebarBangunan" disabled>
+                                                <input type="text" class="form-control" id="lebarBangunan"
+                                                    name="lebarBangunan" disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="luas-bangunan" class="form-label">Luas Bangunan
                                                     (meter)</label>
-                                                <input type="text" class="form-control" id="luas-bangunan"
+                                                <input type="text" class="form-control" id="luasBangunan"
                                                     name="luasBangunan" disabled>
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="jumlah-lantai" class="form-label">Jumlah Lantai</label>
-                                                <input type="text" class="form-control" id="jumlah-lantai"
-                                                   name="jumlahLantai" disabled>
+                                                <input type="text" class="form-control" id="jumlahLantai"
+                                                    name="jumlahLantai" disabled>
                                             </div>
                                             <div class="col-xl-6">
-                                                <label for="kapasistas" class="form-label">Kapasitas</label>
-                                                <input type="text" class="form-control" id="kapasitasi"
-                                                   name="kapasitasi" disabled>
+                                                <label for="kapasistas" class="form-label">Kapasitas (orang)</label>
+                                                <input type="text" class="form-control" id="kapasitas"
+                                                    name="kapasitasi" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -169,32 +217,37 @@
                                                     <div class="input-group">
                                                         <div class="input-group-text text-muted"> <i
                                                                 class="ri-calendar-line"></i> </div>
-                                                        <input type="text" class="form-control" id="tanggalDinilai"
+                                                        <input type="text" class="form-control" id="tanggalDinilai" name="tanggalDinilai"
                                                             placeholder="Pilih Tanggal Penilaian">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="nama-penilai" class="form-label">Nama Penilai</label>
-                                                <input type="text" class="form-control" id="nama-penilai" name="namaPenilai"
-                                                    placeholder="Masukkan Nama  Penilai">
+                                                <input type="text" class="form-control" id="namaPenilai"
+                                                    name="namaPenilai" placeholder="Masukkan Nama  Penilai">
                                                 <div class="invalid-feedback">
                                                     Nama Penilai Tidak Boleh Kosong
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
-                                                <label for="nama-penilai" class="form-label">Nominal Tarif Objek Retribusi</label>
-                                                <input type="text" class="form-control" id="tarif-objek" name="tarifObjek"
+                                                <label for="nama-penilai" class="form-label">Nominal Tarif Objek
+                                                    Retribusi</label>
+                                                <input type="text" class="form-control" id="tarif-objek"
+                                                    name="tarifObjek"
                                                     placeholder="Masukkan Nominal Tarif Objek Retribusi">
                                                 <div class="invalid-feedback">
-                                                Nominal Tarif Objek Retribusi Tidak Boleh Kosong
+                                                    Nominal Tarif Objek Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
+                                            <div class="col-xl-12">
+                                                <label for="keterangan" class="form-label">Keterangan</label>
+                                                <textarea class="form-control" id="keterangan" rows="3" name="keterangan"
+                                                    placeholder="Masukkan Keterangan"></textarea>
+                                            </div>
                                             <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Upload File Hasil Penilaian :</p>
-                                                <input type="file" class="file-penilaian" name="filePenilaian" multiple
-                                                    data-allow-reorder="true" data-max-file-size="3MB"
-                                                    data-max-files="6">
+                                            <label for="keterangan" class="form-label">Upload File Hasil Penilaian</label>
+                                                <input class="form-control" type="file" id="filePenilaian" name="filePenilaian">
                                             </div>
                                         </div>
                                     </div>

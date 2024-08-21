@@ -45,7 +45,7 @@
 
     <!-- Gallery JS -->
     <script src="{{ asset('admin_resources/assets/libs/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/js/gallery.js') }}"></script>
+
 
     <!-- Custom JS -->
     <script src="{{ asset('admin_resources/assets/js/custom.js') }}"></script>

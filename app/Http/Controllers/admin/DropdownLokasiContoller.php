@@ -25,9 +25,16 @@ class DropdownLokasiContoller extends Controller
 
         $kecamatan = DB::select('CALL cbo_districts('  . $idK . ')'); 
 
-        dd($kecamatan);
-
         return response()->json($kecamatan);
+    }
+
+    public function kelurahan(Request $request)
+    {
+        $idKl = $request->idKelurahan;
+
+        $kelurahan = DB::select('CALL cbo_subdistricts('  . $idKl . ')'); 
+
+        return response()->json($kelurahan);
     }
 
     

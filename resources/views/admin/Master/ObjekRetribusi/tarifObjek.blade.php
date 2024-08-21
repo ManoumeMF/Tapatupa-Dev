@@ -8,15 +8,15 @@
     $(document).on('click', '.detailBtn', function (e) {
         e.preventDefault();
 
-        var st_id = $(this).val();
+        var tr_id = $(this).val();
 
         $("#detailModal").modal('show');
 
         $.ajax({
             method: "GET",
-            url: "{{ route('Pekerjaan.detail') }}",
+            url: "{{ route('ObjekRetribusi.detailTarif') }}",
             data: {
-                id: st_id
+                idTarif: tr_id
             },
             success: function (response) {
                 //console.log(response);
@@ -28,8 +28,20 @@
                     }).show();
                 } else {
                     //console.log(response.fieldEducation.nama_bidang_pendidikan)
-                    $('#d_nama_pekerjaan').text(response.pekerjaan.namaPekerjaan);
-                    $('#d_keterangan').text(response.pekerjaan.keterangan);
+                    $('#d_kodeObjek').text(response.tarifObjek.kodeObjekRetribusi);
+                    $('#d_namaObjek').text(response.tarifObjek.objekRetribusi);
+                    $('#d_noBangunan').text(response.tarifObjek.noBangunan);
+                    $('#d_jenisObjek').text(response.tarifObjek.jenisObjekRetribusi);
+                    $('#d_lokasiObjek').text(response.tarifObjek.lokasiObjekRetribusi);
+                    $('#d_alamatObjek').text(response.tarifObjek.alamatLengkap);
+                    $('#d_panjangTanah').text(response.tarifObjek.panjangTanah);
+                    $('#d_lebarTanah').text(response.tarifObjek.lebarTanah);
+                    $('#d_luasTanah').text(response.tarifObjek.luasTanah);
+                    $('#d_panjangBangunan').text(response.tarifObjek.panjangBangunan);
+                    $('#d_lebarBangunan').text(response.tarifObjek.lebarBangunan);
+                    $('#d_luasBangunan').text(response.tarifObjek.luasBangunan);
+                    $('#d_jumlahLantai').text(response.tarifObjek.jumlahLantai);
+                    $('#d_kapasitas').text(response.tarifObjek.kapasitas);
                 }
             }
         });
@@ -73,7 +85,8 @@
                     $.each(response.errors, function (key, err_value) {
                         $('.toast-delete-error').append(err_value);
 
-                        const primarytoastDeleteError = document.getElementById('dangerDeleteToast')
+                        const primarytoastDeleteError = document.getElementById(
+                            'dangerDeleteToast')
                         const toast = new bootstrap.Toast(primarytoastDeleteError)
                         toast.show()
                     });
@@ -138,12 +151,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if (isset($tarifRetribusi) && count($tarifRetribusi) > 0)
+                            @foreach ($tarifRetribusi as $tR)
                                 <tr>
-                                    <td>Kode Objek Retribusi</td>
-                                    <td>Objek Retribusi</td>
-                                    <td>No. Banguna</td>
-                                    <td>Jenis Jangka Waktu</td>
-                                    <td>Tarif Objek</td>
+                                    <td>{{ $tR->kodeObjekRetribusi }}</td>
+                                    <td>{{ $tR->objekRetribusi }}</td>
+                                    <td>{{ $tR->noBangunan }}</td>
+                                    <td>{{ $tR->jenisJangkaWaktu }}</td>
+                                    <td>{{ $tR->nominalTarif }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -152,15 +167,16 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <a class="dropdown-item"
-                                                        href=""><i
-                                                            class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
+                                                    <button type="button" value="{{ $tR->idTarifObjekRetribusi }}"
+                                                        class="dropdown-item detailBtn">
+                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
+                                                    </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href=""><i
+                                                        href="{{ route('ObjekRetribusi.edit', $tR->idTarifObjekRetribusi) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
-                                                <li><button type="button" value=""
+                                                <li><button type="button" value="{{ $tR->idTarifObjekRetribusi }}"
                                                         class="dropdown-item deleteBtn">
                                                         <i
                                                             class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
@@ -169,6 +185,8 @@
                                         </div>
                                     </td>
                                 </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -176,6 +194,224 @@
     </div>
 </div>
 <!--End::row-1 -->
+
+<!-- Start:: Detail Tarif Objek-->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalXlLabel">Detail Tarif Objek Retribusi</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="p-4">
+                    <div class="row gx-5">
+                        <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                            <div class="card custom-card shadow-none mb-0 border-0">
+                                <div class="card-body p-0">
+                                    <div class="row gy-3">
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Kode Objek Retribusi</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_kodeObjek"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Nama Objek Retribusi</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_namaObjek"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Nomor Bangunan</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_noBangunan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Jenis Objek Retribusi</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_jenisObjek"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Lokasi Objek Retribusi</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_lokasiObjek"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Alamat Objek Retribusi</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_alamatObjek"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Panjang Tanah (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_panjangTanah"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Lebar Tanah (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_lebarTanah"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Luas Tanah (m<sup>2</sup>)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_luasTanah"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Panjang Bangunan (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_panjangBangunan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Lebar Bangunan (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_lebarBangunan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Luas Bangunan (m<sup>2</sup>)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_luasBangunan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Jumlah Lantai</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_jumlahLantai"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Kapasitas (orang)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_kapasitas"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                            <div class="card custom-card shadow-none mb-0 border-0">
+                                <div class="card-body p-0">
+                                    <div class="row gy-3">
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Panjang Tanah (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Lebar Tanah (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Luas Tanah (m<sup>2</sup>)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Panjang Bangunan (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Lebar Bangunan (m)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Luas Bangunan (m<sup>2</sup>)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Jumlah Lantai</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End::  Detail Tarif Objek -->
 
 <!-- Start:: Delete Pekerjaan-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">

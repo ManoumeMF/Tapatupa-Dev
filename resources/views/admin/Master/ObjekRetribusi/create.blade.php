@@ -91,7 +91,7 @@
         });
 
         //saat pilihan provinsi di pilih, maka akan mengambil data kota menggunakan ajax
-        /*$('#provinsi').on('change', function () {
+        $('#provinsi').on('change', function () {
             var id = $(this).val();
 
             if (id) {
@@ -99,7 +99,6 @@
                     'idProvinsi': id,
                 }
 
-                console.log(data);
                 $.ajax({
                     url: "{{ route('DropdownLokasi.kota') }}",
                     type: "GET",
@@ -108,6 +107,8 @@
                     success: function (data) {
                         if (data) {
                             $('#kota').empty();
+                            //$("#kota>optgroup>option[value='1']").removeAttr('disabled');
+                            $('#kota').prop('disabled', false);
                             //$('#kota').append('<option hidden>Choose Course</option>');
                             $.each(data, function (key, kota) {
                                 $('#kota').append('<option value="' + kota.city_id + '">' + kota.city_name + '</option>');
@@ -131,8 +132,6 @@
                     'idKota': idK,
                 }
 
-                console.log(data);
-
                 $.ajax({
                     url: "{{ route('DropdownLokasi.kecamatan') }}",
                     type: "GET",
@@ -141,7 +140,7 @@
                     success: function (data) {
                         if (data) {
                             $('#distrik').empty();
-                            //$('#kota').append('<option hidden>Choose Course</option>');
+                            $('#distrik').prop('disabled', false);
                             $.each(data, function (key, kecamatan) {
                                 $('#distrik').append('<option value="' + kecamatan.dis_id + '">' + kecamatan.dis_name + '</option>');
                             });
@@ -153,7 +152,38 @@
             } else {
                 $('#distrik').empty();
             }
-        });*/
+        });
+
+        //saat pilihan kecamatan di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#distrik').on('change', function () {
+            var idKel = $(this).val();
+
+            if (idKel) {
+                var data = {
+                    'idKelurahan': idKel,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kelurahan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#kelurahan').empty();
+                            $('#kelurahan').prop('disabled', false);
+                            $.each(data, function (key, kelurahan) {
+                                $('#kelurahan').append('<option value="' + kelurahan.subdis_id + '">' + kelurahan.subdis_name + '</option>');
+                            });
+                        } else {
+                            $('#kelurahan').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#kelurahan').empty();
+            }
+        });
     });
 </script>
 
@@ -266,13 +296,9 @@
                                             <div class="col-xl-6">
                                                 <label for="kabupaten-kota" class="form-label">Kabupaten/Kota</label>
                                                 <select class="kabupaten-kota form-control" name="kabupatenKota"
-                                                    id="kota" required>
+                                                    id="kota" required disabled>
                                                     <option></option>
-                                                    @foreach ($kota as $kT)
-                                                        <option value="{{ $kT->city_id }}">
-                                                            {{ $kT->city_name }}
-                                                        </option>
-                                                    @endforeach
+                                                    
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kabupaten/Kota Tidak Boleh Kosong
@@ -281,13 +307,9 @@
                                             <div class="col-xl-6">
                                                 <label for="kecamatan" class="form-label">Kecamatan</label>
                                                 <select class="kecamatan form-control" name="kecamatan" id="distrik"
-                                                    required>
+                                                    required disabled>
                                                     <option></option>
-                                                    @foreach ($kecamatan as $kC)
-                                                        <option value="{{ $kC->dis_id }}">
-                                                            {{ $kC->dis_name }}
-                                                        </option>
-                                                    @endforeach
+                                                    
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kecamatan Tidak Boleh Kosong
@@ -296,13 +318,10 @@
                                             <div class="col-xl-6">
                                                 <label for="kelurahan-kota" class="form-label">Kelurahan/Desa</label>
                                                 <select class="kelurahan-desa form-control" name="kelurahan"
-                                                    id="kelurahan" required>
+                                                    id="kelurahan" required disabled>
                                                     <option></option>
-                                                    @foreach ($kelurahan as $kL)
-                                                        <option value="{{ $kL->subdis_id }}">
-                                                            {{ $kL->subdis_name }}
-                                                        </option>
-                                                    @endforeach
+                                                    
+                                                    
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kelurahan/Desa Tidak Boleh Kosong
@@ -377,9 +396,9 @@
                                                     placeholder="Masukkan Jumlah lantai" name="jumlahLantai">
                                             </div>
                                             <div class="col-xl-6">
-                                                <label for="jumlah-lantai" class="form-label">Kapasitas</label>
-                                                <input type="text" class="form-control" id="kapasitasi"
-                                                    placeholder="Masukkan Tarif Sewa" name="kapasitasi">
+                                                <label for="kapasitas" class="form-label">Kapasitas (Orang)</label>
+                                                <input type="text" class="form-control" id="kapasitas"
+                                                    placeholder="Masukkan Kapasitas" name="kapasitas">
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
                                                 <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>

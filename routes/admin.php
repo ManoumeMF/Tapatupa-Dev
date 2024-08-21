@@ -93,6 +93,9 @@ Route::delete("/objek-retribusi/hapus", [ObjekRetribusiController::class, 'delet
 // Route untuk Tarif Objek Retribusi
 Route::get("/objek-retribusi/tarif", [ObjekRetribusiController::class, 'tarif'])->name('ObjekRetribusi.tarif');
 Route::get("/objek-retribusi/tambah-tarif", [ObjekRetribusiController::class, 'createTarif'])->name('ObjekRetribusi.createTarif');
+Route::get("/objek-retribusi/detail-objek/", [ObjekRetribusiController::class, 'detailObjekToTarif'])->name('ObjekRetribusi.detailObjekToTarif');
+Route::post("/objek-retribusi/simpan-tarif", [ObjekRetribusiController::class, 'storeTarif'])->name('ObjekRetribusi.storeTarif');
+Route::get("/objek-retribusi/detail-tarif", [ObjekRetribusiController::class, 'detailTarif'])->name('ObjekRetribusi.detailTarif');
 
 // Route untuk Wajib Retribusi
 Route::get("/wajib-retribusi", [WajibRetribusiController::class, 'index'])->name('WajibRetribusi.index');
@@ -250,5 +253,6 @@ Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->
 
 
 //Route untuk DropdownLokasi
-Route::get("/kota", [DropdownLokasiContoller::class, 'index'])->name('DropdownLokasi.kota');
-Route::get("/kecamatan", [DropdownLokasiContoller::class, 'create'])->name('DropdownLokasi.kecamatan');
+Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
+Route::get("/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
+Route::get("/kelurahan", [DropdownLokasiContoller::class, 'kelurahan'])->name('DropdownLokasi.kelurahan');

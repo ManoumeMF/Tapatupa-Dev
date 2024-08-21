@@ -21,6 +21,19 @@
                 content: '<p>HTML Content</p>'
             }
         });
+
+        var lightboxVideo = GLightbox({
+            selector: '.glightbox',
+            width: '500px',
+            height: 'auto'
+
+        });
+        lightboxVideo.on('slide_changed', ({ prev, current }) => {
+            console.log('Prev slide', prev);
+            console.log('Current slide', current);
+
+            const { slideIndex, slideNode, slideConfig, player } = current;
+        });
     });
 
 </script>
@@ -191,41 +204,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Jangka Waktu Sewa</h6>
-                                                    <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $tarifRetribusi->jenisJangkaWaktu }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Tarif Sewa Objek Retribusi</h6>
-                                                    <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $tarifRetribusi->nominalTarif }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Keterangan Tarif Sewa Objek Retribusi</h6>
-                                                    <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $tarifRetribusi->keterangan }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-xl-12 border-top">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill"><br>
                                                     <h6 class="mb-1 fs-13">Gambar Denah Tanah</h6>
-                                                        <a href="{{url('storage/' . $objekRetribusi->gambarDenahTanah)}}"
-                                                            download="{{ $objekRetribusi->objekRetribusi }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-underline">
-                                                            Download Gambar/Dokumen
-                                                        </a>
+                                                    <a href="{{url('storage/' . $objekRetribusi->gambarDenahTanah)}}"
+                                                        download="{{ $objekRetribusi->objekRetribusi }}"
+                                                        class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-underline">
+                                                        Download Gambar/Dokumen
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,15 +224,17 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                            @if (isset($fotoObjek) && count($fotoObjek) > 0)
+                                                @if (isset($fotoObjek) && count($fotoObjek) > 0)
                                                     @foreach ($fotoObjek as $fO)
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                                        <a href="{{url('storage/' . $fO->photoObjekRetribusi)}}" class="glightbox card" data-gallery="gallery1">
-                                                            <img src="{{asset('storage/' . $fO->photoObjekRetribusi) }}" alt="image"/>
-                                                        </a>
-                                                    </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                                            <a href="{{url('storage/' . $fO->photoObjekRetribusi)}}"
+                                                                class="glightbox card" data-gallery="gallery1" data-title="{{ $fO->namaPhotoObjekRetribusi }}" data-width="300px" data-height="auto">
+                                                                <img src="{{asset('storage/' . $fO->photoObjekRetribusi) }}"
+                                                                    alt="image" />
+                                                            </a>
+                                                        </div>
                                                     @endforeach
-                                                    @endif
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
