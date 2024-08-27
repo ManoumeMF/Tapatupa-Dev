@@ -4,6 +4,12 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         /* single select with placeholder */
+        $(".jenis-wajib").select2({
+            placeholder: "Pilih Jenis Wajib Retribusi",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
         $(".pekerjaan").select2({
             placeholder: "Pilih Pekerjaan",
             allowClear: true,
@@ -47,6 +53,135 @@
 
 </script>
 
+<script>
+    $(document).ready(function () {
+        $(".provinsi").select2({
+            placeholder: "Pilih Provinsi",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".kabupaten-kota").select2({
+            placeholder: "Pilih Kabupaten/Kota",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".kecamatan").select2({
+            placeholder: "Pilih Kecamatan",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".kelurahan-desa").select2({
+            placeholder: "Pilih Kelurahan/Desa",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        //saat pilihan provinsi di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#provinsi').on('change', function () {
+            var id = $(this).val();
+
+            if (id) {
+                var data = {
+                    'idProvinsi': id,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kota') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#kota').empty();
+                            //$("#kota>optgroup>option[value='1']").removeAttr('disabled');
+                            $('#kota').prop('disabled', false);
+                            //$('#kota').append('<option hidden>Choose Course</option>');
+                            $.each(data, function (key, kota) {
+                                $('#kota').append('<option value="' + kota.city_id + '">' + kota.city_name + '</option>');
+                            });
+                        } else {
+                            $('#kota').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#kota').empty();
+            }
+        });
+
+        //saat pilihan kota di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#kota').on('change', function () {
+            var idK = $(this).val();
+
+            if (idK) {
+                var data = {
+                    'idKota': idK,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kecamatan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#distrik').empty();
+                            $('#distrik').prop('disabled', false);
+                            $.each(data, function (key, kecamatan) {
+                                $('#distrik').append('<option value="' + kecamatan.dis_id + '">' + kecamatan.dis_name + '</option>');
+                            });
+                        } else {
+                            $('#distrik').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#distrik').empty();
+            }
+        });
+
+        //saat pilihan kecamatan di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#distrik').on('change', function () {
+            var idKel = $(this).val();
+
+            if (idKel) {
+                var data = {
+                    'idKelurahan': idKel,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kelurahan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#kelurahan').empty();
+                            $('#kelurahan').prop('disabled', false);
+                            $.each(data, function (key, kelurahan) {
+                                $('#kelurahan').append('<option value="' + kelurahan.subdis_id + '">' + kelurahan.subdis_name + '</option>');
+                            });
+                        } else {
+                            $('#kelurahan').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#kelurahan').empty();
+            }
+        });
+    });
+</script>
+
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
@@ -83,7 +218,23 @@
                                 <div class="card custom-card shadow-none mb-0 border-0">
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-6">
+                                                <label for="jenis-wajib" class="form-label">Jenis Wajib
+                                                    Retribusi</label>
+                                                <select class="jenis-wajib form-control" id="jenis-wajib"
+                                                    name="jenisWajib" required>
+                                                    <option></option>
+                                                    @foreach ($jenisWajibRetribusi as $jW)
+                                                        <option value="{{ $jW->idJenisWajibRetribusi }}">
+                                                            {{ $jW->namaJenisWajibRetribusi }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Provinsi Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
                                                 <label for="nik" class="form-label">Nomor Induk Kependudukan
                                                     (NIK)</label>
                                                 <input type="text" class="form-control" id="nik"
@@ -117,11 +268,12 @@
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="provinsi" class="form-label">Provinsi</label>
-                                                <select class="provinsi form-control" name="provinsi" required>
+                                                <select class="provinsi form-control" name="provinsi" id="provinsi"
+                                                    required>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
+                                                    @foreach ($province as $pV)
+                                                        <option value="{{ $pV->prov_id }}">
+                                                            {{ $pV->prov_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -132,13 +284,9 @@
                                             <div class="col-xl-6">
                                                 <label for="kabupaten-kota" class="form-label">Kabupaten/Kota</label>
                                                 <select class="kabupaten-kota form-control" name="kabupatenKota"
-                                                    required>
+                                                    id="kota" required disabled>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
-                                                        </option>
-                                                    @endforeach
+
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kabupaten/Kota Tidak Boleh Kosong
@@ -146,13 +294,10 @@
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kecamatan" class="form-label">Kecamatan</label>
-                                                <select class="kecamatan form-control" name="kecamatan" required>
+                                                <select class="kecamatan form-control" name="kecamatan" id="distrik"
+                                                    required disabled>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
-                                                        </option>
-                                                    @endforeach
+
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kecamatan Tidak Boleh Kosong
@@ -160,13 +305,11 @@
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kelurahan-kota" class="form-label">Kelurahan/Desa</label>
-                                                <select class="kelurahan-desa form-control" name="kelurahan" required>
+                                                <select class="kelurahan-desa form-control" name="kelurahan"
+                                                    id="kelurahan" required disabled>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
-                                                        </option>
-                                                    @endforeach
+
+
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kelurahan/Desa Tidak Boleh Kosong
