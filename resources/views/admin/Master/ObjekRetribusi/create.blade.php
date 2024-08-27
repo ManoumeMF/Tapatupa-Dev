@@ -32,9 +32,7 @@
                 'placeholder="Masukkan Nama Foto" required>' +
                 '</td>' +
                 '<td>' +
-                '<input type="file" class="foto-objek" name="fileFoto[]"' +
-                'data-allow-reorder="true" data-max-file-size="5MB"' +
-                'data-max-files="1">' +
+                '<input class="foto-objek form-control" type="file" id="foto-objek" name="fileFoto[]">' +
                 '</td>' +
                 '<td>' +
                 '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
@@ -405,9 +403,7 @@
                                                 <!--<input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah"
                                                     data-allow-reorder="true" data-max-file-size="5MB"
                                                     data-max-files="1">-->
-                                                    <input type="file" class="foto-objek" name="fileGambarDenahTanah"
-                                                    data-allow-reorder="true" data-max-file-size="5MB"
-                                                    data-max-files="1">
+                                                    <input class="foto-objek form-control" type="file" id="foto-objek " name="fileGambarDenahTanah">
                                             </div>
                                             <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
                                             </label>

@@ -3,6 +3,86 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        // jQuery button click event to add Anggota Keluarga row
+        $("#tambahDokumen").on("click", function () {
+
+            // Adding a row inside the tbody.
+            $("#tblDokumen tbody").append('<tr>' +
+                '<td>' +
+                '<select class="jenis-dokumen form-control" name="jenis-dokumen" required>' +
+                '<option></option>' +
+                '@foreach ($dokumenKelengkapan as $dK)' +
+                    '<option value="{{ $dK->idDokumenKelengkapan }}">' +
+                    '{{ $dK->dokumenKelengkapan }}' +
+                    '</option>' +
+                '@endforeach' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input class="form-control" type="file" id="fileDokumen" name="fileDokumen[]">' +
+                '</td>' +
+                '<td>' +
+                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
+                'placeholder="Masukkan Keterangan Dokumen"></textarea>' +
+                '</td>' +
+                '<td  style="text-align: center">' +
+                '<button class="btn btn-sm btn-icon btn-danger-light" type="button" id="delFoto"><i class="ri-delete-bin-5-line"></i></button>' +
+                '</td>' +
+                '</tr>');
+
+            $(".jenis-dokumen").select2({
+                placeholder: "Pilih Dokumen Kelengkapan",
+                allowClear: true,
+                dropdownParent: $("#tblDokumen")
+                //width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            });
+        });
+
+
+
+        $(document).on('click', '#delFoto', function () {
+            $(this).closest('tr').remove();
+            return false;
+        });
+
+        // for product images upload
+        //const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
+        //FilePond.create(MultipleElement1,);
+
+        /* filepond */
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageExifOrientation,
+            FilePondPluginFileValidateSize,
+            FilePondPluginFileEncode,
+            FilePondPluginImageEdit,
+            FilePondPluginFileValidateType,
+            FilePondPluginImageCrop,
+            FilePondPluginImageResize,
+            FilePondPluginImageTransform
+        );
+
+        /* single upload */
+        FilePond.create(
+            document.querySelector('.single-fileupload'),
+            {
+                labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+                imagePreviewHeight: 170,
+                imageCropAspectRatio: '1:1',
+                imageResizeTargetWidth: 200,
+                imageResizeTargetHeight: 200,
+                stylePanelLayout: 'compact circle',
+                styleLoadIndicatorPosition: 'center bottom',
+                styleButtonRemoveItemPosition: 'center bottom'
+            }
+        );
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
         /* single select with placeholder */
         $(".jenis-wajib").select2({
             placeholder: "Pilih Jenis Wajib Retribusi",
@@ -44,45 +124,6 @@
             placeholder: "Pilih Jangka Waktu Sewa",
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        });
-
-        // for product images upload
-        const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
-        FilePond.create(MultipleElement1,);
-    });
-
-</script>
-
-<script>
-    $(document).ready(function () {
-        $(".provinsi").select2({
-            placeholder: "Pilih Provinsi",
-            allowClear: true,
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        });
-
-        $(".kabupaten-kota").select2({
-            placeholder: "Pilih Kabupaten/Kota",
-            allowClear: true,
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        });
-
-        $(".kecamatan").select2({
-            placeholder: "Pilih Kecamatan",
-            allowClear: true,
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        });
-
-        $(".kelurahan-desa").select2({
-            placeholder: "Pilih Kelurahan/Desa",
-            allowClear: true,
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        });
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
         });
 
         //saat pilihan provinsi di pilih, maka akan mengambil data kota menggunakan ajax
@@ -345,11 +386,11 @@
                                                 <input type="text" class="form-control" id="email" name="email"
                                                     placeholder="Masukkan email">
                                             </div>
-                                            <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Product Images :</p>
-                                                <input type="file" class="foto-wajib-retribusi" name="filepond" multiple
-                                                    data-allow-reorder="true" data-max-file-size="3MB"
-                                                    data-max-files="6">
+                                            <div class="col-xl-4 product-documents-container">
+                                                <label for="wmail" class="form-label">Upload Foto Wajib
+                                                    Retribusi</label>
+                                                <input type="file" class="single-fileupload" name="fileWajibRetribusi"
+                                                    accept="image/png, image/jpeg, image/gif">
                                             </div>
                                         </div>
                                     </div>

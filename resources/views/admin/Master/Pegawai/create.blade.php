@@ -15,7 +15,7 @@
             width: '100%',
         });
 
-        $('#provinsi').change(function() {
+        $('#provinsi').change(function () {
             var prov_id = $(this).val();
             $('#kota').prop('disabled', true);
             $('#kecamatan').prop('disabled', true);
@@ -25,9 +25,9 @@
                 $.ajax({
                     url: '/api/cities/' + prov_id,
                     type: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         var options = '<option></option>';
-                        $.each(data.cities, function(index, city) {
+                        $.each(data.cities, function (index, city) {
                             options += '<option value="' + city.id + '">' + city.name + '</option>';
                         });
                         $('#kota').html(options).prop('disabled', false);
@@ -40,7 +40,7 @@
             }
         });
 
-        $('#kota').change(function() {
+        $('#kota').change(function () {
             var city_id = $(this).val();
             $('#kecamatan').prop('disabled', true);
             $('#kelurahan').prop('disabled', true);
@@ -49,9 +49,9 @@
                 $.ajax({
                     url: '/api/districts/' + city_id,
                     type: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         var options = '<option></option>';
-                        $.each(data.districts, function(index, district) {
+                        $.each(data.districts, function (index, district) {
                             options += '<option value="' + district.id + '">' + district.name + '</option>';
                         });
                         $('#kecamatan').html(options).prop('disabled', false);
@@ -63,16 +63,16 @@
             }
         });
 
-        $('#kecamatan').change(function() {
+        $('#kecamatan').change(function () {
             var dis_id = $(this).val();
 
             if (dis_id) {
                 $.ajax({
                     url: '/api/subdistricts/' + dis_id,
                     type: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         var options = '<option></option>';
-                        $.each(data.subdistricts, function(index, subdistrict) {
+                        $.each(data.subdistricts, function (index, subdistrict) {
                             options += '<option value="' + subdistrict.id + '">' + subdistrict.name + '</option>';
                         });
                         $('#kelurahan').html(options).prop('disabled', false);
@@ -82,6 +82,34 @@
                 $('#kelurahan').html('<option></option>').prop('disabled', true);
             }
         });
+
+        /* filepond */
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageExifOrientation,
+            FilePondPluginFileValidateSize,
+            FilePondPluginFileEncode,
+            FilePondPluginImageEdit,
+            FilePondPluginFileValidateType,
+            FilePondPluginImageCrop,
+            FilePondPluginImageResize,
+            FilePondPluginImageTransform
+        );
+
+        /* single upload */
+        FilePond.create(
+            document.querySelector('.single-fileupload'),
+            {
+                labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+                imagePreviewHeight: 170,
+                imageCropAspectRatio: '1:1',
+                imageResizeTargetWidth: 200,
+                imageResizeTargetHeight: 200,
+                stylePanelLayout: 'compact circle',
+                styleLoadIndicatorPosition: 'center bottom',
+                styleButtonRemoveItemPosition: 'center bottom'
+            }
+        );
     });
 </script>
 
@@ -113,161 +141,150 @@
                         Tambah Pegawai
                     </div>
                 </div>
-                <div class="card-body">
-                    <!-- NIP -->
-                    <div class="mb-3">
-                        <label for="nip" class="form-label">NIP</label>
-                        <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP" required>
-                        <div class="invalid-feedback">
-                            NIP Tidak Boleh Kosong
+                <div class="card-body tambah-wajib-retribusi p-0">
+                    <div class="p-4">
+                        <div class="row gx-5">
+                            <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                                <div class="card custom-card shadow-none mb-0 border-0">
+                                    <div class="card-body p-0">
+                                        <div class="row gy-3">
+                                            <div class="col-xl-12">
+                                                <label for="nip" class="form-label">NIP</label>
+                                                <input type="text" class="form-control" id="nip" name="nip"
+                                                    placeholder="Masukkan NIP" required>
+                                                <div class="invalid-feedback">
+                                                    NIP Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <label for="namaPegawai" class="form-label">Nama Pegawai</label>
+                                                <input type="text" class="form-control" id="namaPegawai"
+                                                    name="namaPegawai" placeholder="Masukkan Nama Pegawai" required>
+                                                <div class="invalid-feedback">
+                                                    Nama Pegawai Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="jabatanBidang" class="form-label">Jabatan Bidang</label>
+                                                <select class="js-example-placeholder-single form-control"
+                                                    id="jabatanBidang" name="jabatanBidang" required>
+                                                    <option></option>
+                                                    @foreach ($jabatanBidang as $sT)
+                                                        <option value="{{ $sT->idJabatanBidang }}">
+                                                            {{ $sT->namaJabatanBidang }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Jabatan Bidang Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="golongan" class="form-label">Golongan</label>
+                                                <input type="text" class="form-control" id="golongan" name="golongan"
+                                                    placeholder="Masukkan Golongan" required>
+                                                <div class="invalid-feedback">
+                                                    Golongan Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="provinsi" class="form-label">Provinsi</label>
+                                                <select class="provinsi form-control" name="provinsi" id="provinsi"
+                                                    required>
+                                                    <option></option>
+                                                    @foreach ($province as $pV)
+                                                        <option value="{{ $pV->prov_id }}">
+                                                            {{ $pV->prov_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Provinsi Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="kabupaten-kota" class="form-label">Kabupaten/Kota</label>
+                                                <select class="kabupaten-kota form-control" name="kabupatenKota"
+                                                    id="kota" required disabled>
+                                                    <option></option>
+
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Kabupaten/Kota Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="kecamatan" class="form-label">Kecamatan</label>
+                                                <select class="kecamatan form-control" name="kecamatan" id="distrik"
+                                                    required disabled>
+                                                    <option></option>
+
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Kecamatan Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="kelurahan-kota" class="form-label">Kelurahan/Desa</label>
+                                                <select class="kelurahan-desa form-control" name="kelurahan"
+                                                    id="kelurahan" required disabled>
+                                                    <option></option>
+
+
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Kelurahan/Desa Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <label for="alamat-wajib-retribusi" class="form-label">Alamat Wajib
+                                                    Retribusi</label>
+                                                <textarea class="form-control" id="alamat-wajib" rows="2" name="alamat"
+                                                    placeholder="Masukkan Alamat Detail (Cth: Jalan, Blok, Nomor Rumah, dll)"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                                <div class="card custom-card shadow-none mb-0 border-0">
+                                    <div class="card-body p-0">
+                                        <div class="row gy-3">
+                                            <div class="col-xl-6">
+                                                <label for="nomorPonsel" class="form-label">Nomor Ponsel</label>
+                                                <input type="text" class="form-control" id="nomorPonsel"
+                                                    name="nomorPonsel" placeholder="Masukkan Nomor Ponsel" required>
+                                                <div class="invalid-feedback">
+                                                    Nomor Ponsel Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="nomorWhatsapp" class="form-label">Nomor Whatsapp</label>
+                                                <input type="text" class="form-control" id="nomorWhatsapp"
+                                                    name="nomorWhatsapp" placeholder="Masukkan Nomor Whatsapp" required>
+                                                <div class="invalid-feedback">
+                                                    Nomor Whatsapp Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 product-documents-container">
+                                                <label for="wmail" class="form-label">Upload Foto Wajib
+                                                    Retribusi</label>
+                                                <input type="file" class="single-fileupload" name="fileWajibRetribusi"
+                                                    accept="image/png, image/jpeg, image/gif">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Nama Pegawai -->
-                    <div class="mb-3">
-                        <label for="namaPegawai" class="form-label">Nama Pegawai</label>
-                        <input type="text" class="form-control" id="namaPegawai" name="namaPegawai" placeholder="Masukkan Nama Pegawai" required>
-                        <div class="invalid-feedback">
-                            Nama Pegawai Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Golongan -->
-                    <div class="mb-3">
-                        <label for="golongan" class="form-label">Golongan</label>
-                        <input type="text" class="form-control" id="golongan" name="golongan" placeholder="Masukkan Golongan" required>
-                        <div class="invalid-feedback">
-                            Golongan Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Jabatan Bidang -->
-                    <div class="mb-3">
-                        <label for="jabatanBidang" class="form-label">Jabatan Bidang</label>
-                        <div class="input-group">
-                            <select class="js-example-placeholder-single form-control" id="jabatanBidang" name="jabatanBidang" required>
-                                <option></option>
-                                @foreach ($jabatanBidang as $sT)
-                                    <option value="{{ $sT->idJabatanBidang }}">{{ $sT->namaJabatanBidang }}</option>
-                                @endforeach
-                            </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
-                        <div class="invalid-feedback">
-                            Jabatan Bidang Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Provinsi -->
-                    <div class="mb-3">
-                        <label for="provinsi" class="form-label">Provinsi</label>
-                        <div class="input-group">
-                            <select class="js-example-placeholder-single-region form-control" id="provinsi" name="provinsi" required>
-                                <option></option>
-                                @foreach ($provinsi as $sT)
-                                    <option value="{{ $sT->prov_id }}">{{ $sT->prov_name }}</option>
-                                @endforeach
-                            </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
-                        <div class="invalid-feedback">
-                            Provinsi Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Kota -->
-                    <div class="mb-3">
-                        <label for="kota" class="form-label">Kota/Kabupaten</label>
-                        <div class="input-group">
-                            <select class="form-control" id="kota" name="kota" required disabled>
-                                <option></option>
-                            </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
-                        <div class="invalid-feedback">
-                            Kota/Kabupaten Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Kecamatan -->
-                    <div class="mb-3">
-                        <label for="kecamatan" class="form-label">Kecamatan</label>
-                        <div class="input-group">
-                            <select class="form-control" id="kecamatan" name="kecamatan" required disabled>
-                                <option></option>
-                            </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
-                        <div class="invalid-feedback">
-                            Kecamatan Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Kelurahan -->
-                    <div class="mb-3">
-                        <label for="kelurahan" class="form-label">Kelurahan</label>
-                        <div class="input-group">
-                            <select class="form-control" id="kelurahan" name="kelurahan" required disabled>
-                                <option></option>
-                            </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
-                        <div class="invalid-feedback">
-                            Kelurahan Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Alamat Detail -->
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat Detail</label>
-                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat Detail (Cth: Jalan, Blok, Nomor Rumah, dll)" required>
-                        <div class="invalid-feedback">
-                            Alamat Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Nomor Ponsel -->
-                    <div class="mb-3">
-                        <label for="nomorPonsel" class="form-label">Nomor Ponsel</label>
-                        <input type="text" class="form-control" id="nomorPonsel" name="nomorPonsel" placeholder="Masukkan Nomor Ponsel" required>
-                        <div class="invalid-feedback">
-                            Nomor Ponsel Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- Nomor Whatsapp -->
-                    <div class="mb-3">
-                        <label for="nomorWhatsapp" class="form-label">Nomor Whatsapp</label>
-                        <input type="text" class="form-control" id="nomorWhatsapp" name="nomorWhatsapp" placeholder="Masukkan Nomor Whatsapp" required>
-                        <div class="invalid-feedback">
-                            Nomor Whatsapp Tidak Boleh Kosong
-                        </div>
-                    </div>
-
-                    <!-- File Foto -->
-                    <div class="mb-3">
-                        <label for="fileFoto" class="form-label">File Foto</label>
-                        <input type="file" class="form-control" id="fileFoto" name="fileFoto" required>
-                        <div class="invalid-feedback">
-                            File Foto Tidak Boleh Kosong
-                        </div>
+                    <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
+                        <button class="btn btn-danger m-1" type="reset">Batal<i
+                                class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
+                        <button class="btn btn-primary m-1" type="submit">Simpan <i
+                                class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
                     </div>
                 </div>
-                <div class="card-footer text-end">
-                    <button class="btn btn-danger m-1" type="reset">Batal<i class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
-                    <button class="btn btn-primary m-1" type="submit">Simpan <i class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
-                </div>
-            </div>
         </form>
     </div>
 </div>

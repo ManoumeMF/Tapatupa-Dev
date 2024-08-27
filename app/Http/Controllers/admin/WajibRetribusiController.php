@@ -26,7 +26,7 @@ class WajibRetribusiController extends Controller
         $jenisWajibRetribusi = DB::select('CALL cbo_JenisWajibRetribusi()'); 
         $province = DB::select('CALL cbo_province()');
 
-        return view('admin.Master.WajibRetribusi.create', compact('perkerjaan', 'jenisWajibRetribusi', 'province'));
+        return view('admin.Master.WajibRetribusi.create', compact('perkerjaan', 'jenisWajibRetribusi', 'province', 'dokumenKelengkapan'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }

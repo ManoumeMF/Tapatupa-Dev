@@ -33,12 +33,56 @@
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
-
-        // for product images upload
-        const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
-        FilePond.create(MultipleElement1,);
     });
 
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // jQuery button click event to add Anggota Keluarga row
+        $("#tambahDokumen").on("click", function () {
+
+            // Adding a row inside the tbody.
+            $("#tblDokumen tbody").append('<tr>' +
+                '<td>' +
+                '<select class="jenis-dokumen form-control" name="jenis-dokumen" required>' +
+                '<option></option>' +
+                '@foreach ($dokumenKelengkapan as $dK)' +
+                    '<option value="{{ $dK->idDokumenKelengkapan }}">' +
+                    '{{ $dK->dokumenKelengkapan }}' +
+                    '</option>' +
+                '@endforeach' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input class="form-control" type="file" id="fileDokumen" name="fileDokumen[]">' +
+                '</td>' +
+                '<td>' +
+                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
+                'placeholder="Masukkan Keterangan Dokumen"></textarea>' +
+                '</td>' +
+                '<td  style="text-align: center">' +
+                '<button class="btn btn-sm btn-icon btn-danger-light" type="button" id="delFoto"><i class="ri-delete-bin-5-line"></i></button>' +
+                '</td>' +
+                '</tr>');
+
+            $(".jenis-dokumen").select2({
+                placeholder: "Pilih Dokumen Kelengkapan",
+                allowClear: true,
+                dropdownParent: $("#tblDokumen")
+                //width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            });
+        });
+
+
+
+        $(document).on('click', '#delFoto', function () {
+            $(this).closest('tr').remove();
+            return false;
+        });
+
+    });
 </script>
 
 <!-- Page Header -->
@@ -172,6 +216,30 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="px-4 py-3 border-top">
+                        <div class="d-sm-flex justify-content-end">
+                            <button class="btn btn-primary m-1" id="tambahDokumen" type="button"><span
+                                    class="bi bi-plus-circle align-middle me-1 fw-medium"></span>
+                                Tambah Dokumen Kelengkapan
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table text-nowrap table-hover" id="tblDokumen">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Dokumen Kelengkapan</th>
+                                        <th>File Dokumen</th>
+                                        <th>Keterangan</th>
+                                        <th width="20px">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                     <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
                         <button class="btn btn-danger m-1" type="reset">Batal<i

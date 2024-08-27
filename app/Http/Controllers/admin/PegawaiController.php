@@ -20,9 +20,9 @@ class PegawaiController extends Controller
     public function create()
     {
         $jabatanBidang = DB::select('CALL cbo_jabatanBidang()');  
-        $provinsi = DB::select('CALL cbo_province()');
+        $province = DB::select('CALL cbo_province()');
 
-        return view('admin.Master.Pegawai.create', compact('jabatanBidang', 'provinsi'));
+        return view('admin.Master.Pegawai.create', compact('jabatanBidang', 'province'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
