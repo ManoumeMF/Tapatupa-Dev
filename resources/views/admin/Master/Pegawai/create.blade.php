@@ -4,86 +4,138 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        $(".js-example-placeholder-single").select2({
-            placeholder: "Pilih Jabatan Bidang...",
-            allowClear: true,
-            width: '100%',
-        });
-        $(".js-example-placeholder-single-region").select2({
-            placeholder: "Pilih Region...",
+        $("#jabatanBidang").select2({
+            placeholder: "Pilih Jabatan Bidang",
             allowClear: true,
             width: '100%',
         });
 
-        $('#provinsi').change(function () {
-            var prov_id = $(this).val();
-            $('#kota').prop('disabled', true);
-            $('#kecamatan').prop('disabled', true);
-            $('#kelurahan').prop('disabled', true);
+        $("#golonganPangkat").select2({
+            placeholder: "Pilih Golongan Pangkat",
+            allowClear: true,
+            width: '100%',
+        });
 
-            if (prov_id) {
+        $("#provinsi").select2({
+            placeholder: "Pilih Provinsi",
+            allowClear: true,
+            width: '100%',
+        });
+
+        $(".kabupaten-kota").select2({
+            placeholder: "Pilih Kabupaten/Kota",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".kecamatan").select2({
+            placeholder: "Pilih Kecamatan",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".kelurahan-desa").select2({
+            placeholder: "Pilih Kelurahan/Desa",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        //saat pilihan provinsi di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#provinsi').on('change', function () {
+            var id = $(this).val();
+
+            if (id) {
+                var data = {
+                    'idProvinsi': id,
+                }
+
                 $.ajax({
-                    url: '/api/cities/' + prov_id,
-                    type: 'GET',
+                    url: "{{ route('DropdownLokasi.kota') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
                     success: function (data) {
-                        var options = '<option></option>';
-                        $.each(data.cities, function (index, city) {
-                            options += '<option value="' + city.id + '">' + city.name + '</option>';
-                        });
-                        $('#kota').html(options).prop('disabled', false);
+                        if (data) {
+                            $('#kota').empty();
+                            //$("#kota>optgroup>option[value='1']").removeAttr('disabled');
+                            $('#kota').prop('disabled', false);
+                            //$('#kota').append('<option hidden>Choose Course</option>');
+                            $.each(data, function (key, kota) {
+                                $('#kota').append('<option value="' + kota.city_id + '">' + kota.city_name + '</option>');
+                            });
+                        } else {
+                            $('#kota').empty();
+                        }
                     }
                 });
             } else {
-                $('#kota').html('<option></option>').prop('disabled', true);
-                $('#kecamatan').html('<option></option>').prop('disabled', true);
-                $('#kelurahan').html('<option></option>').prop('disabled', true);
+                $('#kota').empty();
             }
         });
 
-        $('#kota').change(function () {
-            var city_id = $(this).val();
-            $('#kecamatan').prop('disabled', true);
-            $('#kelurahan').prop('disabled', true);
+        //saat pilihan kota di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#kota').on('change', function () {
+            var idK = $(this).val();
 
-            if (city_id) {
+            if (idK) {
+                var data = {
+                    'idKota': idK,
+                }
+
                 $.ajax({
-                    url: '/api/districts/' + city_id,
-                    type: 'GET',
+                    url: "{{ route('DropdownLokasi.kecamatan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
                     success: function (data) {
-                        var options = '<option></option>';
-                        $.each(data.districts, function (index, district) {
-                            options += '<option value="' + district.id + '">' + district.name + '</option>';
-                        });
-                        $('#kecamatan').html(options).prop('disabled', false);
+                        if (data) {
+                            $('#distrik').empty();
+                            $('#distrik').prop('disabled', false);
+                            $.each(data, function (key, kecamatan) {
+                                $('#distrik').append('<option value="' + kecamatan.dis_id + '">' + kecamatan.dis_name + '</option>');
+                            });
+                        } else {
+                            $('#distrik').empty();
+                        }
                     }
                 });
             } else {
-                $('#kecamatan').html('<option></option>').prop('disabled', true);
-                $('#kelurahan').html('<option></option>').prop('disabled', true);
+                $('#distrik').empty();
             }
         });
 
-        $('#kecamatan').change(function () {
-            var dis_id = $(this).val();
+        //saat pilihan kecamatan di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#distrik').on('change', function () {
+            var idKel = $(this).val();
 
-            if (dis_id) {
+            if (idKel) {
+                var data = {
+                    'idKelurahan': idKel,
+                }
+
                 $.ajax({
-                    url: '/api/subdistricts/' + dis_id,
-                    type: 'GET',
+                    url: "{{ route('DropdownLokasi.kelurahan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
                     success: function (data) {
-                        var options = '<option></option>';
-                        $.each(data.subdistricts, function (index, subdistrict) {
-                            options += '<option value="' + subdistrict.id + '">' + subdistrict.name + '</option>';
-                        });
-                        $('#kelurahan').html(options).prop('disabled', false);
+                        if (data) {
+                            $('#kelurahan').empty();
+                            $('#kelurahan').prop('disabled', false);
+                            $.each(data, function (key, kelurahan) {
+                                $('#kelurahan').append('<option value="' + kelurahan.subdis_id + '">' + kelurahan.subdis_name + '</option>');
+                            });
+                        } else {
+                            $('#kelurahan').empty();
+                        }
                     }
                 });
             } else {
-                $('#kelurahan').html('<option></option>').prop('disabled', true);
+                $('#kelurahan').empty();
             }
         });
 
-        /* filepond */
+        /* filepond 
         FilePond.registerPlugin(
             FilePondPluginImagePreview,
             FilePondPluginImageExifOrientation,
@@ -96,7 +148,7 @@
             FilePondPluginImageTransform
         );
 
-        /* single upload */
+        /* single upload 
         FilePond.create(
             document.querySelector('.single-fileupload'),
             {
@@ -109,7 +161,7 @@
                 styleLoadIndicatorPosition: 'center bottom',
                 styleButtonRemoveItemPosition: 'center bottom'
             }
-        );
+        );*/
     });
 </script>
 
@@ -133,7 +185,7 @@
 <!-- Start:: row-1 -->
 <div class="row">
     <div class="col-xl-12">
-        <form class="row g-3 needs-validation" action="{{ route('Pegawai.store') }}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{ route('Pegawai.store') }}" method="post" enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -148,7 +200,7 @@
                                 <div class="card custom-card shadow-none mb-0 border-0">
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
                                                 <label for="nip" class="form-label">NIP</label>
                                                 <input type="text" class="form-control" id="nip" name="nip"
                                                     placeholder="Masukkan NIP" required>
@@ -156,7 +208,7 @@
                                                     NIP Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-8">
                                                 <label for="namaPegawai" class="form-label">Nama Pegawai</label>
                                                 <input type="text" class="form-control" id="namaPegawai"
                                                     name="namaPegawai" placeholder="Masukkan Nama Pegawai" required>
@@ -181,8 +233,15 @@
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="golongan" class="form-label">Golongan</label>
-                                                <input type="text" class="form-control" id="golongan" name="golongan"
-                                                    placeholder="Masukkan Golongan" required>
+                                                <select class="js-example-placeholder-single form-control"
+                                                    id="golonganPangkat" name="golongan" required>
+                                                    <option></option>
+                                                    @foreach ($golonganPangkat as $gP)
+                                                        <option value="{{ $gP->idGolonganPangkat }}">
+                                                            {{ $gP->golongan }} - {{ $gP->pangkat }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 <div class="invalid-feedback">
                                                     Golongan Tidak Boleh Kosong
                                                 </div>
@@ -237,9 +296,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
-                                                <label for="alamat-wajib-retribusi" class="form-label">Alamat Wajib
-                                                    Retribusi</label>
-                                                <textarea class="form-control" id="alamat-wajib" rows="2" name="alamat"
+                                                <label for="alamat-pegawai" class="form-label">Alamat Pegawai</label>
+                                                <textarea class="form-control" id="alamat-wajib" rows="3" name="alamat"
                                                     placeholder="Masukkan Alamat Detail (Cth: Jalan, Blok, Nomor Rumah, dll)"></textarea>
                                             </div>
                                         </div>
@@ -266,11 +324,9 @@
                                                     Nomor Whatsapp Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 product-documents-container">
-                                                <label for="wmail" class="form-label">Upload Foto Wajib
-                                                    Retribusi</label>
-                                                <input type="file" class="single-fileupload" name="fileWajibRetribusi"
-                                                    accept="image/png, image/jpeg, image/gif">
+                                            <div class="col-xl-12">
+                                                <label for="file-foto" class="form-label">Upload Foto Pegawai</label>
+                                                <input type="file" class="foto-pegawai form-control" name="photoPegawai" accept="image/png, image/jpeg, image/gif">
                                             </div>
                                         </div>
                                     </div>

@@ -50,7 +50,7 @@
         //const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
         //FilePond.create(MultipleElement1,);
 
-        /* filepond */
+        /* filepond 
         FilePond.registerPlugin(
             FilePondPluginImagePreview,
             FilePondPluginImageExifOrientation,
@@ -63,7 +63,7 @@
             FilePondPluginImageTransform
         );
 
-        /* single upload */
+        /* single upload 
         FilePond.create(
             document.querySelector('.single-fileupload'),
             {
@@ -76,7 +76,7 @@
                 styleLoadIndicatorPosition: 'center bottom',
                 styleButtonRemoveItemPosition: 'center bottom'
             }
-        );
+        );*/
     });
 
 </script>
@@ -244,7 +244,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post" enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -272,13 +272,13 @@
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Provinsi Tidak Boleh Kosong
+                                                    Jenis Wajib Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="nik" class="form-label">Nomor Induk Kependudukan
                                                     (NIK)</label>
-                                                <input type="text" class="form-control" id="nik"
+                                                <input type="text" class="form-control" id="nik" name="nik"
                                                     placeholder="Masukkan Nomor Induk Kependudukan (NIK)" required>
                                                 <div class="invalid-feedback">
                                                     Nomor Induk Kependudukan (NIK) Tidak Boleh Kosong
@@ -287,7 +287,7 @@
                                             <div class="col-xl-12">
                                                 <label for="nama-wajib-retribusi" class="form-label">Nama Wajib
                                                     Retribusi</label>
-                                                <input type="text" class="form-control" id="nik" name="nik"
+                                                <input type="text" class="form-control" id="nama-wajib-retribusi" name="namaWajibRetribusi"
                                                     placeholder="Masukkan Nama Wajib Retribusi Sesuai KTP" required>
                                                 <div class="invalid-feedback">
                                                     Nama Wajib Retribusi Tidak Boleh Kosong
@@ -386,11 +386,10 @@
                                                 <input type="text" class="form-control" id="email" name="email"
                                                     placeholder="Masukkan email">
                                             </div>
-                                            <div class="col-xl-4 product-documents-container">
+                                            <div class="col-xl-12">
                                                 <label for="wmail" class="form-label">Upload Foto Wajib
                                                     Retribusi</label>
-                                                <input type="file" class="single-fileupload" name="fileWajibRetribusi"
-                                                    accept="image/png, image/jpeg, image/gif">
+                                                <input type="file" class="foto-wajib-retribusi form-control" name="photoWajibRetribusi" accept="image/png, image/jpeg, image/gif">
                                             </div>
                                         </div>
                                     </div>

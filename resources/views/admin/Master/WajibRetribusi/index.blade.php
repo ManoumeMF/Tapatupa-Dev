@@ -8,15 +8,15 @@
     $(document).on('click', '.detailBtn', function (e) {
         e.preventDefault();
 
-        var st_id = $(this).val();
+        var wr_id = $(this).val();
 
         $("#detailModal").modal('show');
 
         $.ajax({
             method: "GET",
-            url: "{{ route('Pekerjaan.detail') }}",
+            url: "{{ route('WajibRetribusi.detail') }}",
             data: {
-                id: st_id
+                idWajib: wr_id
             },
             success: function (response) {
                 //console.log(response);
@@ -27,9 +27,17 @@
                         modal: true
                     }).show();
                 } else {
-                    //console.log(response.fieldEducation.nama_bidang_pendidikan)
-                    $('#d_nama_pekerjaan').text(response.pekerjaan.namaPekerjaan);
-                    $('#d_keterangan').text(response.pekerjaan.keterangan);
+                    var photo = {!! json_encode(url('storage/')) !!};
+                    //console.log(photo)
+                    $('#d_fotoWajib').attr("src", photo + "/" + response.wajibRetribusi.fotoWajibRetribusi);
+                    $('#d_namaWajib').text(response.wajibRetribusi.namaWajibRetribusi);
+                    $('#d_jenisWajib').text(response.wajibRetribusi.namaJenisWajibRetribusi);
+                    $('#d_nik').text("NIK: " + response.wajibRetribusi.nik);
+                    $('#d_pekerjaan').text(response.wajibRetribusi.namaPekerjaan);
+                    $('#d_alamat').text(response.wajibRetribusi.alamatLengkap);
+                    $('#d_nomorPonsel').text(response.wajibRetribusi.nomorPonsel);
+                    $('#d_nomorWA').text(response.wajibRetribusi.nomorWhatsapp);
+                    $('#d_email').text(response.wajibRetribusi.email);
                 }
             }
         });
@@ -126,7 +134,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
+                <table id="responsivemodal-DataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
                             <th>Wajib Retribusi</th>
@@ -143,12 +151,13 @@
                                     <td>
                                         <div class="d-flex">
                                             <span class="avatar avatar-md avatar-square bg-light"><img
-                                                    src="../assets/images/ecommerce/png/30.png" class="w-100 h-100"
+                                                    src="{{url('storage/' . $wR->fotoWajibRetribusi)}}" class="w-100 h-100"
                                                     alt="..."></span>
                                             <div class="ms-2">
-                                                <p class="fw-semibold mb-0 d-flex align-items-center"><a
-                                                        href="javascript:void(0);">{{ $wR->namaWajibRetribusi }}</a></p>
-                                                <p class="fs-12 text-muted mb-0">{{ $wR->nik }}</p>
+                                                <p class="fw-semibold mb-0 d-flex align-items-center">
+                                                    {{ $wR->namaWajibRetribusi }}
+                                                </p>
+                                                <p class="fs-12 text-muted mb-0">NIK: {{ $wR->nik }}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -163,9 +172,10 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('ObjekRetribusi.detail', $wR->idWajibRetribusi) }}"><i
-                                                            class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
+                                                    <button type="button" value="{{ $wR->idWajibRetribusi }}"
+                                                        class="dropdown-item detailBtn">
+                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
+                                                    </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
                                                         href="{{ route('Pekerjaan.edit', $wR->idWajibRetribusi) }}"><i
@@ -189,6 +199,101 @@
     </div>
 </div>
 <!--End::row-1 -->
+
+<!-- Start:: Detail Wajib Retribusi-->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalXlLabel">Detail Wajib Retribusi</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="p-4">
+                    <div class="row gx-5">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6">
+                            <div class="card custom-card shadow-none mb-0 border-0">
+                                <div class="card-body p-0">
+                                    <div class="row gy-3">
+                                        <div class="col-xl-12">
+                                            <div class="d-flex align-items-center flex-wrap gap-3">
+                                                <div>
+                                                    <span class="avatar avatar-xxl avatar-rounded p-1 bg-light">
+                                                        <img src="" alt="" id="d_fotoWajib">
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span class="fw-medium d-block mb-2" id="d_namaWajib"></span>
+                                                    <span class="d-block fs-12 text-muted" id="d_nik"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Jenis wajib Retribusi</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_jenisWajib"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Pekerjaan</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_pekerjaan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Alamat Lengkap</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_alamat"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Nomor Ponsel</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_nomorPonsel"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Nomor WhatsApp</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_nomorWA"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Email</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_email"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End::  Detail Tarif Objek -->
 
 <!-- Start:: Delete Pekerjaan-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">

@@ -2,23 +2,23 @@
 @section('content')
 <script>
     //-------------------------------------------------------------------------------------------------
-    // Ajax Form Detail Data
+    //Ajax Form Detail Data
     //-------------------------------------------------------------------------------------------------
-        $(document).on('click', '.detailBtn', function (e) {
+    $(document).on('click', '.detailBtn', function (e) {
         e.preventDefault();
 
-        var st_id = $(this).val();
-        console.log("ID Jangka Waktu Sewa: ", st_id); // Tambahkan ini untuk debugging
+        var pg_id = $(this).val();
 
         $("#detailModal").modal('show');
 
         $.ajax({
             method: "GET",
-            url: "{{ route('DokumenKelengkapan.detail') }}",
+            url: "{{ route('Pegawai.detail') }}",
             data: {
-                id: st_id
+                idPegawai: pg_id
             },
             success: function (response) {
+                //console.log(response);
                 if (response.status == 404) {
                     new Noty({
                         text: response.message,
@@ -26,18 +26,19 @@
                         modal: true
                     }).show();
                 } else {
-                    $('#d_jenis_dokumen').text(response.dataDokumenKelengkapan.jenisDokumen);  // Perbaiki penanganan respons
-                    $('#d_dokumen_kelengkapan').text(response.dataDokumenKelengkapan.dokumenKelengkapan);
-                    $('#d_keterangan').text(response.dataDokumenKelengkapan.keterangan);
+                    var photo = {!! json_encode(url('storage/')) !!};
+                    //console.log(photo)
+                    $('#d_fotoPegawai').attr("src", photo + "/" + response.pegawai.fileFoto);
+                    $('#d_namaPegawai').text(response.pegawai.namaPegawai);
+                    $('#d_jabatan').text(response.pegawai.namaJabatanBidang);
+                    $('#d_bidang').text(response.pegawai.namaBidang);
+                    $('#d_dinas').text(response.pegawai.namaDepartmen);
+                    $('#d_nip').text("NIK: " + response.pegawai.nip);
+                    $('#d_golongan').text(response.pegawai.golonganPangkat);
+                    $('#d_alamat').text(response.pegawai.alamatLengkap);
+                    $('#d_nomorPonsel').text(response.pegawai.nomorPonsel);
+                    $('#d_nomorWA').text(response.pegawai.nomorWhatsapp);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error("AJAX error:", status, error);
-                new Noty({
-                    text: 'Terjadi kesalahan saat mengambil data.',
-                    type: 'error',
-                    modal: true
-                }).show();
             }
         });
     });
@@ -93,8 +94,8 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout(function() {
-                        window.location='{{ route('DokumenKelengkapan.index') }}';
+                    setTimeout(function () {
+                        window.location = '{{ route('DokumenKelengkapan.index') }}';
                     }, 2500);
                 }
             }
@@ -110,7 +111,8 @@
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Master</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dokumen Kelengkapan</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pegawai</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Daftar Pegawai</li>
                 </ol>
             </nav>
         </div>
@@ -148,19 +150,19 @@
                         @if (isset($pegawai) && count($pegawai) > 0)
                             @foreach ($pegawai as $pg)
                                 <tr>
-                                <td>
+                                    <td>
                                         <div class="d-flex">
                                             <span class="avatar avatar-md avatar-square bg-light"><img
-                                                    src="../assets/images/ecommerce/png/30.png" class="w-100 h-100"
+                                                    src="{{url('storage/' . $pg->fileFoto)}}" class="w-100 h-100"
                                                     alt="..."></span>
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center"><a
                                                         href="javascript:void(0);">{{ $pg->namaPegawai }}</a></p>
-                                                <p class="fs-12 text-muted mb-0">{{ $pg->nip }}</p>
+                                                <p class="fs-12 text-muted mb-0">NIP: {{ $pg->nip }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $pg->golongan }}</td>
+                                    <td>{{ $pg->golonganPangkat }}</td>
                                     <td>{{ $pg->namaJabatanBidang }}</td>
                                     <td>{{ $pg->namaBidang }}</td>
                                     <td>{{ $pg->namaDepartmen }}</td>
@@ -178,12 +180,13 @@
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('DokumenKelengkapan.edit', $pg->idPegawai) }}"><i
+                                                        href="{{ route('Pegawai.edit', $pg->idPegawai) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i> Ubah</a>
                                                 </li>
                                                 <li><button type="button" value="{{ $pg->idPegawai }}"
                                                         class="dropdown-item deleteBtn">
-                                                        <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i> Hapus</a>
+                                                        <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>
+                                                        Hapus</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -199,45 +202,110 @@
 </div>
 <!-- End::row-1 -->
 
-<!-- Start:: Detail Jangka Waktu Sewa-->
-<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Start:: Detail Wajib Retribusi-->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Detail Status</h6>
+                <h6 class="modal-title" id="exampleModalXlLabel">Detail Pegawai</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div> 
-            <div class="modal-body px-4">
-                <div class="d-flex gap-3">
-                    <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Jenis Dokumen</h6>
-                        <span class="d-block fs-13 text-muted fw-normal" id="d_jenis_dokumen"></span>
+            </div>
+            <div class="modal-body">
+                <div class="p-4">
+                    <div class="row gx-5">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6">
+                            <div class="card custom-card shadow-none mb-0 border-0">
+                                <div class="card-body p-0">
+                                    <div class="row gy-3">
+                                        <div class="col-xl-12">
+                                            <div class="d-flex align-items-center flex-wrap gap-3">
+                                                <div>
+                                                    <span class="avatar avatar-xxl avatar-rounded p-1 bg-light">
+                                                        <img src="" alt="" id="d_fotoPegawai">
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span class="fw-medium d-block mb-2" id="d_namaPegawai"></span>
+                                                    <span class="d-block fs-12 text-muted" id="d_nip"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Bidang/Unit</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_bidang"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Dinas</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_dinas"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Jabatan</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_jabatan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Golongan</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_golongan"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Alamat Lengkap</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_alamat"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Nomor Ponsel</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_nomorPonsel"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Nomor WhatsApp</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_nomorWA"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-body px-4">
-                <div class="d-flex gap-3">
-                    <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Dokumen Kelengkapan</h6>
-                        <span class="d-block fs-13 text-muted fw-normal" id="d_dokumen_kelengkapan"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-body px-4">
-                <div class="d-flex gap-3">
-                    <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Keterangan</h6>
-                        <span class="d-block fs-13 text-muted fw-normal" id="d_keterangan"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
-<!-- End:: Detail Jangka Waktu Sewa -->
+<!-- End::  Detail Tarif Objek -->
 
 <!-- Start:: Delete Jangka Waktu Sewa-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
@@ -257,7 +325,7 @@
                             <path
                                 d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z" />
                         </svg>
-                        
+
                         <h5>Anda yakin untuk menghapus data?</h5>
                     </div>
                     <input type="hidden" id="deleting_id" />

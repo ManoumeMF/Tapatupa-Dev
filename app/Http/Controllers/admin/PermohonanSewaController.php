@@ -5,18 +5,22 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class PermohonanSewaController extends Controller
 {
+    private  $stat = 1;
+    private $createBy = 1;
+
     public function index()
     {
-        //$objekRetribusi = DB::select('CALL viewAll_objekRetribusi()'); 
+        $permohonanSewa = DB::select('CALL viewAll_permohonanSewa()'); 
 
-        //return view('admin.Master.ObjekRetribusi.index', compact(''));
+        return view('admin.SewaAset.Permohonan.index', compact('permohonanSewa'));
 
-        return view('admin.SewaAset.Permohonan.index');
+        //return view('admin.SewaAset.Permohonan.index');
         
     }
 
@@ -25,30 +29,55 @@ class PermohonanSewaController extends Controller
         $jenisPermohonan = DB::select('CALL cbo_jenisPermohonan()'); 
         $wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()'); 
         $objekRetribusi = DB::select('CALL cbo_objekRetribusi()'); 
-        $jangkaWaktu = DB::select('CALL cbo_jangkaWaktu()'); 
+        $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()'); 
         $peruntukanSewa = DB::select('CALL cbo_peruntukanSewa()'); 
         $dokumenKelengkapan = DB::select('CALL cbo_dokumenKelengkapan(' . 2 . ')');
+        $satuan= DB::select('CALL cbo_satuan(' . 1 . ')');
 
-        return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa', 'dokumenKelengkapan'));
-
-        //return view('admin.PengaturanDanKonfigurasi.Status.create');
+        return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa', 'dokumenKelengkapan', 'satuan'));
     }
 
     public function store(Request $request)
     {
+        $jenisDokumen = $request->input('jenisDokumen');
+        $fileDokumen = $request->file('fileDokumen');
+        $keteranganDokumen = $request->input('keteranganDokumen');
 
-        $Status = json_encode([
-            'JenisStatus' => $request->get('jenisStatus'),
-            'Status' => $request->get('namaStatus'),
-            'Keterangan'  => $request->get('keterangan')
+        $dokumenKelengkapan = [];
+
+        for ($count = 0; $count < collect($jenisDokumen)->count(); $count++) {
+            $uploadedFileDokumen = $fileDokumen[$count];
+            $dokumenPermohonan = $count . "-" . $request->get('nomorPermohonan') . time() . "." . $uploadedFileDokumen->getClientOriginalExtension();
+            $dokumenPermohonanPath = Storage::disk('public')->putFileAs("documents/permohonanSewa", $uploadedFileDokumen, $dokumenPermohonan);
+
+            $dokumenKelengkapan[] = [
+                'JenisDokumen' => $jenisDokumen[$count],
+                'FileDokumen' => $dokumenPermohonanPath,
+                'KeteranganDokumen' => $keteranganDokumen[$count],
+            ];
+        }
+
+        $Permohonan = json_encode([
+            'JenisPermohonan' => $request->get('jenisPermohonan'),
+            'NoSuratPermohonan' => $request->get('nomorPermohonan'),
+            'WajibRetribusi' => $request->get('wajibRetribusi'),
+            'ObjekRetribusi' => $request->get('objekRetribusi'),
+            'JenisJangkaWaktu' => $request->get('perioditas'),
+            'PeruntukanSewa' => $request->get('peruntukanSewa'),
+            'LamaSewa' => $request->get('lamaSewa'),
+            'Satuan' => $request->get('satuan'),
+            'Status' => $this->stat,
+            'Catatan' => $request->get('catatan'),
+            'DibuatOleh' => $this->createBy,
+            'DokumenKelengkapan' => $dokumenKelengkapan
         ]);
     
-            $response = DB::statement('CALL insert_status(:dataStatus)', ['dataStatus' => $Status]);
+            $response = DB::statement('CALL insert_permohonanSewa(:dataPermohonan)', ['dataPermohonan' => $Permohonan]);
 
             if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Ditambahkan!');
+                return redirect()->route('PermohonanSewa.index')->with('success', 'Permohonan Sewa Berhasil Ditambahkan!');
             } else {
-                return redirect()->route('Status.create')->with('error', 'Status Gagal Disimpan!');
+                return redirect()->route('PermohonanSewa.create')->with('error', 'Permohonan Sewa Gagal Disimpan!');
             }
     }
 

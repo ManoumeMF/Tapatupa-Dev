@@ -23,13 +23,19 @@
         });
 
         $(".jangka-waktu").select2({
-            placeholder: "Pilih Jangka Waktu Sewa",
+            placeholder: "Pilih Perioditas Sewa",
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
 
         $(".peruntukan-sewa").select2({
             placeholder: "Pilih Peruntukan Sewa",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".satuan").select2({
+            placeholder: "Pilih Satuan",
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
@@ -46,7 +52,7 @@
             // Adding a row inside the tbody.
             $("#tblDokumen tbody").append('<tr>' +
                 '<td>' +
-                '<select class="jenis-dokumen form-control" name="jenis-dokumen" required>' +
+                '<select class="jenis-dokumen form-control" name="jenisDokumen[]" required>' +
                 '<option></option>' +
                 '@foreach ($dokumenKelengkapan as $dK)' +
                     '<option value="{{ $dK->idDokumenKelengkapan }}">' +
@@ -54,12 +60,18 @@
                     '</option>' +
                 '@endforeach' +
                 '</select>' +
+                '<div class="invalid-feedback">' +
+                    'Dokumen Kelengkapan Tidak Boleh Kosong' +
+                '</div>' +
                 '</td>' +
                 '<td>' +
-                '<input class="form-control" type="file" id="fileDokumen" name="fileDokumen[]">' +
+                '<input class="file-dokumen form-control" type="file" id="fileDokumen" name="fileDokumen[]" accept="image/png, image/jpeg, image/gif, application/pdf" required>' +
+                '<div class="invalid-feedback">' +
+                    'File Dokumen Kelengkapan Tidak Boleh Kosong' +
+                '</div>' +
                 '</td>' +
                 '<td>' +
-                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
+                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganDokumen[]"' +
                 'placeholder="Masukkan Keterangan Dokumen"></textarea>' +
                 '</td>' +
                 '<td  style="text-align: center">' +
@@ -106,7 +118,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('PermohonanSewa.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('PermohonanSewa.store')}}" method="post" enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -140,13 +152,13 @@
                                             <div class="col-xl-6">
                                                 <label for="nomor-permohonan" class="form-label">Nomor
                                                     Permohonan</label>
-                                                <input type="text" class="form-control" id="nik" name="nomorPermohonan"
+                                                <input type="text" class="form-control" id="nomorPermohonan" name="nomorPermohonan"
                                                     placeholder="Masukkan Nomor Permohonan" required>
                                                 <div class="invalid-feedback">
                                                     Nomor Permohonan Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-6">
                                                 <label for="wajib-retribusi" class="form-label">Nama Wajib
                                                     Retribusi</label>
                                                 <select class="wajib-retribusi form-control" name="wajibRetribusi"
@@ -162,7 +174,7 @@
                                                     Nama Wajib Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-6">
                                                 <label for="objek-retribusi" class="form-label">Objek Retribusi</label>
                                                 <select class="objek-retribusi form-control" name="objekRetribusi"
                                                     required>
@@ -177,21 +189,7 @@
                                                     Objek Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
-                                                <label for="jangka-waktu" class="form-label">Jangka Waktu Sewa</label>
-                                                <select class="jangka-waktu form-control" name="jangkaWaktu" required>
-                                                    <option></option>
-                                                    @foreach ($jangkaWaktu as $jW)
-                                                        <option value="{{ $jW->idJangkaWaktuSewa }}">
-                                                            {{ $jW->jangkaWaktu }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                    Jangka Waktu Sewa Tidak Boleh Kosong
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <label for="peruntukan-sewa" class="form-label">Peruntukan Sewa</label>
                                                 <select class="peruntukan-sewa form-control" name="peruntukanSewa"
                                                     required>
@@ -206,9 +204,46 @@
                                                     Peruntukan Sewa Tidak Boleh Kosong
                                                 </div>
                                             </div>
+                                            <div class="col-xl-4">
+                                                <label for="jangka-waktu" class="form-label">Perioditas Sewa</label>
+                                                <select class="jangka-waktu form-control" name="perioditas" required>
+                                                    <option></option>
+                                                    @foreach ($jangkaWaktu as $jW)
+                                                        <option value="{{ $jW->idjenisJangkaWaktu }}">
+                                                            {{ $jW->jenisJangkaWaktu }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Perioditas Sewa Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <label for="lama-sewa" class="form-label">Lama Sewa</label>
+                                                <input type="text" class="form-control" id="lama-sewa" name="lamaSewa"
+                                                    placeholder="Masukkan Lama Sewa" required>
+                                                <div class="invalid-feedback">
+                                                    Lama Sewa Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <label for="satuan" class="form-label">Satuan</label>
+                                                <select class="satuan form-control" name="satuan"
+                                                    required>
+                                                    <option></option>
+                                                    @foreach ($satuan as $sT)
+                                                        <option value="{{ $sT->idSatuan }}">
+                                                            {{ $sT->namaSatuan }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Satuan Tidak Boleh Kosong
+                                                </div>
+                                            </div>
                                             <div class="col-xl-12">
                                                 <label for="catatan" class="form-label">Catatan</label>
-                                                <textarea class="form-control" id="alamat-wajib" rows="4" name="catatan"
+                                                <textarea class="form-control" id="catatan" rows="4" name="catatan"
                                                     placeholder="Masukkan Catatan"></textarea>
                                             </div>
                                         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,6 +26,7 @@ class WajibRetribusiController extends Controller
         $perkerjaan = DB::select('CALL cbo_pekerjaan()');  
         $jenisWajibRetribusi = DB::select('CALL cbo_JenisWajibRetribusi()'); 
         $province = DB::select('CALL cbo_province()');
+        $dokumenKelengkapan = DB::select('CALL cbo_dokumenKelengkapan('. 2 . ')');
 
         return view('admin.Master.WajibRetribusi.create', compact('perkerjaan', 'jenisWajibRetribusi', 'province', 'dokumenKelengkapan'));
 
@@ -33,19 +35,31 @@ class WajibRetribusiController extends Controller
 
     public function store(Request $request)
     {
+        $uploadedFile = $request->file('photoWajibRetribusi');
+        //dd($uploadedFile);
+        $photo = $request->get('namaWajibRetribusi') . " - " . time() . "." . $uploadedFile->getClientOriginalExtension();
+        $photoPath = Storage::disk('public')->putFileAs("images/wajibRetribusi", $uploadedFile, $photo);
 
-        $Status = json_encode([
-            'JenisStatus' => $request->get('jenisStatus'),
-            'Status' => $request->get('namaStatus'),
-            'Keterangan'  => $request->get('keterangan')
+        $wajibRetribusi = json_encode([
+            'Nik' => $request->get('nik'),
+            'IdJenisWajibRetribusi' => $request->get('jenisWajib'),
+            'NamaWajibRetribusi'  => $request->get('namaWajibRetribusi'),
+            'NamaPekerjaan' => $request->get('pekerjaan'),
+            'SubdisName' => $request->get('kelurahan'),
+            'Alamat'  => $request->get('alamatWajibRetribusi'),
+            'NomorPonsel'  => $request->get('nomorPonsel'),
+            'NomorWhatsapp' => $request->get('nomorWhatsapp'),
+            'Email' => $request->get('email'),
+            'JenisRetribusi'  => '1',
+            'FotoWajibRetribusi'  => $photoPath
         ]);
     
-            $response = DB::statement('CALL insert_status(:dataStatus)', ['dataStatus' => $Status]);
+            $response = DB::statement('CALL insert_wajibRetribusi(:dataWajibRetribusi)', ['dataWajibRetribusi' => $wajibRetribusi]);
 
             if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Ditambahkan!');
+                return redirect()->route('WajibRetribusi.index')->with('success', 'Wajib Retribusi Berhasil Ditambahkan!');
             } else {
-                return redirect()->route('Status.create')->with('error', 'Status Gagal Disimpan!');
+                return redirect()->route('WajibRetribusi.create')->with('error', 'Wajib Retribusi Gagal Disimpan!');
             }
     }
 
@@ -118,22 +132,22 @@ class WajibRetribusiController extends Controller
 
     public function detail(Request $request)
     {      
-        $id = $request->id;
+        $id = $request->idWajib;
 
-        $statusData = DB::select('CALL view_statusById('  . $id . ')');
-        $status = $statusData[0];
+        $wajibRetribusiData = DB::select('CALL view_WajibRetribusiById('  . $id . ')');
+        $wajibRetribusi = $wajibRetribusiData[0];
 
         //dd($fieldEducation);
 
-        if ($status) {
+        if ($wajibRetribusi) {
             return response()->json([
                 'status'=> 200,
-                'status' => $status
+                'wajibRetribusi' => $wajibRetribusi
             ]);
         }else{
             return response()->json([
                 'status'=> 404,
-                'message' => 'Data Status Tidak Ditemukan.'
+                'message' => 'Data Wajib Retribusi Tidak Ditemukan.'
             ]);
         }
     }
