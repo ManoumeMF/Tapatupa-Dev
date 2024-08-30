@@ -96,6 +96,7 @@ Route::get("/objek-retribusi/tambah-tarif", [ObjekRetribusiController::class, 'c
 Route::get("/objek-retribusi/detail-objek/", [ObjekRetribusiController::class, 'detailObjekToTarif'])->name('ObjekRetribusi.detailObjekToTarif');
 Route::post("/objek-retribusi/simpan-tarif", [ObjekRetribusiController::class, 'storeTarif'])->name('ObjekRetribusi.storeTarif');
 Route::get("/objek-retribusi/detail-tarif", [ObjekRetribusiController::class, 'detailTarif'])->name('ObjekRetribusi.detailTarif');
+Route::delete("/objek-retribusi/hapus-tarif", [ObjekRetribusiController::class, 'deleteTarif'])->name('ObjekRetribusi.deleteTarif');
 
 // Route untuk Wajib Retribusi
 Route::get("/wajib-retribusi", [WajibRetribusiController::class, 'index'])->name('WajibRetribusi.index');

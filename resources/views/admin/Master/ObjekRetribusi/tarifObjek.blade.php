@@ -28,6 +28,8 @@
                     }).show();
                 } else {
                     //console.log(response.fieldEducation.nama_bidang_pendidikan)
+                    var fileDokumen = {!! json_encode(url('storage/')) !!};
+
                     $('#d_kodeObjek').text(response.tarifObjek.kodeObjekRetribusi);
                     $('#d_namaObjek').text(response.tarifObjek.objekRetribusi);
                     $('#d_noBangunan').text(response.tarifObjek.noBangunan);
@@ -42,6 +44,14 @@
                     $('#d_luasBangunan').text(response.tarifObjek.luasBangunan);
                     $('#d_jumlahLantai').text(response.tarifObjek.jumlahLantai);
                     $('#d_kapasitas').text(response.tarifObjek.kapasitas);
+                    $('#d_perioditas').text(response.tarifObjek.jenisJangkaWaktu);
+                    $('#d_tanggalDinilai').text(response.tarifObjek.tanggalDinilai);
+                    $('#d_namaPenilai').text(response.tarifObjek.namaPenilai);
+                    $('#d_tarifObjek').text("Rp. " + response.tarifObjek.nominalTarif);
+                    $('#d_keterangan').text(response.tarifObjek.keterangan);
+                    $('#d_fileDokumen').attr("href", fileDokumen + "/" + response.tarifObjek.fileHasilPenilaian);
+                    $('#d_fileDokumen').attr("download", response.tarifObjek.fileHasilPenilaian);
+                    $('#d_fileName').text(response.tarifObjek.fileName);
                 }
             }
         });
@@ -66,7 +76,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idPekerjaan': id,
+            'idTarif': id,
         }
 
         $.ajaxSetup({
@@ -77,7 +87,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('Pekerjaan.delete') }}",
+            url: "{{ route('ObjekRetribusi.deleteTarif') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -99,7 +109,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Pekerjaan.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('ObjekRetribusi.tarif') }}'", 1500);
                 }
             }
         });
@@ -145,7 +155,7 @@
                             <th>Kode Objek Retribusi</th>
                             <th>Objek Retribusi</th>
                             <th>No. Bangunan</th>
-                            <th>Jenis Jangka Waktu</th>
+                            <th>Perioditas</th>
                             <th>Tarif Objek</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
@@ -345,59 +355,53 @@
                             <div class="card custom-card shadow-none mb-0 border-0">
                                 <div class="card-body p-0">
                                     <div class="row gy-3">
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Panjang Tanah (m)</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Lebar Tanah (m)</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                    <h6 class="mb-1 fs-13">Perioditas</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal" id="d_perioditas"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Luas Tanah (m<sup>2</sup>)</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                    <h6 class="mb-1 fs-13">Tanggal Dinilai</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal" id="d_tanggalDinilai"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Panjang Bangunan (m)</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                    <h6 class="mb-1 fs-13">Nama Penilai</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal" id="d_namaPenilai"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Lebar Bangunan (m)</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                    <h6 class="mb-1 fs-13">Tarif Onjek Retribusi (per meter<sup>2</sup>)</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal" id="d_tarifObjek"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-12">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Luas Bangunan (m<sup>2</sup>)</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                    <h6 class="mb-1 fs-13">Keterangan</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal" id="d_keterangan"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-12">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Jumlah Lantai</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"></span>
+                                                    <h6 class="mb-1 fs-13">Dokumen Penilaian Tarif Objek Retribusi</h6>
+                                                    <a href="" download="" class="btn btn-primary label-btn" id="d_fileDokumen">
+                                                        <i class="ri-download-2-line label-btn-icon me-3"></i><span id="d_fileName"></span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -413,7 +417,7 @@
 </div>
 <!-- End::  Detail Tarif Objek -->
 
-<!-- Start:: Delete Pekerjaan-->
+<!-- Start:: Delete Tarif Objek-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -444,6 +448,6 @@
         </div>
     </div>
 </div>
-<!-- End:: Delete Pekerjaan -->
+<!-- End:: Delete Tarif Objek -->
 
 @endsection

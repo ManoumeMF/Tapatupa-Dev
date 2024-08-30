@@ -56,26 +56,6 @@ class PegawaiController extends Controller
             }
     }
 
-    public function getCities($prov_id)
-    {
-        $cities = DB::select('CALL getCities(?)', [$prov_id]);
-        return response()->json(['cities' => $cities]);
-    }
-
-    // Mengambil kecamatan berdasarkan kota
-    public function getDistricts($city_id)
-    {
-        $districts = DB::select('CALL getDistricts(?)', [$city_id]);
-        return response()->json(['districts' => $districts]);
-    }
-
-    // Mengambil kelurahan berdasarkan kecamatan
-    public function getSubdistricts($dis_id)
-    {
-        $subdistricts = DB::select('CALL getSubdistricts(?)', [$dis_id]);
-        return response()->json(['subdistricts' => $subdistricts]);
-    }
-
     public function detail(Request $request)
     {      
         $id = $request->idPegawai;
@@ -83,7 +63,6 @@ class PegawaiController extends Controller
         $pegawaiData = DB::select('CALL view_pegawaiById('  . $id . ')');
         $pegawai = $pegawaiData[0];
 
-        //dd($fieldEducation);
 
         if ($pegawai) {
             return response()->json([
@@ -96,5 +75,48 @@ class PegawaiController extends Controller
                 'message' => 'Data Pegawai Tidak Ditemukan.'
             ]);
         }
+    }
+
+    public function delete(Request $request)
+    {
+        $pegawaiData = DB::select('CALL view_pegawaiById(' . $request -> get('idPegawai') . ')');
+        $pegawaiTemp = $pegawaiData[0];
+
+            if ($pegawaiData) {
+                $id = $request -> get('idPegawai');
+
+                $response = DB::statement('CALL delete_pegawai(?)', [$id]);
+                
+                return response()->json([
+                    'status' => 200,
+                    'message'=> 'Data Pegawai Berhasil Dihapus!'
+                ]);
+            }else{
+                return response()->json([
+                    'status'=> 404,
+                    'message' => 'Data Pegawai Tidak Ditemukan.'
+                ]);
+            }
+    }
+
+    public function edit($id)
+    {      
+        $jabatanBidang = DB::select('CALL cbo_jabatanBidang()');  
+        $province = DB::select('CALL cbo_province()');
+        $golonganPangkat = DB::select('CALL cbo_golonganPangkat()');
+
+        $pegawaiData = DB::select('CALL view_pegawaiById(' . $id . ')');
+        $pegawai = $pegawaiData[0];
+
+        $kota =  DB::select('CALL cbo_cities('  . $pegawai->prov_id . ')');  
+        $kecamatan =  DB::select('CALL cbo_districts('  . $pegawai->city_id . ')');
+        $kelurahan =  DB::select('CALL cbo_subdistricts('  . $pegawai->dis_id . ')');  
+
+        if ($pegawai) {
+            return view('admin.Master.Pegawai.edit', compact('jabatanBidang', 'province', 'golonganPangkat', 'pegawai', 'kota', 'kecamatan', 'kelurahan'));
+         } else {
+             return redirect()->route('Pegawai.index')->with('error', 'Pegawai Tidak Ditemukan!');
+         }
+
     }
 }

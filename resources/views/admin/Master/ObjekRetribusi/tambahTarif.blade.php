@@ -196,8 +196,7 @@
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
                                             <div class="col-xl-6">
-                                                <label for="jangka-waktu-sewa" class="form-label">Jenis Jangka
-                                                    Waktu</label>
+                                                <label for="jangka-waktu-sewa" class="form-label">Perioditas</label>
                                                 <select class="jangka-waktu-sewa form-control" name="jangkaWaktu"
                                                     required>
                                                     <option></option>

@@ -27,8 +27,14 @@
                     }).show();
                 } else {
                     var photo = {!! json_encode(url('storage/')) !!};
+                    var no_photo = {!! json_encode(url('admin_resources/assets/images/user-general/no_photo_profile_color.png')) !!};
                     //console.log(photo)
-                    $('#d_fotoPegawai').attr("src", photo + "/" + response.pegawai.fileFoto);
+                    if(response.pegawai.fileFoto){
+                        $('#d_fotoPegawai').attr("src", photo + "/" + response.pegawai.fileFoto);
+                    }else{
+                        $('#d_fotoPegawai').attr("src", no_photo );
+                    }
+                    //$('#d_fotoPegawai').attr("src", photo + "/" + response.pegawai.fileFoto);
                     $('#d_namaPegawai').text(response.pegawai.namaPegawai);
                     $('#d_jabatan').text(response.pegawai.namaJabatanBidang);
                     $('#d_bidang').text(response.pegawai.namaBidang);
@@ -62,7 +68,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idDokumenKelengkapan': id,
+            'idPegawai': id,
         }
 
         $.ajaxSetup({
@@ -73,7 +79,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('DokumenKelengkapan.delete') }}",
+            url: "{{ route('Pegawai.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -95,8 +101,8 @@
                     toast.show()
 
                     setTimeout(function () {
-                        window.location = '{{ route('DokumenKelengkapan.index') }}';
-                    }, 2500);
+                        window.location = '{{ route('Pegawai.index') }}';
+                    }, 1000);
                 }
             }
         });
@@ -152,9 +158,15 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex">
-                                            <span class="avatar avatar-md avatar-square bg-light"><img
-                                                    src="{{url('storage/' . $pg->fileFoto)}}" class="w-100 h-100"
-                                                    alt="..."></span>
+                                            @if($pg->fileFoto)
+                                                <span class="avatar avatar-md avatar-square bg-light"><img
+                                                        src="{{url('storage/' . $pg->fileFoto)}}" class="w-100 h-100"
+                                                        alt="..."></span>
+                                            @else
+                                                <span class="avatar avatar-md avatar-square bg-light"><img
+                                                        src="{{ asset('admin_resources/assets/images/user-general/no_image1.png') }}"
+                                                        class="w-100 h-100" alt="..."></span>
+                                            @endif
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center"><a
                                                         href="javascript:void(0);">{{ $pg->namaPegawai }}</a></p>
@@ -294,7 +306,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -304,6 +315,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- End::  Detail Tarif Objek -->
 

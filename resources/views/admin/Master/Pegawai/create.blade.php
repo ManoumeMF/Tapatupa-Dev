@@ -185,7 +185,8 @@
 <!-- Start:: row-1 -->
 <div class="row">
     <div class="col-xl-12">
-        <form class="row g-3 needs-validation" action="{{ route('Pegawai.store') }}" method="post" enctype="multipart/form-data" novalidate>
+        <form class="row g-3 needs-validation" action="{{ route('Pegawai.store') }}" method="post"
+            enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -326,7 +327,8 @@
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="file-foto" class="form-label">Upload Foto Pegawai</label>
-                                                <input type="file" class="foto-pegawai form-control" name="photoPegawai" accept="image/png, image/jpeg, image/gif">
+                                                <input type="file" class="foto-pegawai form-control" name="photoPegawai"
+                                                    accept="image/png, image/jpeg, image/gif">
                                             </div>
                                         </div>
                                     </div>
@@ -341,6 +343,7 @@
                                 class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
 </div>

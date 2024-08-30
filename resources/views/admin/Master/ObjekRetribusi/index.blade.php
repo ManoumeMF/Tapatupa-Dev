@@ -39,10 +39,10 @@
     //Ajax Form Delete Data
     //-------------------------------------------------------------------------------------------------
     $(document).on('click', '.deleteBtn', function (e) {
-        var st_id = $(this).val();
+        var or_id = $(this).val();
 
         $('#deleteModal').modal('show');
-        $('#deleting_id').val(st_id);
+        $('#deleting_id').val(or_id);
     });
 
     //-------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idPekerjaan': id,
+            'idObjekRetribusi': id,
         }
 
         $.ajaxSetup({
@@ -65,7 +65,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('Pekerjaan.delete') }}",
+            url: "{{ route('ObjekRetribusi.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -86,7 +86,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Pekerjaan.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('ObjekRetribusi.index') }}'", 1500);
                 }
             }
         });
@@ -181,7 +181,7 @@
 </div>
 <!--End::row-1 -->
 
-<!-- Start:: Delete Pekerjaan-->
+<!-- Start:: Delete Objek Retribusi-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -189,7 +189,7 @@
                 <h6 class="modal-title">Hapus Data</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteJenisStatusForm">
+            <form id="deleteObjekRetribusiForm">
                 @csrf
                 <div class="modal-body">
                     <div class="text-center px-5 pb-0 svg-danger">

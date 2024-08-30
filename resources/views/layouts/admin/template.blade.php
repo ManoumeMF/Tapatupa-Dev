@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light"
-    data-width="fullwidth" data-menu-styles="dark" data-toggled="close" loader="disable">
+    data-width="fullwidth" data-menu-styles="dark" data-toggled="close" loader="enable">
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -1178,12 +1178,7 @@
         <footer class="footer mt-auto py-3 bg-white text-center">
             <div class="container">
                 <span class="text-muted"> Copyright © <span id="year"></span> <a href="javascript:void(0);"
-                        class="text-dark fw-medium">Vertix</a>.
-                    Designed with <span class="bi bi-heart-fill text-danger"></span> by <a href="javascript:void(0);">
-                        <span class="fw-medium text-primary">Spruko</span>
-                    </a> All
-                    rights
-                    reserved
+                        class="fw-medium text-primary">Badan Keuangan Dan Aset Daerah Kabupaten Tapanuli Utara</a>
                 </span>
             </div>
         </footer>

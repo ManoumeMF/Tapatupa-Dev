@@ -153,9 +153,15 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <span class="avatar avatar-md avatar-square bg-light"><img
-                                                    src="{{url('storage/' . $pS->fotoWajibRetribusi)}}" class="w-100 h-100"
-                                                    alt="..."></span>
+                                            @if($pS->fotoWajibRetribusi)
+                                                <span class="avatar avatar-md avatar-square bg-light"><img
+                                                        src="{{url('storage/' . $pS->fotoWajibRetribusi)}}" class="w-100 h-100"
+                                                        alt="..."></span>
+                                            @else
+                                                <span class="avatar avatar-md avatar-square bg-light"><img
+                                                        src="{{ asset('admin_resources/assets/images/user-general/no_image1.png') }}"
+                                                        class="w-100 h-100" alt="..."></span>
+                                            @endif
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center"><a
                                                         href="javascript:void(0);">{{ $pS->namaWajibRetribusi }}</a></p>
@@ -167,15 +173,15 @@
                                     <td>{{ $pS->objekRetribusi }}</td>
                                     <td>{{ $pS->LamaSewa }}</td>
                                     <td>
-                                    @if($pS->namaStatus == "Baru")
-                                        <span class="badge bg-primary">{{ $pS->namaStatus }}</span>
-                                    @elseif($pS->namaStatus == "Disetujui")
-                                        <span class="badge bg-success">{{ $pS->namaStatus }}</span>
-                                    @elseif($pS->namaStatus == "Dokumen Diverifikasi")
-                                        <span class="badge bg-warning">{{ $pS->namaStatus }}</span>
-                                    @elseif($pS->namaStatus == "Ditolak")
-                                        <span class="badge bg-danger">{{ $pS->namaStatus }}</span>
-                                    @endif
+                                        @if($pS->namaStatus == "Baru")
+                                            <span class="badge bg-primary">{{ $pS->namaStatus }}</span>
+                                        @elseif($pS->namaStatus == "Disetujui")
+                                            <span class="badge bg-success">{{ $pS->namaStatus }}</span>
+                                        @elseif($pS->namaStatus == "Dokumen Diverifikasi")
+                                            <span class="badge bg-warning">{{ $pS->namaStatus }}</span>
+                                        @elseif($pS->namaStatus == "Ditolak")
+                                            <span class="badge bg-danger">{{ $pS->namaStatus }}</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="dropdown">

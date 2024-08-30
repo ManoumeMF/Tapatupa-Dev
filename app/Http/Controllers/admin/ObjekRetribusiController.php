@@ -17,8 +17,6 @@ class ObjekRetribusiController extends Controller
 
         return view('admin.Master.ObjekRetribusi.index', compact('objekRetribusi'));
 
-        //return view('admin.Master.ObjekRetribusi.index');
-
     }
 
     public function create()
@@ -26,14 +24,8 @@ class ObjekRetribusiController extends Controller
         $objectType = DB::select('CALL cbo_jenisObjekRetribusi()');
         $objectLocation = DB::select('CALL cbo_lokasiObjekRetribusi()');
         $province = DB::select('CALL cbo_province()');
-        //$kota = DB::select('CALL cbo_cities(' . 2 . ')');
-        //$kecamatan = DB::select('CALL cbo_districts(' . 28 . ')');
-        //$kelurahan = DB::select('CALL cbo_subdistricts(' . 358 . ')');
-        //$jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
 
         return view('admin.Master.ObjekRetribusi.create', compact('objectType', 'objectLocation', 'province'));
-
-        //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
 
     public function store(Request $request)
@@ -63,8 +55,6 @@ class ObjekRetribusiController extends Controller
             ];
         }
 
-        //dd($detailobjekRetribusi);
-
         $objekRetribusi = json_encode([
             'KodeObjekRetribusi' => $request->get('kodeObjekRetribusi'),
             'NoBangunan' => $request->get('nomorBangunan'),
@@ -87,10 +77,6 @@ class ObjekRetribusiController extends Controller
             'GambarDenahTanah' => $photoPath, 
             'FotoObjekRetribusi' => $detailobjekRetribusi
         ]);
-
-        //dd($objekRetribusi);
-
-        //$request->fileGambarDenahTanah->move(public_path('images'), $denahTanah);
 
         $response = DB::statement('CALL insert_objekRetribusi(:dataObjekRetribusi)', ['dataObjekRetribusi' => $objekRetribusi]);
 
@@ -149,22 +135,22 @@ class ObjekRetribusiController extends Controller
 
     public function delete(Request $request)
     {
-        $statusData = DB::select('CALL view_statusById(' . $request->get('idStatus') . ')');
-        $statusTemp = $statusData[0];
+        $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idObjekRetribusi') . ')');
+        $objekRetribusiTemp = $objekRetribusiData[0];
 
-        if ($statusTemp) {
-            $id = $request->get('idStatus');
+        if ($objekRetribusiTemp) {
+            $id = $request->get('idObjekRetribusi');
 
-            $response = DB::statement('CALL delete_status(?)', [$id]);
+            $response = DB::statement('CALL delete_objekRetribusi(?)', [$id]);
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Status Berhasil Dihapus!'
+                'message' => 'Objek Retribusi Berhasil Dihapus!'
             ]);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Data Status Tidak Ditemukan.'
+                'message' => 'Objek Retribusi Tidak Ditemukan.'
             ]);
         }
     }
@@ -256,7 +242,7 @@ class ObjekRetribusiController extends Controller
     public function storeTarif(Request $request){
 
         $uploadedFile = $request->file('filePenilaian');
-        $filePenilaian = $request->get('objekRetribusi') . " - Surat Penilaian Tarif - " . time() . "." . $uploadedFile->getClientOriginalExtension();
+        $filePenilaian = $request->get('objekRetribusi') . "-Dokumen Penilaian Tarif-" . time() . "." . $uploadedFile->getClientOriginalExtension();
         $filePath = Storage::disk('public')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
 
         $tarifObjekRetribusi = json_encode([
@@ -297,6 +283,28 @@ class ObjekRetribusiController extends Controller
             return response()->json([
                 'status' => 404,
                 'message' => 'Data Tarif Objek Retribusi Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+    public function deleteTarif(Request $request)
+    {
+        $tarifData = DB::select('CALL view_TarifObjekRetribusiById(' . $request->get('idTarif') . ')');
+        $tarifTemp = $tarifData[0];
+
+        if ($tarifTemp) {
+            $id = $request->get('idTarif');
+
+            $response = DB::statement('CALL delete_tarifObjekRetribusi(?)', [$id]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Tarif Objek Retribusi Berhasil Dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Tarif Objek Retribusi Tidak Ditemukan.'
             ]);
         }
     }

@@ -28,8 +28,13 @@
                     }).show();
                 } else {
                     var photo = {!! json_encode(url('storage/')) !!};
+                    var no_photo = {!! json_encode(url('admin_resources/assets/images/user-general/no_photo_profile_color.png')) !!};
                     //console.log(photo)
-                    $('#d_fotoWajib').attr("src", photo + "/" + response.wajibRetribusi.fotoWajibRetribusi);
+                    if(response.wajibRetribusi.fotoWajibRetribusi){
+                        $('#d_fotoWajib').attr("src", photo + "/" + response.wajibRetribusi.fotoWajibRetribusi);
+                    }else{
+                        $('#d_fotoWajib').attr("src", no_photo );
+                    }
                     $('#d_namaWajib').text(response.wajibRetribusi.namaWajibRetribusi);
                     $('#d_jenisWajib').text(response.wajibRetribusi.namaJenisWajibRetribusi);
                     $('#d_nik').text("NIK: " + response.wajibRetribusi.nik);
@@ -62,7 +67,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idPekerjaan': id,
+            'idWajib': id,
         }
 
         $.ajaxSetup({
@@ -73,7 +78,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('Pekerjaan.delete') }}",
+            url: "{{ route('WajibRetribusi.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -94,7 +99,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Pekerjaan.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('WajibRetribusi.index') }}'", 1500);
                 }
             }
         });
@@ -150,9 +155,15 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex">
+                                            @if($wR->fotoWajibRetribusi)
                                             <span class="avatar avatar-md avatar-square bg-light"><img
                                                     src="{{url('storage/' . $wR->fotoWajibRetribusi)}}" class="w-100 h-100"
                                                     alt="..."></span>
+                                            @else
+                                            <span class="avatar avatar-md avatar-square bg-light"><img
+                                                    src="{{ asset('admin_resources/assets/images/user-general/no_image1.png') }}" class="w-100 h-100"
+                                                    alt="..."></span>
+                                            @endif
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center">
                                                     {{ $wR->namaWajibRetribusi }}

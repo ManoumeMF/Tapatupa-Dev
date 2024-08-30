@@ -110,22 +110,22 @@ class WajibRetribusiController extends Controller
 
     public function delete(Request $request)
     {
-        $statusData = DB::select('CALL view_statusById(' . $request -> get('idStatus') . ')');
-        $statusTemp = $statusData[0];
+        $wajibRetribusiData = DB::select('CALL view_WajibRetribusiById(' . $request -> get('idWajib') . ')');
+        $wajibRetribusiTemp = $wajibRetribusiData[0];
 
-            if ($statusTemp) {
-                $id = $request -> get('idStatus');
+            if ($wajibRetribusiTemp) {
+                $id = $request -> get('idWajib');
 
-                $response = DB::statement('CALL delete_status(?)', [$id]);
+                $response = DB::statement('CALL delete_wajibRetribusi(?)', [$id]);
                 
                 return response()->json([
                     'status' => 200,
-                    'message'=> 'Status Berhasil Dihapus!'
+                    'message'=> 'Data Wajib Retribusi Berhasil Dihapus!'
                 ]);
             }else{
                 return response()->json([
                     'status'=> 404,
-                    'message' => 'Data Status Tidak Ditemukan.'
+                    'message' => 'Data Wajib Retribusi Tidak Ditemukan.'
                 ]);
             }
     }

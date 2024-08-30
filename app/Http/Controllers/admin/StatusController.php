@@ -60,7 +60,6 @@ class StatusController extends Controller
              return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
          }
 
-         //return view('admin.PengaturanDanKonfigurasi.Status.edit');
     }
 
 
