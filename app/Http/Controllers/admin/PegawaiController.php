@@ -27,23 +27,24 @@ class PegawaiController extends Controller
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
 
-    public function getCities($prov_id)
-    {
-        $cities = DB::select('CALL getCities(?)', [$prov_id]);
-        return response()->json(['cities' => $cities]);
-    }
-
-    // Mengambil kecamatan berdasarkan kota
-    public function getDistricts($city_id)
-    {
-        $districts = DB::select('CALL getDistricts(?)', [$city_id]);
-        return response()->json(['districts' => $districts]);
-    }
-
-    // Mengambil kelurahan berdasarkan kecamatan
-    public function getSubdistricts($dis_id)
-    {
-        $subdistricts = DB::select('CALL getSubdistricts(?)', [$dis_id]);
-        return response()->json(['subdistricts' => $subdistricts]);
-    }
+     // Mengambil data kota berdasarkan ID provinsi
+     public function getCities($prov_id)
+     {
+         $cities = DB::select('CALL cbo_cities(?)', [$prov_id]);
+         return response()->json(['cities' => $cities]);
+     }
+ 
+     // Mengambil data kecamatan berdasarkan ID kota
+     public function getDistricts($city_id)
+     {
+         $districts = DB::select('CALL cbo_districts(?)', [$city_id]);
+         return response()->json(['districts' => $districts]);
+     }
+ 
+     // Mengambil data kelurahan berdasarkan ID kecamatan
+     public function getSubdistricts($dis_id)
+     {
+         $subdistricts = DB::select('CALL cbo_subdistricts(?)', [$dis_id]);
+         return response()->json(['subdistricts' => $subdistricts]);
+     }
 }

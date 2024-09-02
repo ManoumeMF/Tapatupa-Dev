@@ -158,6 +158,10 @@ Route::get("/pegawai/ubah/{id}", [PegawaiController::class, 'edit'])->name('Pega
 Route::post("/pegawai/update/{id}", [PegawaiController::class, 'update'])->name('Pegawai.update');
 Route::delete("/pegawai/hapus", [PegawaiController::class, 'delete'])->name('Pegawai.delete');
 Route::get("/pegawai/detail", [PegawaiController::class, 'detail'])->name('Pegawai.detail');
+Route::get('/cities/{prov_id}', [PegawaiController::class, 'getCities']);
+Route::get('/districts/{city_id}', [PegawaiController::class, 'getDistricts']);
+Route::get('/subdistricts/{dis_id}', [PegawaiController::class, 'getSubdistricts']);
+
 
 // Route untuk Jenis Retribusi
 Route::get("/jenis-retribusi", [JenisRetribusiController::class, 'index'])->name('JenisRetribusi.index');

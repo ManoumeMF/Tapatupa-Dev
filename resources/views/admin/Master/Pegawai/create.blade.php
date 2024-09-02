@@ -2,19 +2,27 @@
 
 @section('content')
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        $(".js-example-placeholder-single").select2({
-            placeholder: "Pilih Jabatan Bidang...",
-            allowClear: true,
-            width: '100%',
-        });
-        $(".js-example-placeholder-single-region").select2({
-            placeholder: "Pilih Region...",
-            allowClear: true,
-            width: '100%',
+    $(document).ready(function() {
+        // Memuat provinsi
+        $.ajax({
+            url: '/provinces',
+            type: 'GET',
+            success: function(data) {
+                var options = '<option value="">Pilih Provinsi</option>';
+                $.each(data.provinces, function(index, province) {
+                    options += '<option value="' + province.prov_id + '">' + province.prov_name + '</option>';
+                });
+                $('#provinsi').html(options);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching provinces:', error);
+            }
         });
 
+        // Ketika provinsi berubah
         $('#provinsi').change(function() {
             var prov_id = $(this).val();
             $('#kota').prop('disabled', true);
@@ -23,23 +31,27 @@
 
             if (prov_id) {
                 $.ajax({
-                    url: '/api/cities/' + prov_id,
+                    url: '/cities/' + prov_id,
                     type: 'GET',
                     success: function(data) {
-                        var options = '<option></option>';
+                        var options = '<option value="">Pilih Kota</option>';
                         $.each(data.cities, function(index, city) {
-                            options += '<option value="' + city.id + '">' + city.name + '</option>';
+                            options += '<option value="' + city.city_id + '">' + city.city_name + '</option>';
                         });
                         $('#kota').html(options).prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching cities:', error);
                     }
                 });
             } else {
-                $('#kota').html('<option></option>').prop('disabled', true);
-                $('#kecamatan').html('<option></option>').prop('disabled', true);
-                $('#kelurahan').html('<option></option>').prop('disabled', true);
+                $('#kota').html('<option value="">Pilih Kota</option>').prop('disabled', true);
+                $('#kecamatan').html('<option value="">Pilih Kecamatan</option>').prop('disabled', true);
+                $('#kelurahan').html('<option value="">Pilih Kelurahan</option>').prop('disabled', true);
             }
         });
 
+        // Ketika kota berubah
         $('#kota').change(function() {
             var city_id = $(this).val();
             $('#kecamatan').prop('disabled', true);
@@ -47,39 +59,46 @@
 
             if (city_id) {
                 $.ajax({
-                    url: '/api/districts/' + city_id,
+                    url: '/districts/' + city_id,
                     type: 'GET',
                     success: function(data) {
-                        var options = '<option></option>';
+                        var options = '<option value="">Pilih Kecamatan</option>';
                         $.each(data.districts, function(index, district) {
-                            options += '<option value="' + district.id + '">' + district.name + '</option>';
+                            options += '<option value="' + district.dis_id + '">' + district.dis_name + '</option>';
                         });
                         $('#kecamatan').html(options).prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching districts:', error);
                     }
                 });
             } else {
-                $('#kecamatan').html('<option></option>').prop('disabled', true);
-                $('#kelurahan').html('<option></option>').prop('disabled', true);
+                $('#kecamatan').html('<option value="">Pilih Kecamatan</option>').prop('disabled', true);
+                $('#kelurahan').html('<option value="">Pilih Kelurahan</option>').prop('disabled', true);
             }
         });
 
+        // Ketika kecamatan berubah
         $('#kecamatan').change(function() {
             var dis_id = $(this).val();
 
             if (dis_id) {
                 $.ajax({
-                    url: '/api/subdistricts/' + dis_id,
+                    url: '/subdistricts/' + dis_id,
                     type: 'GET',
                     success: function(data) {
-                        var options = '<option></option>';
+                        var options = '<option value="">Pilih Kelurahan</option>';
                         $.each(data.subdistricts, function(index, subdistrict) {
-                            options += '<option value="' + subdistrict.id + '">' + subdistrict.name + '</option>';
+                            options += '<option value="' + subdistrict.subdis_id + '">' + subdistrict.subdis_name + '</option>';
                         });
                         $('#kelurahan').html(options).prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching subdistricts:', error);
                     }
                 });
             } else {
-                $('#kelurahan').html('<option></option>').prop('disabled', true);
+                $('#kelurahan').html('<option value="">Pilih Kelurahan</option>').prop('disabled', true);
             }
         });
     });
@@ -93,8 +112,8 @@
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="#">Master</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Pegawai</li>
-                    <li class="breadcrumb-item"><a href="#">Tambah Pegawai</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pegawai</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tambah Pegawai</li>
                 </ol>
             </nav>
         </div>
@@ -148,12 +167,9 @@
                             <select class="js-example-placeholder-single form-control" id="jabatanBidang" name="jabatanBidang" required>
                                 <option></option>
                                 @foreach ($jabatanBidang as $sT)
-                                    <option value="{{ $sT->idJabatan }}">{{ $sT->jabatan }}</option>
+                                    <option value="{{ $sT->idJabatanBidang }}">{{ $sT->namaJabatanBidang }}</option>
                                 @endforeach
                             </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
                         </div>
                         <div class="invalid-feedback">
                             Jabatan Bidang Tidak Boleh Kosong
@@ -170,25 +186,20 @@
                                     <option value="{{ $sT->prov_id }}">{{ $sT->prov_name }}</option>
                                 @endforeach
                             </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
                         </div>
                         <div class="invalid-feedback">
                             Provinsi Tidak Boleh Kosong
                         </div>
                     </div>
 
-                    <!-- Kota -->
+                    <!-- Kota/Kabupaten -->
                     <div class="mb-3">
                         <label for="kota" class="form-label">Kota/Kabupaten</label>
                         <div class="input-group">
                             <select class="form-control" id="kota" name="kota" required disabled>
-                                <option></option>
+                                <option value="" selected disabled>Pilih Kota/Kabupaten</option>
+                                <!-- Opsi akan diisi secara dinamis melalui AJAX -->
                             </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
                         </div>
                         <div class="invalid-feedback">
                             Kota/Kabupaten Tidak Boleh Kosong
@@ -200,11 +211,8 @@
                         <label for="kecamatan" class="form-label">Kecamatan</label>
                         <div class="input-group">
                             <select class="form-control" id="kecamatan" name="kecamatan" required disabled>
-                                <option></option>
+                                <option value="" selected disabled>Pilih Kecamatan</option>
                             </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
                         </div>
                         <div class="invalid-feedback">
                             Kecamatan Tidak Boleh Kosong
@@ -216,11 +224,8 @@
                         <label for="kelurahan" class="form-label">Kelurahan</label>
                         <div class="input-group">
                             <select class="form-control" id="kelurahan" name="kelurahan" required disabled>
-                                <option></option>
+                                <option value="" selected disabled>Pilih Kelurahan</option>
                             </select>
-                            <button type="button" class="btn btn-outline-primary">
-                                <i class="bi bi-plus"></i>
-                            </button>
                         </div>
                         <div class="invalid-feedback">
                             Kelurahan Tidak Boleh Kosong
@@ -254,22 +259,24 @@
                         </div>
                     </div>
 
-                    <!-- File Foto -->
+                    <!-- Email -->
                     <div class="mb-3">
-                        <label for="fileFoto" class="form-label">File Foto</label>
-                        <input type="file" class="form-control" id="fileFoto" name="fileFoto" required>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email" required>
                         <div class="invalid-feedback">
-                            File Foto Tidak Boleh Kosong
+                            Email Tidak Boleh Kosong
                         </div>
                     </div>
                 </div>
+
                 <div class="card-footer text-end">
-                    <button class="btn btn-danger m-1" type="reset">Batal<i class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
-                    <button class="btn btn-primary m-1" type="submit">Simpan <i class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                    <a class="btn btn-secondary" href="{{ route('Pegawai.index') }}">Batal</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
 <!-- End:: row-1 -->
+
 @endsection
