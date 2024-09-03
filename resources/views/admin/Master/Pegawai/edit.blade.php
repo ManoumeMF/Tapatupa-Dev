@@ -176,6 +176,13 @@
 
         $(document).on('click', '#delFoto', function () {
             $(this).closest('tr').remove();
+
+            // Adding input inside the div.
+            $("#uploadFoto").append('<label for="file-foto" class="form-label">Upload Foto Pegawai</label>' +
+                '<input type="file" class="foto-pegawai form-control" name="photoPegawai"' +
+                'accept="image/png, image/jpeg, image/gif">');
+
+                
             return false;
         });
     });
@@ -391,6 +398,9 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                            </div>
+                                            <div class="col-xl-12" id="uploadFoto">
+                                                
                                             </div>
                                         </div>
                                     </div>
