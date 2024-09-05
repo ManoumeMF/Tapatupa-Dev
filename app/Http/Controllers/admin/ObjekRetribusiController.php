@@ -138,6 +138,8 @@ class ObjekRetribusiController extends Controller
         $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idObjekRetribusi') . ')');
         $objekRetribusiTemp = $objekRetribusiData[0];
 
+        //dd($objekRetribusiTemp);
+
         if ($objekRetribusiTemp) {
             $id = $request->get('idObjekRetribusi');
 

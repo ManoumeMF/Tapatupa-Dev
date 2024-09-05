@@ -135,6 +135,22 @@
             }
         });
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewFoto').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#photoPegawai").change(function () {
+            readURL(this);
+        });
+
         /* filepond 
         FilePond.registerPlugin(
             FilePondPluginImagePreview,
@@ -326,9 +342,29 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
-                                                <label for="file-foto" class="form-label">Upload Foto Pegawai</label>
-                                                <input type="file" class="foto-pegawai form-control" name="photoPegawai"
-                                                    accept="image/png, image/jpeg, image/gif">
+                                                <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                                                    <div class="card custom-card shadow-none mb-0 border-0">
+                                                        <div class="card-body p-0">
+                                                            <div class="row gy-3">
+                                                                <div class="col-xl-8">
+                                                                    <div class="text-center d-grid gap-2 mb-4">
+                                                                    <label for="file-foto" class="form-label">Upload Foto Pegawai</label>
+                                                                        <img src="{{ asset('admin_resources/assets/images/user-general/no_picture.png') }}"
+                                                                            class="img-thumbnail float-start"
+                                                                            width="100%" height="220" alt=""
+                                                                            id="previewFoto" alt="...">
+                                                                            <button type="button"  class="btn btn-sm btn-primary btn-wave waves-effect waves-light" onclick="javascript:document.getElementById('photoPegawai').click();">
+                                                                                <i class="ri-upload-2-line me-1"></i>Unggah Gambar
+                                                                            </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                            <input id="photoPegawai" type="file" style='visibility: hidden;' name="photoPegawai" accept="image/png, image/jpeg, image/gif" />
                                             </div>
                                         </div>
                                     </div>
