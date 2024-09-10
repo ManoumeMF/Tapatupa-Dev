@@ -30,7 +30,7 @@ class ObjekRetribusiController extends Controller
 
     public function store(Request $request)
     {
-               
+
         $uploadedFile = $request->file('fileGambarDenahTanah');
         $photo = $request->get('kodeObjekRetribusi') . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
         $photoPath = Storage::disk('public')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
@@ -74,7 +74,11 @@ class ObjekRetribusiController extends Controller
             'Keterangan' => $request->get('keterangan'),
             'JumlahLantai' => $request->get('jumlahLantai'),
             'Kapasitas' => $request->get('kapasitas'),
-            'GambarDenahTanah' => $photoPath, 
+            'BatasUtara' => $request->get('batasUtara'),
+            'BatasSelatan' => $request->get('batasSelatan'),
+            'BatasTimur' => $request->get('batasTimur'),
+            'BatasBarat' => $request->get('batasBarat'),
+            'GambarDenahTanah' => $photoPath,
             'FotoObjekRetribusi' => $detailobjekRetribusi
         ]);
 
@@ -214,7 +218,7 @@ class ObjekRetribusiController extends Controller
 
     public function createTarif()
     {
-        $objekRetribusi = DB::select('CALL cbo_objekRetribusi()'); 
+        $objekRetribusi = DB::select('CALL cbo_objekRetribusiTarif()');
         $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
 
         return view('admin.Master.ObjekRetribusi.tambahTarif', compact('objekRetribusi', 'jangkaWaktu'));
@@ -222,7 +226,8 @@ class ObjekRetribusiController extends Controller
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
 
-    public function detailObjekToTarif(Request $request){
+    public function detailObjekToTarif(Request $request)
+    {
         $id = $request->idObjek;
 
         $objekData = DB::select('CALL view_objekRetribusiById(' . $id . ')');
@@ -241,23 +246,29 @@ class ObjekRetribusiController extends Controller
         }
     }
 
-    public function storeTarif(Request $request){
+    public function storeTarif(Request $request)
+    {
+        if ($request->hasFile('filePenilaian')) {
+            $uploadedFile = $request->file('filePenilaian');
+            $filePenilaian = $request->get('objekRetribusi') . "-Dokumen Penilaian Tarif-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+            $filePath = Storage::disk('public')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
+        }else{
+            $filePath="";
+        }
 
-        $uploadedFile = $request->file('filePenilaian');
-        $filePenilaian = $request->get('objekRetribusi') . "-Dokumen Penilaian Tarif-" . time() . "." . $uploadedFile->getClientOriginalExtension();
-        $filePath = Storage::disk('public')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
 
         $tarifObjekRetribusi = json_encode([
             'IdObjekRetribusi' => $request->get('objekRetribusi'),
             'IdJenisJangkaWaktu' => $request->get('jangkaWaktu'),
             'TanggalDinilai' => $request->get('tanggalDinilai'),
+            'IsDinilai' => $request->get('statusPenilaian'),
             'NamaPenilai' => $request->get('namaPenilai'),
             'NominalTarif' => $request->get('tarifObjek'),
             'Keterangan' => $request->get('keterangan'),
             'FileHasilPenilaian' => $filePath
         ]);
 
-        //dd($objekRetribusi);
+        //dd($tarifObjekRetribusi);
 
         //$request->fileGambarDenahTanah->move(public_path('images'), $denahTanah);
 
@@ -270,7 +281,8 @@ class ObjekRetribusiController extends Controller
         }
     }
 
-    public function detailTarif(Request $request){
+    public function detailTarif(Request $request)
+    {
         $id = $request->idTarif;
 
         $tarifObjekData = DB::select('CALL view_TarifObjekRetribusiById(' . $id . ')');

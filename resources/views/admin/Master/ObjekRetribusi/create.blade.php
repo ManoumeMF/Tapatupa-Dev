@@ -107,7 +107,7 @@
                             $('#kota').empty();
                             //$("#kota>optgroup>option[value='1']").removeAttr('disabled');
                             $('#kota').prop('disabled', false);
-                            //$('#kota').append('<option hidden>Choose Course</option>');
+                            $('#kota').append('<option>Pilih Kabupaten/Kota</option>');
                             $.each(data, function (key, kota) {
                                 $('#kota').append('<option value="' + kota.city_id + '">' + kota.city_name + '</option>');
                             });
@@ -294,7 +294,7 @@
                                             <div class="col-xl-6">
                                                 <label for="kabupaten-kota" class="form-label">Kabupaten/Kota</label>
                                                 <select class="kabupaten-kota form-control" name="kabupatenKota"
-                                                    id="kota" required disabled>
+                                                    id="kota" disabled required>
                                                     <option></option>
                                                     
                                                 </select>
@@ -391,25 +391,44 @@
                                             <div class="col-xl-6">
                                                 <label for="jumlah-lantai" class="form-label">Jumlah Lantai</label>
                                                 <input type="text" class="form-control" id="jumlah-lantai"
-                                                    placeholder="Masukkan Jumlah lantai" name="jumlahLantai">
+                                                    placeholder="Masukkan Jumlah Lantai" name="jumlahLantai">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kapasitas" class="form-label">Kapasitas (Orang)</label>
                                                 <input type="text" class="form-control" id="kapasitas"
                                                     placeholder="Masukkan Kapasitas" name="kapasitas">
                                             </div>
+                                            <div class="col-xl-6">
+                                                <label for="jumlah-lantai" class="form-label">Batas Sebelah Utara</label>
+                                                <input type="text" class="form-control" id="batasUtara"
+                                                    placeholder="Masukkan Batas Sebelah Utara" name="batasUtara">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="kapasitas" class="form-label">Batas Sebelah Selatan</label>
+                                                <input type="text" class="form-control" id="batasSelatan"
+                                                    placeholder="Masukkan Batas Sebelah Selatan" name="batasSelatan">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="jumlah-lantai" class="form-label">Batas Sebelah Timur</label>
+                                                <input type="text" class="form-control" id="batasTimur"
+                                                    placeholder="Masukkan Batas Sebelah Timur" name="batasTimur">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="kapasitas" class="form-label">Batas Sebelah Barat</label>
+                                                <input type="text" class="form-control" id="batasBarat"
+                                                    placeholder="Masukkan Batas Sebelah Barat" name="batasBarat">
+                                            </div>
                                             <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
+                                            <label for="kapasitas" class="form-label">Gambar Denah Tanah</label>
                                                 <!--<input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah"
                                                     data-allow-reorder="true" data-max-file-size="5MB"
                                                     data-max-files="1">-->
                                                     <input class="foto-objek form-control" type="file" id="foto-objek " name="fileGambarDenahTanah">
                                             </div>
-                                            <label class="form-label text-muted mt-3">Maksimal ukuran gambar 5MB.
                                             </label>
                                             <div class="col-xl-12">
                                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                                <textarea class="form-control" id="keterangan" rows="5" name="keterangan"
+                                                <textarea class="form-control" id="keterangan" rows="3" name="keterangan"
                                                     placeholder="Masukkan Keterangan"></textarea>
                                             </div>
                                         </div>

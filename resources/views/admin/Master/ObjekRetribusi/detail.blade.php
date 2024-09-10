@@ -71,7 +71,7 @@
                             <div class="card custom-card shadow-none mb-0 border-0">
                                 <div class="card-body p-0">
                                     <div class="row gy-3">
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-3">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Kode Objek Retribusi</h6>
@@ -80,7 +80,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-8">
+                                        <div class="col-xl-9">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Jenis Objek Retribusi</h6>
@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-3">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Nomor Bangunan</h6>
@@ -98,7 +98,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-8">
+                                        <div class="col-xl-9">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Nama Objek Retribusi</h6>
@@ -107,16 +107,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-3">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Lokasi Objek Retribusi</h6>
                                                     <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->noBangunan }}</span>
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->lokasiObjekRetribusi }}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-8">
+                                        <div class="col-xl-9">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Alamat Objek Retribusi</h6>
@@ -125,22 +125,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 product-documents-container">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <p class="fw-medium mb-2 fs-14">Gambar Denah Tanah :</p>
-                                                    <div id="map-markers"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
-                            <div class="card custom-card shadow-none mb-0 border-0">
-                                <div class="card-body p-0">
-                                    <div class="row gy-3">
                                         <div class="col-xl-3">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
@@ -205,6 +189,59 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-12 border-top">
+                                            <br>
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Gambar Peta Tanah</h6>
+                                                    <div id="map-markers"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                            <div class="card custom-card shadow-none mb-0 border-0">
+                                <div class="card-body p-0">
+                                    <div class="row gy-3">
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Batas Sebelah Utara</h6>
+                                                    <span
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->batasUtara }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Batas Sebelah Selatan</h6>
+                                                    <span
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->batasSelatan }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Batas Sebelah Timur</h6>
+                                                    <span
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->batasTimur }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Batas Sebelah Barat</h6>
+                                                    <span
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->batasBarat }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 border-top">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill"><br>
                                                     <h6 class="mb-1 fs-13">Gambar Denah Tanah</h6>
@@ -228,7 +265,9 @@
                                                     @foreach ($fotoObjek as $fO)
                                                         <div class="col-lg-4 col-md-4 col-sm-4 col-12">
                                                             <a href="{{url('storage/' . $fO->photoObjekRetribusi)}}"
-                                                                class="glightbox card" data-gallery="gallery1" data-title="{{ $fO->namaPhotoObjekRetribusi }}" data-width="300px" data-height="auto">
+                                                                class="glightbox card" data-gallery="gallery1"
+                                                                data-title="{{ $fO->namaPhotoObjekRetribusi }}"
+                                                                data-width="300px" data-height="auto">
                                                                 <img src="{{asset('storage/' . $fO->photoObjekRetribusi) }}"
                                                                     alt="image" />
                                                             </a>
