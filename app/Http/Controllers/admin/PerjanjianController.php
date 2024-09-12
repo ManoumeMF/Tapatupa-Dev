@@ -22,7 +22,7 @@ class PerjanjianController extends Controller
 
     public function create()
     {
-        //$jenisPermohonan = DB::select('CALL cbo_jenisPermohonan()'); 
+        $permohonanSewa = DB::select('CALL cbo_permohonanPerjanjianSewa()'); 
         //$wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()'); 
         //$objekRetribusi = DB::select('CALL cbo_objekRetribusi()'); 
        // $jangkaWaktu = DB::select('CALL cbo_jangkaWaktu()'); 
@@ -30,7 +30,28 @@ class PerjanjianController extends Controller
 
         //return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa'));
 
-        return view('admin.SewaAset.Perjanjian.create');
+        return view('admin.SewaAset.Perjanjian.create', compact('permohonanSewa'));
+    }
+
+    public function detailPermohonanToPerjanjian(Request $request){
+        $id = $request->idPermohonan;
+
+        //dd($id);
+
+        $permohonanData = DB::select('CALL view_detailPermohonanToPerjanjianById(' . $id . ')');
+        $permohonanSewa = $permohonanData[0];
+
+        if ($permohonanSewa) {
+            return response()->json([
+                'status' => 200,
+                'permohonanSewa' => $permohonanSewa
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Permohonan Sewa Tidak Ditemukan.'
+            ]);
+        }
     }
 
     public function store(Request $request)

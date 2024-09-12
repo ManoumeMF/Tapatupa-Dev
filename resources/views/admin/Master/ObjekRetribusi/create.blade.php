@@ -38,7 +38,12 @@
                 '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
                 'placeholder="Masukkan Keterangan Foto"></textarea>' +
                 '</td>' +
-                '<td  style="text-align: center">' +
+                '<td style="text-align: center">' +
+                '<div class="form-check form-switch mb-2">' +
+                '<input class="form-check-input" type="radio" value="1" role="switch" id="switch-primary" name="gambarUtama[]">' +
+                '</div>'+
+                '</td>' +
+                '<td style="text-align: center">' +
                 '<button class="btn btn-sm btn-icon btn-danger-light" type="button" id="delFoto"><i class="ri-delete-bin-5-line"></i></button>' +
                 '</td>' +
                 '</tr>');
@@ -432,6 +437,7 @@
                                         <th>Nama Foto</th>
                                         <th>File Foto</th>
                                         <th>Keterangan</th>
+                                        <th width="40px">Gambar Utama</th>
                                         <th width="20px">Aksi</th>
                                     </tr>
                                 </thead>

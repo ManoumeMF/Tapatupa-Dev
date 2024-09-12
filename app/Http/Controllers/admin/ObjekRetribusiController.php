@@ -30,8 +30,8 @@ class ObjekRetribusiController extends Controller
 
     public function store(Request $request)
     {
-               
-        $uploadedFile = $request->file('fileGambarDenahTanah');
+        dd($request->all());
+        /*$uploadedFile = $request->file('fileGambarDenahTanah');
         $photo = $request->get('kodeObjekRetribusi') . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
         $photoPath = Storage::disk('public')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
 
@@ -84,7 +84,7 @@ class ObjekRetribusiController extends Controller
             return redirect()->route('ObjekRetribusi.index')->with('success', 'Objek Retribusi Berhasil Ditambahkan!');
         } else {
             return redirect()->route('ObjekRetribusi.create')->with('error', 'Objek Retribusi Gagal Disimpan!');
-        }
+        }*/
     }
 
     public function edit($id)
