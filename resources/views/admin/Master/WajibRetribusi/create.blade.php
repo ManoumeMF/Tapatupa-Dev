@@ -46,6 +46,24 @@
             return false;
         });
 
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewFoto').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#photoWajibRetribusi").change(function () {
+            readURL(this);
+        });
+
+
         // for product images upload
         //const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
         //FilePond.create(MultipleElement1,);
@@ -244,7 +262,8 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post" enctype="multipart/form-data" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post"
+            enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -287,7 +306,8 @@
                                             <div class="col-xl-12">
                                                 <label for="nama-wajib-retribusi" class="form-label">Nama Wajib
                                                     Retribusi</label>
-                                                <input type="text" class="form-control" id="nama-wajib-retribusi" name="namaWajibRetribusi"
+                                                <input type="text" class="form-control" id="nama-wajib-retribusi"
+                                                    name="namaWajibRetribusi"
                                                     placeholder="Masukkan Nama Wajib Retribusi Sesuai KTP" required>
                                                 <div class="invalid-feedback">
                                                     Nama Wajib Retribusi Tidak Boleh Kosong
@@ -387,9 +407,35 @@
                                                     placeholder="Masukkan email">
                                             </div>
                                             <div class="col-xl-12">
-                                                <label for="wmail" class="form-label">Upload Foto Wajib
-                                                    Retribusi</label>
-                                                <input type="file" class="foto-wajib-retribusi form-control" name="photoWajibRetribusi" accept="image/png, image/jpeg, image/gif">
+                                                <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                                                    <div class="card custom-card shadow-none mb-0 border-0">
+                                                        <div class="card-body p-0">
+                                                            <div class="row gy-3">
+                                                                <div class="col-xl-8">
+                                                                    <div class="text-center d-grid gap-2 mb-4">
+                                                                        <label for="file-foto" class="form-label">Upload
+                                                                            Foto Wajib Retribusi</label>
+                                                                        <img src="{{ asset('admin_resources/assets/images/user-general/no_picture.png') }}"
+                                                                            class="img-thumbnail float-start"
+                                                                            width="100%" height="220" alt=""
+                                                                            id="previewFoto" alt="...">
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-primary btn-wave waves-effect waves-light"
+                                                                            onclick="javascript:document.getElementById('photoWajibRetribusi').click();">
+                                                                            <i class="ri-upload-2-line me-1"></i>Unggah
+                                                                            Gambar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-12">
+                                                    <input id="photoWajibRetribusi" type="file"
+                                                        style='visibility: hidden;' name="photoWajibRetribusi"
+                                                        accept="image/png, image/jpeg, image/gif" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

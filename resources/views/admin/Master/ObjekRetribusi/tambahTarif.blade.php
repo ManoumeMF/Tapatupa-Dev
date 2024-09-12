@@ -25,9 +25,8 @@
             altInput: true,
             altFormat: "j F Y",
             dateFormat: "m/d/Y",
-            disableMobile: true
+            disableMobile: false,
         });
-
 
         //saat pilihan objek retribusi di pilih, maka akan mengambil data objek retribusi menggunakan ajax
         $('#objekRetribusi').on('change', function () {
@@ -67,6 +66,16 @@
                 });
             }
         });
+
+        $("#checkebox-md").on("change", function () {
+            if ($(this).prop("checked")) {
+                $(".tanggal-dinilai").prop("disabled", false); // enable the input field
+                $("#namaPenilai").prop("disabled", false); // enable the input field
+            } else {
+                $(".tanggal-dinilai").prop("disabled", true); // disable the input field
+                $("#namaPenilai").prop("disabled", true); // disable the input field
+            }
+        });
     });
 
 </script>
@@ -92,7 +101,8 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.storeTarif')}}" method="post"  enctype="multipart/form-data" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.storeTarif')}}" method="post"
+            enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -129,11 +139,13 @@
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="nik" class="form-label">Jenis Objek Retribusi</label>
-                                                <input type="text" class="form-control" id="jenisObjekRetribusi" disabled>
+                                                <input type="text" class="form-control" id="jenisObjekRetribusi"
+                                                    disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="nik" class="form-label">Lokasi Objek Retribusi</label>
-                                                <input type="text" class="form-control" id="lokasiObjekRetribusi" disabled>
+                                                <input type="text" class="form-control" id="lokasiObjekRetribusi"
+                                                    disabled>
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="alamat-wajib-retribusi" class="form-label">Alamat Objek
@@ -182,8 +194,8 @@
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kapasistas" class="form-label">Kapasitas (orang)</label>
-                                                <input type="text" class="form-control" id="kapasitas"
-                                                    name="kapasitasi" disabled>
+                                                <input type="text" class="form-control" id="kapasitas" name="kapasitasi"
+                                                    disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -214,15 +226,28 @@
                                                     <div class="input-group">
                                                         <div class="input-group-text text-muted"> <i
                                                                 class="ri-calendar-line"></i> </div>
-                                                        <input type="text" class="form-control" id="tanggalDinilai" name="tanggalDinilai"
-                                                            placeholder="Pilih Tanggal Penilaian">
+                                                        <input type="text" class="form-control tanggal-dinilai"
+                                                            id="tanggalDinilai" name="tanggalDinilai"
+                                                            placeholder="Pilih Tanggal Penilaian" required disabled>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
+                                                <label for="nama-penilai" class="form-label">Status Penilaian</label>
+                                                <div style="display: flex;  align-items: center;  height: 50%;">
+                                                    <input class="form-check-input" type="checkbox" value="1"
+                                                        id="checkebox-md" name="statusPenilaian">
+                                                    <label class="form-check-label" for="statusPenilaian"
+                                                        style="margin-left: 5px; padding-top:2px;">
+                                                        Sudah Dinilai
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8">
                                                 <label for="nama-penilai" class="form-label">Nama Penilai</label>
                                                 <input type="text" class="form-control" id="namaPenilai"
-                                                    name="namaPenilai" placeholder="Masukkan Nama  Penilai">
+                                                    name="namaPenilai" placeholder="Masukkan Nama  Penilai" required
+                                                    disabled>
                                                 <div class="invalid-feedback">
                                                     Nama Penilai Tidak Boleh Kosong
                                                 </div>
@@ -232,19 +257,21 @@
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="tarif-objek"
                                                     name="tarifObjek"
-                                                    placeholder="Masukkan Nominal Tarif Objek Retribusi">
+                                                    placeholder="Masukkan Nominal Tarif Objek Retribusi" required>
                                                 <div class="invalid-feedback">
                                                     Nominal Tarif Objek Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                                <textarea class="form-control" id="keterangan" rows="3" name="keterangan"
-                                                    placeholder="Masukkan Keterangan"></textarea>
+                                                <textarea class="form-control" id="keterangan" rows="3"
+                                                    name="keterangan" placeholder="Masukkan Keterangan"></textarea>
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
-                                            <label for="keterangan" class="form-label">Upload File Hasil Penilaian</label>
-                                                <input class="form-control" type="file" id="filePenilaian" name="filePenilaian">
+                                                <label for="keterangan" class="form-label">Upload File Hasil
+                                                    Penilaian</label>
+                                                <input class="form-control" type="file" id="filePenilaian"
+                                                    name="filePenilaian">
                                             </div>
                                         </div>
                                     </div>
