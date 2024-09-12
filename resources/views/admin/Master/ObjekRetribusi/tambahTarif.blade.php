@@ -234,7 +234,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-2">
+                                            <div class="col-xl-4">
                                                 <label for="nama-penilai" class="form-label">Status Penilaian</label>
                                                 <div style="display: flex;  align-items: center;  height: 50%;">
                                                     <input class="form-check-input" type="checkbox" value="1"
@@ -245,7 +245,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-10">
+                                            <div class="col-xl-8">
                                                 <label for="nama-penilai" class="form-label">Nama Penilai</label>
                                                 <input type="text" class="form-control" id="namaPenilai"
                                                     name="namaPenilai" placeholder="Masukkan Nama  Penilai" required

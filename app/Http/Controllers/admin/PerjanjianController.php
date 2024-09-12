@@ -22,15 +22,11 @@ class PerjanjianController extends Controller
 
     public function create()
     {
-        //$jenisPermohonan = DB::select('CALL cbo_jenisPermohonan()'); 
-        //$wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()'); 
-        //$objekRetribusi = DB::select('CALL cbo_objekRetribusi()'); 
-       // $jangkaWaktu = DB::select('CALL cbo_jangkaWaktu()'); 
-        //$peruntukanSewa = DB::select('CALL cbo_peruntukanSewa()'); 
+        $permohonanSewa = DB::select('CALL cbo_permohonanPerjanjianSewa()'); 
 
         //return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa'));
 
-        return view('admin.SewaAset.Perjanjian.create');
+        return view('admin.SewaAset.Perjanjian.create', compact('permohonanSewa'));
     }
 
     public function store(Request $request)

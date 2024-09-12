@@ -157,6 +157,7 @@
                             <th>No. Bangunan</th>
                             <th>Perioditas</th>
                             <th>Tarif Objek</th>
+                            <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
@@ -169,6 +170,7 @@
                                     <td>{{ $tR->noBangunan }}</td>
                                     <td>{{ $tR->jenisJangkaWaktu }}</td>
                                     <td>{{ $tR->nominalTarif }}</td>
+                                    <td>{{ $tR->keterangan }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
