@@ -31,8 +31,8 @@ class ObjekRetribusiController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
-        /*$uploadedFile = $request->file('fileGambarDenahTanah');
+        //dd($request->all());
+        $uploadedFile = $request->file('fileGambarDenahTanah');
 
 
         $uploadedFile = $request->file('fileGambarDenahTanah');
@@ -92,7 +92,7 @@ class ObjekRetribusiController extends Controller
             return redirect()->route('ObjekRetribusi.index')->with('success', 'Objek Retribusi Berhasil Ditambahkan!');
         } else {
             return redirect()->route('ObjekRetribusi.create')->with('error', 'Objek Retribusi Gagal Disimpan!');
-        }*/
+        }
     }
 
     public function edit($id)

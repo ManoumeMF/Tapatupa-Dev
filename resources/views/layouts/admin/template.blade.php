@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="dark"
-    data-width="fullwidth" data-menu-styles="dark" data-toggled="close" loader="enable">
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light"
+    data-width="fullwidth" data-menu-styles="light" data-toggled="close" loader="enable">
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -747,13 +747,13 @@
             <!-- Start::main-sidebar-header -->
             <div class="main-sidebar-header">
                 <a href="index.html" class="header-logo">
-                    <img src="{{ asset('admin_resources/assets/images/brand-logos/desktop-logo.png') }}" alt="logo"
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
                         class="desktop-logo">
-                    <img src="{{ asset('admin_resources/assets/images/brand-logos/toggle-dark.png') }}" alt="logo"
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
                         class="toggle-dark">
-                    <img src="{{ asset('admin_resources/assets/images/brand-logos/desktop-dark.png') }}" alt="logo"
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
                         class="desktop-dark">
-                    <img src="{{ asset('admin_resources/assets/images/brand-logos/toggle-logo.png') }}" alt="logo"
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
                         class="toggle-logo">
                 </a>
             </div>
