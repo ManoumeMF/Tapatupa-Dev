@@ -13,11 +13,9 @@ class PerjanjianController extends Controller
 {
     public function index()
     {
-        //$objekRetribusi = DB::select('CALL viewAll_objekRetribusi()'); 
+        $perjanjianSewa = DB::select('CALL viewAll_perjanjianSewa()'); 
 
-        //return view('admin.Master.ObjekRetribusi.index', compact(''));
-
-        return view('admin.SewaAset.Perjanjian.index');
+        return view('admin.SewaAset.Perjanjian.index', compact('perjanjianSewa'));
         
     }
 
