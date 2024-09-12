@@ -16,6 +16,12 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
 
+        $(".disahkan-oleh").select2({
+            placeholder: "Pilih Pejabat",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
         // for product images upload
         const MultipleElement1 = document.querySelector('.file-penilaian');
         FilePond.create(MultipleElement1,);
@@ -24,21 +30,21 @@
         flatpickr("#tanggalDisahkan", {
             altInput: true,
             altFormat: "j F Y",
-            dateFormat: "Y-m-d",
+            dateFormat: "m/d/Y",
             disableMobile: true
         });
 
         flatpickr("#tanggalAwal", {
             altInput: true,
             altFormat: "j F Y",
-            dateFormat: "Y-m-d",
+            dateFormat: "m/d/Y",
             disableMobile: true
         });
 
         flatpickr("#tanggalAkhir", {
             altInput: true,
             altFormat: "j F Y",
-            dateFormat: "Y-m-d",
+            dateFormat: "m/d/Y",
             disableMobile: true
         });
 
@@ -137,7 +143,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('Perjanjian.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('Perjanjian.store')}}" method="post" enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -192,7 +198,11 @@
                                                 <textarea class="form-control" id="alamatWajib" rows="2"
                                                     name="alamatWajibRetribusi" disabled></textarea>
                                             </div>
-
+                                            <div class="col-xl-12">
+                                                <label for="keterangan" class="form-label">Keterangan/Catatan</label>
+                                                <textarea class="form-control" id="keterangan" rows="2"
+                                                    name="keterangan"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -270,9 +280,21 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Upload File Hasil Penilaian :</p>
-                                                <input type="file" class="form-control" name="filePenilaian"
-                                                    data-max-file-size="3MB">
+                                            <label for="nomor-whatsapp" class="form-label">Upload Surat Perjanjian</label>
+                                                <input type="file" class="form-control" name="fileSuratPerjanjian"
+                                                    data-max-file-size="5MB">
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <label for="alamat-wajib-retribusi" class="form-label">Disahkan Oleh:</label>
+                                                <select class="form-control disahkan-oleh" id="disahkanOleh"  name="disahkanOleh"
+                                                    required>
+                                                    <option></option>
+                                                    @foreach ($pegawai as $pG)
+                                                        <option value="{{ $pG->idPegawai }}">
+                                                            {{ $pG->namaJabatanBidang }} - {{ $pG->namaPegawai }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

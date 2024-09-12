@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class PerjanjianController extends Controller
 {
@@ -23,10 +24,11 @@ class PerjanjianController extends Controller
     public function create()
     {
         $permohonanSewa = DB::select('CALL cbo_permohonanPerjanjianSewa()'); 
+        $pegawai = DB::select('CALL cbo_pegawai()'); 
 
         //return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa'));
 
-        return view('admin.SewaAset.Perjanjian.create', compact('permohonanSewa'));
+        return view('admin.SewaAset.Perjanjian.create', compact('permohonanSewa', 'pegawai'));
 
     }
 
@@ -54,18 +56,49 @@ class PerjanjianController extends Controller
 
     public function store(Request $request)
     {
-        $Status = json_encode([
-            'JenisStatus' => $request->get('jenisStatus'),
-            'Status' => $request->get('namaStatus'),
-            'Keterangan'  => $request->get('keterangan')
+        if ($request->hasFile('fileSuratPerjanjian')) {
+            //dd($request->file('fileSuratPerjanjian'));
+            $uploadedFile = $request->file('fileSuratPerjanjian');
+            $filePenilaian = "-SuratPerjanjian-" . $request->get('noSuratPerjanjian') . time() . "." . $uploadedFile->getClientOriginalExtension();
+            $filePath = Storage::disk('public')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePenilaian);
+        }else{
+            $filePath="";
+        }
+
+        $nik = $request->input('nik');
+        $namaSaksi = $request->input('namaSaksi');
+        $keteranganSaksi = $request->input('keteranganSaksi'); 
+
+        $saksiPerjanjianSewa = [];
+
+        for ($count = 0; $count < collect($nik)->count(); $count++) {
+            $saksiPerjanjianSewa[] = [
+                'NIK' => $nik[$count],
+                'NamaSaksi' => $namaSaksi[$count],
+                'KeteranganSaksi' => $keteranganSaksi[$count],
+            ];
+        }
+
+        $PerjanjianSewa = json_encode([
+            'IdPermohonan' => $request->get('permohonanSewa'),
+            'NoSuratPerjanjian' => $request->get('noSuratPerjanjian'),
+            'TanggalDisahkan' => $request->get('tanggalDisahkan'),
+            'TanggalAwal' => $request->get('tanggalAwal'),
+            'TanggalAkhir' => $request->get('tanggalAkhir'),
+            'Keterangan'  => $request->get('keterangan'),
+            'DisahkanOleh' => $request->get('disahkanOleh'),
+            'FileSuratPerjanjian' => $filePath,
+            'Status' => '0',
+            'CreateBy' => '1',
+            'SaksiPerjanjianSewa' => $saksiPerjanjianSewa
         ]);
     
-            $response = DB::statement('CALL insert_status(:dataStatus)', ['dataStatus' => $Status]);
+            $response = DB::statement('CALL insert_perjanjianSewa(:dataPerjanjianSewa)', ['dataPerjanjianSewa' => $PerjanjianSewa]);
 
             if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Ditambahkan!');
+                return redirect()->route('Perjanjian.index')->with('success', 'Perjanjian Sewa Berhasil Ditambahkan!');
             } else {
-                return redirect()->route('Status.create')->with('error', 'Status Gagal Disimpan!');
+                return redirect()->route('Perjanjian.create')->with('error', 'Perjanjian Sewa Gagal Disimpan!');
             }
     }
 
