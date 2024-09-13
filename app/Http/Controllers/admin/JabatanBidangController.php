@@ -32,7 +32,7 @@ class JabatanBidangController extends Controller
 
     public function store(Request $request)
     {
-            // Data yang akan dikirim ke stored procedure
+        // Data yang akan dikirim ke stored procedure
         $jabatanBidang = json_encode([
             'IdJabatan' => $request->get('jabatan'),
             'IdBidang' => $request->get('bidang'),
