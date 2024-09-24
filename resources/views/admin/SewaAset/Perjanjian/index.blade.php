@@ -175,7 +175,7 @@
                                                 <li><a class="dropdown-item" href="{{ route('Perjanjian.detail', $pS->idPerjanjianSewa) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $pS->idPerjanjianSewa}} class="dropdown-item deleteBtn">
+                                                <li><button type="button" value="{{ $pS->idPerjanjianSewa}}" class="dropdown-item deleteBtn">
                                                         <i
                                                             class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
                                                 </li>

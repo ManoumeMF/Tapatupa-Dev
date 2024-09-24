@@ -14,6 +14,8 @@ class PermohonanSewaController extends Controller
     private  $stat = 1;
     private $createBy = 1;
 
+    private $parentIdPermohonan = 1;
+
     public function index()
     {
         $permohonanSewa = DB::select('CALL viewAll_permohonanSewa()'); 
@@ -26,7 +28,7 @@ class PermohonanSewaController extends Controller
 
     public function create()
     {
-        $jenisPermohonan = DB::select('CALL cbo_jenisPermohonan()'); 
+        $jenisPermohonan = DB::select('CALL cbo_jenisPermohonanByParentId(' . $this->parentIdPermohonan . ')'); 
         $wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()'); 
         $objekRetribusi = DB::select('CALL cbo_objekRetribusi()'); 
         $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()'); 
