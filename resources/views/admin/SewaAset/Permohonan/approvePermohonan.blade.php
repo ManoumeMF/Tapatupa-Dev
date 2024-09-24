@@ -310,7 +310,7 @@
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Status Permohonan</h6>
-                                                    @if($permohonanSewa->namaStatus == "Baru")
+                                                @if($permohonanSewa->namaStatus == "Baru")
                                                     <span class="badge bg-primary">{{ $permohonanSewa->namaStatus }}</span>
                                                 @elseif($permohonanSewa->namaStatus == "Disetujui KaSubBid")
                                                     <span class="badge bg-secondary">{{ $permohonanSewa->namaStatus }}</span>

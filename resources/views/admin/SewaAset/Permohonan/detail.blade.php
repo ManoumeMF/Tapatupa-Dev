@@ -245,7 +245,7 @@
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Lama Sewa</h6>
                                                     <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $permohonanSewa->lamaSewa . ' ' .  $permohonanSewa->namaSatuan}}</span>
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $permohonanSewa->lamaSewa . ' ' . $permohonanSewa->namaSatuan}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -262,8 +262,15 @@
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Status Permohonan</h6>
-                                                    <span
-                                                        class="badge bg-primary">{{ $permohonanSewa->namaStatus }}</span>
+                                                    @if($permohonanSewa->namaStatus == "Baru")
+                                                        <span
+                                                            class="badge bg-primary">{{ $permohonanSewa->namaStatus }}</span>
+                                                    @elseif($permohonanSewa->namaStatus == "Disetujui KaSubBid")
+                                                        <span
+                                                            class="badge bg-secondary">{{ $permohonanSewa->namaStatus }}</span>
+                                                    @elseif($permohonanSewa->namaStatus == "Disetujui KaBid")
+                                                        <span class="badge bg-info">{{ $permohonanSewa->namaStatus }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
