@@ -10586,7 +10586,7 @@ caption {
 }
 .authentication .desktop-logo,
 .authentication .desktop-dark {
-  height: 1.75rem;
+  height: 4.75rem;
   line-height: 1.75rem;
 }
 .coming-soon-main {
@@ -20460,7 +20460,7 @@ input.error {
   transition: all 0.05s ease;
 }
 .app-sidebar .main-sidebar-header .header-logo img {
-  height: 1.5rem;
+  height: 3.5rem;
   line-height: 1.75rem;
 }
 .app-sidebar .main-sidebar-header .header-logo .desktop-logo {
