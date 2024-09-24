@@ -518,10 +518,10 @@
                                         placeholder="Masukkan Username" name="username">
                                 </div>
                                 <div class="col-xl-12 mb-2">
-                                    <label for="signin-password" class="form-label text-default d-block">Password<a
+                                    <!--<label for="signin-password" class="form-label text-default d-block">Password<a
                                             href="reset-password-basic.html"
                                             class="float-end  link-danger op-5 fw-medium fs-12">Lupa Password
-                                            ?</a></label>
+                                            ?</a></label>-->
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="signin-password"
                                             placeholder="Masukkan Password" name="password">
@@ -532,10 +532,10 @@
                                     <div class="mt-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                            <label class="form-check-label text-muted fw-normal fs-12"
+                                            <!--<label class="form-check-label text-muted fw-normal fs-12"
                                                 for="defaultCheck1">
                                                 Remember password ?
-                                            </label>
+                                            </label>-->
                                         </div>
                                     </div>
                                 </div>
