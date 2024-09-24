@@ -26,38 +26,37 @@ class BidangController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validate the input data
-    $validator = Validator::make($request->all(), [
-        'idDepartemen' => 'required|integer',
-        'parentBidang' => 'required|integer',
-        'namaBidang' => 'required|string|max:255',
-        'keterangan' => 'nullable|string|max:255',
-    ]);
+    {
+        // Validate the input data
+        $validator = Validator::make($request->all(), [
+            'idDepartemen' => 'required|integer',
+            'parentBidang' => 'required|integer',
+            'namaBidang' => 'required|string|max:255',
+            'keterangan' => 'nullable|string|max:255',
+        ]);
 
-    if ($validator->fails()) {
-        return redirect()->route('Bidang.create')
-            ->withErrors($validator)
-            ->withInput();
+        if ($validator->fails()) {
+            return redirect()->route('Bidang.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Encode input data as JSON and call the insert stored procedure
+        $dataBidang = json_encode([
+            'IdDepartemen' => $request->get('idDepartemen'),
+            'ParentBidang' => $request->get('parentBidang'),
+            'NamaBidang' => $request->get('namaBidang'),
+            'Keterangan' => $request->get('keterangan')
+        ]);
+
+        $response = DB::statement('CALL insert_bidang(:dataBidang)', ['dataBidang' => $dataBidang]);
+
+        if ($response) {
+            return redirect()->route('Bidang.index')->with('success', 'Bidang Berhasil Ditambahkan!');
+        } else {
+            return redirect()->route('Bidang.create')->with('error', 'Bidang Gagal Disimpan!');
+        }
     }
-
-    // Encode input data as JSON and call the insert stored procedure
-    $dataBidang = json_encode([
-        'IdDepartemen' => $request->get('idDepartemen'),
-        'ParentBidang' => $request->get('parentBidang'),
-        'NamaBidang' => $request->get('namaBidang'),
-        'Keterangan' => $request->get('keterangan')
-    ]);
-
-    $response = DB::statement('CALL insert_bidang(:dataBidang)', ['dataBidang' => $dataBidang]);
-
-    if ($response) {
-        return redirect()->route('Bidang.index')->with('success', 'Bidang Berhasil Ditambahkan!');
-    } else {
-        return redirect()->route('Bidang.create')->with('error', 'Bidang Gagal Disimpan!');
-    }
-}
-
 
     public function edit($id)
     {
@@ -127,11 +126,11 @@ class BidangController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message'=> 'Bidang Berhasil Dihapus!'
+                'message' => 'Bidang Berhasil Dihapus!'
             ]);
         } else {
             return response()->json([
-                'status'=> 404,
+                'status' => 404,
                 'message' => 'Data Bidang Tidak Ditemukan.'
             ]);
         }
@@ -145,12 +144,12 @@ class BidangController extends Controller
 
         if ($bidang) {
             return response()->json([
-                'status'=> 200,
+                'status' => 200,
                 'bidang' => $bidang
             ]);
         } else {
             return response()->json([
-                'status'=> 404,
+                'status' => 404,
                 'message' => 'Data Bidang Tidak Ditemukan.'
             ]);
         }
@@ -160,7 +159,7 @@ class BidangController extends Controller
     {
         $departemenData = json_encode([
             'NamaDepartmen' => $request->get('namaDepartmenModal'),
-            'Keterangan'    => $request->get('keteranganModal')
+            'Keterangan' => $request->get('keteranganModal')
         ]);
 
         $response = DB::statement('CALL insert_departemen(:dataDepartemen)', ['dataDepartemen' => $departemenData]);

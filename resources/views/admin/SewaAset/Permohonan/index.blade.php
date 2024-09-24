@@ -191,7 +191,8 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <a class="dropdown-item" href=""><i
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('PermohonanSewa.detail', $pS->idPermohonanSewa) }}"><i
                                                             class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
                                                 </li>
                                                 <li><a class="dropdown-item" href=""><i

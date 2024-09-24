@@ -167,7 +167,6 @@ class ObjekRetribusiController extends Controller
 
     public function detail($id)
     {
-
         $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $id . ')');
         $objekRetribusi = $objekRetribusiData[0];
 

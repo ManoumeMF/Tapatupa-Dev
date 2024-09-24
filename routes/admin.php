@@ -263,7 +263,7 @@ Route::post("/permohonan-sewa/simpan", [PermohonanSewaController::class, 'store'
 Route::get("/permohonan-sewa/ubah/{id}", [PermohonanSewaController::class, 'edit'])->name('PermohonanSewa.edit');
 Route::post("/permohonan-sewa/update/{id}", [PermohonanSewaController::class, 'update'])->name('PermohonanSewa.update');
 Route::delete("/permohonan-sewa/hapus", [PermohonanSewaController::class, 'delete'])->name('PermohonanSewa.delete');
-Route::get("/permohonan-sewa/detail", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
+Route::get("/permohonan-sewa/detail/{id}", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
 
 // Route untuk Perjanjian Sewa
 Route::get("/perjanjian-sewa", [PerjanjianController::class, 'index'])->name('Perjanjian.index');

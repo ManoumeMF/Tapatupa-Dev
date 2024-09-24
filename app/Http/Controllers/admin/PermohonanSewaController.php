@@ -150,26 +150,16 @@ class PermohonanSewaController extends Controller
             }
     }
 
-    public function detail(Request $request)
+    public function detail($id)
     {      
-        $id = $request->id;
+        $idStatus = "0";
 
-        $statusData = DB::select('CALL view_statusById('  . $id . ')');
-        $status = $statusData[0];
+        $permohonanData = DB::select('CALL view_PermohonanSewaByIdAndStatus(?, ?)', [$id, $idStatus]);
+        $permohonanSewa = $permohonanData[0];
 
         //dd($fieldEducation);
 
-        if ($status) {
-            return response()->json([
-                'status'=> 200,
-                'status' => $status
-            ]);
-        }else{
-            return response()->json([
-                'status'=> 404,
-                'message' => 'Data Status Tidak Ditemukan.'
-            ]);
-        }
+        return view('admin.SewaAset.Permohonan.detail', compact('permohonanSewa'));
     }
 
     public function storeStatusType(Request $request)
