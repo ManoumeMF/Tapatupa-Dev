@@ -96,12 +96,12 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Permohonan Sewa</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Setujui Permohonan Sewa</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Sewa Aset</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Permohonan Sewa</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Setujui Permohonan Sewa</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Daftar Permohonan Sewa</li>
                 </ol>
             </nav>
@@ -192,18 +192,27 @@
                                                 <i class="fe fe-align-justify"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
-                                                <li>
+                                                @if($pS->namaStatus == "Baru")
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('PermohonanSewa.approvePermohonanDetail', $pS->idPermohonanSewa) }}"><i
+                                                                class="ri-task-line me-2 align-middle d-inline-block"></i>Setujui
+                                                            Oleh KaSubBid
+                                                        </a>
+                                                    </li>
+                                                @elseif($pS->namaStatus == "Disetujui KaSubBid")
                                                     <a class="dropdown-item"
-                                                        href="{{ route('PermohonanSewa.detail', $pS->idPermohonanSewa) }}"><i
-                                                            class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href=""><i
-                                                            class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
-                                                </li>
-                                                <li><button type="button" value="" class="dropdown-item deleteBtn">
-                                                        <i
-                                                            class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
-                                                </li>
+                                                        href="{{ route('PermohonanSewa.approvePermohonanDetail', $pS->idPermohonanSewa) }}"><i
+                                                            class="ri-task-line me-2 align-middle d-inline-block"></i>Setujui
+                                                        Oleh KaBid
+                                                    </a>
+                                                @elseif($pS->namaStatus == "Disetujui KaBid")
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('PermohonanSewa.approvePermohonanDetail', $pS->idPermohonanSewa) }}"><i
+                                                            class="ri-task-line me-2 align-middle d-inline-block"></i>Setujui
+                                                        Oleh Kaban
+                                                    </a>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

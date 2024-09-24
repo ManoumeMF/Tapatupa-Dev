@@ -1,5 +1,53 @@
 @extends('layouts.admin.template')
 @section('content')
+<script>
+    //-------------------------------------------------------------------------------------------------
+    //Ajax Form Delete Data
+    //-------------------------------------------------------------------------------------------------
+    $(document).on('click', '.approveBtn', function (e) {
+        e.preventDefault();
+
+        var id = $(this).val();
+        var namaStatus = {!! json_encode($permohonanSewa->namaStatus) !!};
+
+        var data = {
+            'idPermohonan': id,
+            'namaStatus': namaStatus,
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('PermohonanSewa.storeApprovePermohonan') }}",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                if (response.status == 400) {
+                    $.each(response.errors, function (key, err_value) {
+                        $('.toast-delete-error').append(err_value);
+
+                        const primarytoastDeleteError = document.getElementById('dangerDeleteToast')
+                        const toast = new bootstrap.Toast(primarytoastDeleteError)
+                        toast.show()
+                    });
+                } else {
+                    $('.toast-delete-success').append(response.message);
+
+                    const primarytoastDeleteSuccess = document.getElementById('primaryDeleteToast')
+                    const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
+                    toast.show()
+
+                    setTimeout("window.location='{{ route('PermohonanSewa.approvePermohonanList') }}'", 1000);
+                }
+            }
+        });
+    });
+</script>
 
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -245,7 +293,7 @@
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Lama Sewa</h6>
                                                     <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $permohonanSewa->lamaSewa . ' ' .  $permohonanSewa->namaSatuan}}</span>
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $permohonanSewa->lamaSewa . ' ' . $permohonanSewa->namaSatuan}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -262,8 +310,13 @@
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Status Permohonan</h6>
-                                                    <span
-                                                        class="badge bg-primary">{{ $permohonanSewa->namaStatus }}</span>
+                                                    @if($permohonanSewa->namaStatus == "Baru")
+                                                    <span class="badge bg-primary">{{ $permohonanSewa->namaStatus }}</span>
+                                                @elseif($permohonanSewa->namaStatus == "Disetujui KaSubBid")
+                                                    <span class="badge bg-secondary">{{ $permohonanSewa->namaStatus }}</span>
+                                                @elseif($permohonanSewa->namaStatus == "Disetujui KaBid")
+                                                    <span class="badge bg-info">{{ $permohonanSewa->namaStatus }}</span>
+                                                @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -272,6 +325,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-center">
+                    <button class="btn btn-primary m-1 approveBtn" type="button" value="{{ $permohonanSewa->idPermohonanSewa }}">Setujui <i
+                            class="bi bi-check-square ms-2 ms-1 align-middle d-inline-block"></i></button>
+                    <button class="btn btn-danger m-1" type="button" value="{{ $permohonanSewa->idPermohonanSewa }}">Tolak<i
+                            class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
                 </div>
             </div>
         </div>

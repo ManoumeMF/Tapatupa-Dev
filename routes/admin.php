@@ -247,7 +247,9 @@ Route::get("/permohonan-sewa/ubah/{id}", [PermohonanSewaController::class, 'edit
 Route::post("/permohonan-sewa/update/{id}", [PermohonanSewaController::class, 'update'])->name('PermohonanSewa.update');
 Route::delete("/permohonan-sewa/hapus", [PermohonanSewaController::class, 'delete'])->name('PermohonanSewa.delete');
 Route::get("/permohonan-sewa/detail/{id}", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
-Route::get("/permohonan-sewa/setujui-kasubbid/{id}", [PermohonanSewaController::class, 'approveByKasubBid'])->name('PermohonanSewa.approveByKasubBid');
+Route::get("/permohonan-sewa/persetujuan-permohonan/", [PermohonanSewaController::class, 'approvePermohonanList'])->name('PermohonanSewa.approvePermohonanList');
+Route::get("/permohonan-sewa/setujui-permohonan/{id}", [PermohonanSewaController::class, 'approvePermohonanDetail'])->name('PermohonanSewa.approvePermohonanDetail');
+Route::post("/permohonan-sewa/simpan-setujui-permohonan", [PermohonanSewaController::class, 'storeApprovePermohonan'])->name('PermohonanSewa.storeApprovePermohonan');
 
 // Route untuk Perjanjian Sewa
 Route::get("/perjanjian-sewa", [PerjanjianController::class, 'index'])->name('Perjanjian.index');

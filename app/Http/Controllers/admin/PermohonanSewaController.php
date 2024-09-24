@@ -193,7 +193,16 @@ class PermohonanSewaController extends Controller
         return response()->json($statusTypeCombo);
     }
 
-    public function approveByKasubBid($id)
+    public function approvePermohonanList()
+    {      
+        $permohonanSewa = DB::select('CALL viewAll_permohonanSewaByStatus()'); 
+
+        //dd($fieldEducation);
+
+        return view('admin.SewaAset.Permohonan.approvePermohonanList', compact('permohonanSewa'));
+    }
+
+    public function approvePermohonanDetail($id)
     {      
         $idStatus = "0";
 
@@ -202,6 +211,33 @@ class PermohonanSewaController extends Controller
 
         //dd($fieldEducation);
 
-        return view('admin.SewaAset.Permohonan.approveByKasubBid', compact('permohonanSewa'));
+        return view('admin.SewaAset.Permohonan.approvePermohonan', compact('permohonanSewa'));
     }
+
+    public function storeApprovePermohonan(Request $request)
+    {      
+        $permohonanData = DB::select('CALL view_permohonanById(' . $request -> get('idPermohonan') . ')');
+        $permohonanTemp = $permohonanData[0];
+
+            if ($permohonanTemp) {
+                $approvePermohonan = json_encode([
+                    'IdPermohonan' => $request->get('idPermohonan'),
+                    'NamaStatus' => $request->get('namaStatus'),
+                ]);
+
+                //dd($approvePermohonan);
+
+                $response = DB::statement('CALL approve_permohonanSewa(:dataPermohonan)', ['dataPermohonan' => $approvePermohonan]);
+                
+                return response()->json([
+                    'status' => 200,
+                    'message'=> 'Permohonan Berhasil Disetujui!'
+                ]);
+            }else{
+                return response()->json([
+                    'status'=> 404,
+                    'message' => 'Data Permohonan Tidak Ditemukan.'
+                ]);
+            }
+        }
 }

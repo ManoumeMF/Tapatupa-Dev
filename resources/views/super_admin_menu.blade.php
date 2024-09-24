@@ -285,7 +285,7 @@
                 <a href="{{ route('PermohonanSewa.index') }}" class="side-menu__item">Permohonan Sewa</a>
             </li>
             <li class="slide">
-                <a href="PermohonanSewa.approveByKasubBid" class="side-menu__item">Setujui Permohonan Oleh KaSubBid</a>
+                <a href="{{ route('PermohonanSewa.approvePermohonanList') }}" class="side-menu__item">Setujui Permohonan</a>
             </li>
         </ul>
     </li>
