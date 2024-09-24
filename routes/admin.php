@@ -230,11 +230,6 @@ Route::get("/bidang/detail", [BidangController::class, 'detail'])->name('Bidang.
 Route::delete("/bidang/hapus", [BidangController::class, 'delete'])->name('Bidang.delete');
 Route::post("/bidang/simpan-departmen", [BidangController::class, 'storeDepartmen'])->name('Bidang.storeDepartmen');
 
-
-
-
-
-
 // Route untuk Pegawai
 Route::get("/pegawai", [PegawaiController::class, 'index'])->name('Pegawai.index');
 Route::get("/pegawai/tambah", [PegawaiController::class, 'create'])->name('Pegawai.create');
@@ -244,18 +239,6 @@ Route::post("/pegawai/update/{id}", [PegawaiController::class, 'update'])->name(
 Route::delete("/pegawai/hapus", [PegawaiController::class, 'delete'])->name('Pegawai.delete');
 Route::get("/pegawai/detail", [PegawaiController::class, 'detail'])->name('Pegawai.detail');
 
-
-
-
-
-
-
-
-
-
-
-
-
 // Route untuk Permohonan Sewa
 Route::get("/permohonan-sewa", [PermohonanSewaController::class, 'index'])->name('PermohonanSewa.index');
 Route::get("/permohonan-sewa/tambah", [PermohonanSewaController::class, 'create'])->name('PermohonanSewa.create');
@@ -264,6 +247,7 @@ Route::get("/permohonan-sewa/ubah/{id}", [PermohonanSewaController::class, 'edit
 Route::post("/permohonan-sewa/update/{id}", [PermohonanSewaController::class, 'update'])->name('PermohonanSewa.update');
 Route::delete("/permohonan-sewa/hapus", [PermohonanSewaController::class, 'delete'])->name('PermohonanSewa.delete');
 Route::get("/permohonan-sewa/detail/{id}", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
+Route::get("/permohonan-sewa/setujui-kasubbid/{id}", [PermohonanSewaController::class, 'approveByKasubBid'])->name('PermohonanSewa.approveByKasubBid');
 
 // Route untuk Perjanjian Sewa
 Route::get("/perjanjian-sewa", [PerjanjianController::class, 'index'])->name('Perjanjian.index');

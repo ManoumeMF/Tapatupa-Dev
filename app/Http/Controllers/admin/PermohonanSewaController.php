@@ -192,4 +192,16 @@ class PermohonanSewaController extends Controller
 
         return response()->json($statusTypeCombo);
     }
+
+    public function approveByKasubBid($id)
+    {      
+        $idStatus = "0";
+
+        $permohonanData = DB::select('CALL view_PermohonanSewaByIdAndStatus(?, ?)', [$id, $idStatus]);
+        $permohonanSewa = $permohonanData[0];
+
+        //dd($fieldEducation);
+
+        return view('admin.SewaAset.Permohonan.approveByKasubBid', compact('permohonanSewa'));
+    }
 }
