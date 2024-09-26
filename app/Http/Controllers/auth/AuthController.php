@@ -48,17 +48,19 @@ class AuthController extends Controller
 
             $request->session()->put('userSession', $userData);
 
-            //dd($request->session()->get('userSession'));
+            //dd($userRole);
 
-            //if ($dataUser[0]['roleName'] == 'Admin') {
-            if ($userRole == 'Admin') {
+            if ($userRole == 'Super Admin') {
+                //dd($userRole);
+                return redirect()->route('Dashboard.index'); 
+            }elseif ($userRole == 'Admin') {
                 //return redirect()->intended('admin');
                 return redirect()->route('Dashboard.index');
-            } elseif ($userRole == 'User') {
+            }elseif ($userRole == 'User') {
                 return redirect()->intended('user');
-            } elseif ($userRole == 'Super Admin') {
-                return redirect()->route('Dashboard.index');
-            }
+            } 
+            
+
             return redirect()->intended('/');
         }
 
