@@ -26,16 +26,26 @@
 
     <!-- Filepond JS -->
     <script src="{{ asset('admin_resources/assets/libs/filepond/filepond.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
-    <script src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-transform/filepond-plugin-image-transform.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
+    <script
+        src="{{ asset('admin_resources/assets/libs/filepond-plugin-image-transform/filepond-plugin-image-transform.min.js') }}"></script>
 
     <!-- Google Maps API -->
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyCW16SmpzDNLsrP-npQii6_8vBu_EJvEjA"></script>
@@ -91,12 +101,23 @@
 
     <!-- Filepond CSS -->
     <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond/filepond.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('admin_resources/assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.css') }}">
 
     <!-- GLightbox CSS -->
     <link rel="stylesheet" href="{{ asset('admin_resources/assets/libs/glightbox/css/glightbox.min.css') }}">
 
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dataSession = {!! json_encode(Session::get('userSession')) !!};
+
+            //console.log(dataSession[0]["namaLengkap"]);
+            $('#nama-lengkap').text(dataSession[0]["namaLengkap"]);
+        });
+    </script>
 </head>
 
 <body>
@@ -568,7 +589,9 @@
                                     </span>
                                 </div>
                                 <div class="d-xl-block d-none lh-1">
-                                    <span class="fw-medium lh-1">{{ Auth::user()->username }}</span>
+                                    <span class="fw-medium lh-1" id="nama-lengkap">
+                                             
+                                    </span>
                                 </div>
                             </div>
                         </a>
@@ -609,14 +632,14 @@
             <!-- Start::main-sidebar-header -->
             <div class="main-sidebar-header">
                 <a href="index.html" class="header-logo">
-                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
-                        class="desktop-logo">
-                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
-                        class="toggle-dark">
-                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
-                        class="desktop-dark">
-                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}" alt="logo"
-                        class="toggle-logo">
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}"
+                        alt="logo" class="desktop-logo">
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}"
+                        alt="logo" class="toggle-dark">
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}"
+                        alt="logo" class="desktop-dark">
+                    <img src="{{ asset('admin_resources/assets/images/user-general/patupa_logo_white_bg.png') }}"
+                        alt="logo" class="toggle-logo">
                 </a>
             </div>
             <!-- End::main-sidebar-header -->

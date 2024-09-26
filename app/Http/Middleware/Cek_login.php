@@ -24,15 +24,6 @@ class Cek_login
 
         $userRole = Auth::user()->roles->roleName;
 
-        //dd(Auth::user()->roles);
-        //$dataUser = DB::select('CALL view_userDataById(:id)', ['id' => $user->id]);
-        //$users = $dataUser[0];
-
-        //dd($users);
-
-        /*if($dataUser[0]['roleName'] == $roles)
-            return $next($request);*/
-
         if ($userRole == $roles)
             return $next($request);
 

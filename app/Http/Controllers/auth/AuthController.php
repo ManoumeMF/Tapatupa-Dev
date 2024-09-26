@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest', ['except' => 'logout']);
+    }
+
     public function index()
     {
         if ($user = Auth::user()) {
@@ -28,35 +33,44 @@ class AuthController extends Controller
             [
                 'username' => 'required',
                 'password' => 'required',
-            ]);
+            ]
+        );
 
-        $kredensil = $request->only('username','password');
+        $kredensil = $request->only('username', 'password');
 
-            if (Auth::attempt($kredensil)) {
-                //$user = Auth::user();
-                $userRole = Auth::user()->roles->roleName;
+        if (Auth::attempt($kredensil)) {
+            $user = Auth::user();
+            $userRole = Auth::user()->roles->roleName;
 
-                //if ($dataUser[0]['roleName'] == 'Admin') {
-                if ($userRole == 'Admin') {
-                    //return redirect()->intended('admin');
-                    return redirect()->route('Dashboard.index');
-                } elseif ($userRole == 'User') {
-                    return redirect()->intended('user');
-                }elseif ($userRole == 'Super Admin') {
-                    return redirect()->route('Dashboard.index');
-                }
-                return redirect()->intended('/');
+            //dd($user->idJenisUser);
+
+            $userData = DB::select('CALL view_userSessionById(?, ?)', [$user->id, $user->idJenisUser]);
+
+            $request->session()->put('userSession', $userData);
+
+            //dd($request->session()->get('userSession'));
+
+            //if ($dataUser[0]['roleName'] == 'Admin') {
+            if ($userRole == 'Admin') {
+                //return redirect()->intended('admin');
+                return redirect()->route('Dashboard.index');
+            } elseif ($userRole == 'User') {
+                return redirect()->intended('user');
+            } elseif ($userRole == 'Super Admin') {
+                return redirect()->route('Dashboard.index');
             }
+            return redirect()->intended('/');
+        }
 
         return redirect('login')
-                                ->withInput()
-                                ->withErrors(['login_gagal' => 'These credentials do not match our records.']);
+            ->withInput()
+            ->withErrors(['login_gagal' => 'Username atau Password Anda Salah!']);
     }
 
     public function logout(Request $request)
     {
-       $request->session()->flush();
-       Auth::logout();
-       return Redirect('login');
+        $request->session()->flush();
+        Auth::logout(); // user must logout before redirect them
+        return redirect()->guest('login');
     }
 }
