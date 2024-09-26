@@ -113,9 +113,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var dataSession = {!! json_encode(Session::get('userSession')) !!};
-
-            //console.log(dataSession[0]["namaLengkap"]);
+            var fotoPath = {!! json_encode(url('storage/')) !!};
+            //console.log(fotoPath + dataSession[0]["fotoUser"] );
             $('#nama-lengkap').text(dataSession[0]["namaLengkap"]);
+            $("#fotoUser").attr("src", fotoPath + '/' + dataSession[0]["fotoUser"]);
         });
     </script>
 </head>
@@ -585,7 +586,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="me-xl-2 me-0 lh-1 d-flex align-items-center ">
                                     <span class="avatar avatar-xs avatar-rounded bg-primary-transparent">
-                                        <img src="../assets/images/faces/5.jpg" alt="img">
+                                        <img src="" alt="img" id="fotoUser">
                                     </span>
                                 </div>
                                 <div class="d-xl-block d-none lh-1">
@@ -599,12 +600,12 @@
                         <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
                             aria-labelledby="mainHeaderProfile">
                             <li class="border-bottom"><a class="dropdown-item d-flex flex-column" href="#"><span
-                                        class="fs-12 text-muted">Selamat Datang!</span><span
-                                        class="fs-14">{{ Auth::user()->username }}</span></a>
+                                        class="fs-12 text-muted">Anda Login Sebagai:</span><span
+                                        class="fs-14">{{ Auth::user()->roles->roleName }}</span></a>
                             </li>
-                            <!--<li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i
+                            <li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i
                                         class="ti ti-user me-2 fs-18 text-primary"></i>Profile</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="mail.html"><i
+                            <!--<li><a class="dropdown-item d-flex align-items-center" href="mail.html"><i
                                         class="ti ti-mail me-2 fs-18 text-primary"></i>Inbox</a></li>
                             <li><a class="dropdown-item d-flex align-items-center" href="to-do-list.html"><i
                                         class="ti ti-checklist me-2 fs-18 text-primary"></i>Task Manager</a></li>
@@ -655,7 +656,14 @@
                             <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
                         </svg>
                     </div>
-                    @include('super_admin_menu')
+
+                    @if (Auth::user()->roles->roleName == 'Super Admin')
+                        @include('super_admin_menu')
+                    @elseif (Auth::user()->roles->roleName == 'Admin')
+                        @include('admin_menu')
+                    @endif
+
+                    
                     <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                             width="24" height="24" viewBox="0 0 24 24">
                             <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
