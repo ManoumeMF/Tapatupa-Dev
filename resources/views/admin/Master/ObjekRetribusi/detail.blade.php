@@ -245,10 +245,10 @@
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill"><br>
                                                     <h6 class="mb-1 fs-13">Gambar Denah Tanah</h6>
-                                                    <a href="{{url('storage/' . $objekRetribusi->gambarDenahTanah)}}"
+                                                    <a target="_blank" href="{{Storage::disk('biznet')->url('/' . $objekRetribusi->gambarDenahTanah)}}"
                                                         download="{{ $objekRetribusi->objekRetribusi }}"
                                                         class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-underline">
-                                                        Download Gambar/Dokumen
+                                                        <i class="ri-download-2-line me-2"></i>Download Gambar/Dokumen
                                                     </a>
                                                 </div>
                                             </div>
@@ -264,11 +264,11 @@
                                                 @if (isset($fotoObjek) && count($fotoObjek) > 0)
                                                     @foreach ($fotoObjek as $fO)
                                                         <div class="col-lg-4 col-md-4 col-sm-4 col-12">
-                                                            <a href="{{url('storage/' . $fO->photoObjekRetribusi)}}"
+                                                            <a href="{{Storage::disk('biznet')->url('/' . $fO->photoObjekRetribusi)}}"
                                                                 class="glightbox card" data-gallery="gallery1"
                                                                 data-title="{{ $fO->namaPhotoObjekRetribusi }}"
                                                                 data-width="300px" data-height="auto">
-                                                                <img src="{{asset('storage/' . $fO->photoObjekRetribusi) }}"
+                                                                <img src="{{Storage::disk('biznet')->url('/' . $fO->photoObjekRetribusi)}}"
                                                                     alt="image" />
                                                             </a>
                                                         </div>

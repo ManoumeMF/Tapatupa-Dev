@@ -189,7 +189,7 @@
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Pekerjaan.edit', $wR->idWajibRetribusi) }}"><i
+                                                        href="{{ route('WajibRetribusi.edit', $wR->idWajibRetribusi) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
                                                 <li><button type="button" value="{{ $wR->idWajibRetribusi }}"

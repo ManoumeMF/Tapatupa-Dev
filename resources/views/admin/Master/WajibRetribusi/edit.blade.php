@@ -41,8 +41,104 @@
         });
 
         // for product images upload
-        const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
-        FilePond.create(MultipleElement1,);
+        //const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
+        //FilePond.create(MultipleElement1,);
+
+        $('#provinsi').trigger('change.select2');
+        //saat pilihan provinsi di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#provinsi').on('change', function () {
+            var id = $(this).val();
+
+            if (id) {
+                var data = {
+                    'idProvinsi': id,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kota') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#kota').empty();
+                            //$("#kota>optgroup>option[value='1']").removeAttr('disabled');
+                            $('#kota').prop('disabled', false);
+                            //$('#kota').append('<option hidden>Choose Course</option>');
+                            $.each(data, function (key, kota) {
+                                $('#kota').append('<option value="' + kota.city_id + '">' + kota.city_name + '</option>');
+                            });
+                        } else {
+                            $('#kota').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#kota').empty();
+            }
+        });
+
+        //saat pilihan kota di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#kota').on('change', function () {
+            var idK = $(this).val();
+
+            if (idK) {
+                var data = {
+                    'idKota': idK,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kecamatan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#distrik').empty();
+                            $('#distrik').prop('disabled', false);
+                            $.each(data, function (key, kecamatan) {
+                                $('#distrik').append('<option value="' + kecamatan.dis_id + '">' + kecamatan.dis_name + '</option>');
+                            });
+                        } else {
+                            $('#distrik').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#distrik').empty();
+            }
+        });
+
+        //saat pilihan kecamatan di pilih, maka akan mengambil data kota menggunakan ajax
+        $('#distrik').on('change', function () {
+            var idKel = $(this).val();
+
+            if (idKel) {
+                var data = {
+                    'idKelurahan': idKel,
+                }
+
+                $.ajax({
+                    url: "{{ route('DropdownLokasi.kelurahan') }}",
+                    type: "GET",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#kelurahan').empty();
+                            $('#kelurahan').prop('disabled', false);
+                            $.each(data, function (key, kelurahan) {
+                                $('#kelurahan').append('<option value="' + kelurahan.subdis_id + '">' + kelurahan.subdis_name + '</option>');
+                            });
+                        } else {
+                            $('#kelurahan').empty();
+                        }
+                    }
+                });
+            } else {
+                $('#kelurahan').empty();
+            }
+        });
     });
 
 </script>
@@ -86,7 +182,7 @@
                                             <div class="col-xl-12">
                                                 <label for="nik" class="form-label">Nomor Induk Kependudukan
                                                     (NIK)</label>
-                                                <input type="text" class="form-control" id="nik"
+                                                <input type="text" class="form-control" id="nik" value="{{ $wajibRetribusi->nik }}"
                                                     placeholder="Masukkan Nomor Induk Kependudukan (NIK)" required>
                                                 <div class="invalid-feedback">
                                                     Nomor Induk Kependudukan (NIK) Tidak Boleh Kosong
@@ -95,7 +191,7 @@
                                             <div class="col-xl-12">
                                                 <label for="nama-wajib-retribusi" class="form-label">Nama Wajib
                                                     Retribusi</label>
-                                                <input type="text" class="form-control" id="nik" name="nik"
+                                                <input type="text" class="form-control" id="namaWajib" name="namaWajib" value="{{ $wajibRetribusi->namaWajibRetribusi }}"
                                                     placeholder="Masukkan Nama Wajib Retribusi Sesuai KTP" required>
                                                 <div class="invalid-feedback">
                                                     Nama Wajib Retribusi Tidak Boleh Kosong
@@ -105,8 +201,8 @@
                                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
                                                 <select class="pekerjaan form-control" name="pekerjaan" required>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
+                                                    @foreach ($pekerjaan as $pk)
+                                                        <option value="{{ $pk->idPekerjaan }}" {{ $pk->idPekerjaan === $wajibRetribusi->idPekerjaan ? 'selected' : '' }}>
                                                             {{ $pk->namaPekerjaan }}
                                                         </option>
                                                     @endforeach
@@ -119,9 +215,9 @@
                                                 <label for="provinsi" class="form-label">Provinsi</label>
                                                 <select class="provinsi form-control" name="provinsi" required>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
+                                                    @foreach ($province as $pV)
+                                                        <option value="{{ $pV->prov_id }}" {{ $pV->prov_id === $wajibRetribusi->prov_id ? 'selected' : '' }}>
+                                                            {{ $pV->prov_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -134,9 +230,9 @@
                                                 <select class="kabupaten-kota form-control" name="kabupatenKota"
                                                     required>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
+                                                    @foreach ($kota as $kT)
+                                                        <option value="{{ $kT->city_id }}" {{ $kT->city_id === $wajibRetribusi->city_id ? 'selected' : '' }}>
+                                                            {{ $kT->city_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -148,9 +244,9 @@
                                                 <label for="kecamatan" class="form-label">Kecamatan</label>
                                                 <select class="kecamatan form-control" name="kecamatan" required>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
+                                                    @foreach ($kecamatan as $kC)
+                                                        <option value="{{ $kC->dis_id }}" {{ $kC->dis_id === $wajibRetribusi->dis_id ? 'selected' : '' }}>
+                                                            {{ $kC->dis_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -162,9 +258,9 @@
                                                 <label for="kelurahan-kota" class="form-label">Kelurahan/Desa</label>
                                                 <select class="kelurahan-desa form-control" name="kelurahan" required>
                                                     <option></option>
-                                                    @foreach ($perkerjaan as $pk)
-                                                        <option value="{{ $pk->idPekerjaan }}">
-                                                            {{ $pk->namaPekerjaan }}
+                                                    @foreach ($kelurahan as $kL)
+                                                        <option value="{{ $kL->subdis_id }}" {{ $kL->subdis_id === $wajibRetribusi->subdis_id ? 'selected' : '' }}>
+                                                            {{ $kL->subdis_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -189,24 +285,58 @@
                                         <div class="row gy-3">
                                             <div class="col-xl-6">
                                                 <label for="no-ponsel" class="form-label">Nomor Ponsel</label>
-                                                <input type="text" class="form-control" id="nomor-ponsel"
+                                                <input type="text" class="form-control" id="nomor-ponsel" value="{{ $wajibRetribusi->nomorPonsel }}"
                                                     name="nomorPonsel" placeholder="Masukkan Nomor Ponsel">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="nomor-whatsapp" class="form-label">Nomor WhatsApp</label>
-                                                <input type="text" class="form-control" id="nomor-whatsapp"
+                                                <input type="text" class="form-control" id="nomor-whatsapp" value="{{ $wajibRetribusi->nomorWhatsapp }}"
                                                     name="nomorWhatsapp" placeholder="Masukkan Nomor Whatsapp">
                                             </div>
                                             <div class="col-xl-14">
                                                 <label for="wmail" class="form-label">Email</label>
-                                                <input type="text" class="form-control" id="email" name="email"
+                                                <input type="text" class="form-control" id="email" name="email" value="{{ $wajibRetribusi->email }}"
                                                     placeholder="Masukkan email">
                                             </div>
-                                            <div class="col-xl-12 product-documents-container">
-                                                <p class="fw-medium mb-2 fs-14">Product Images :</p>
-                                                <input type="file" class="foto-wajib-retribusi" name="filepond" multiple
-                                                    data-allow-reorder="true" data-max-file-size="3MB"
-                                                    data-max-files="6">
+                                            <div class="col-xl-12 border-top">
+                                                <br>
+                                                <div class="table-responsive">
+                                                    <table class="table text-nowrap table-hover table-bordered"
+                                                        id="tblFoto">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="40px">Foto</th>
+                                                                <th>File Foto</th>
+                                                                <th width="30px">Aksi</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <span
+                                                                        class="avatar avatar-md avatar-square bg-light"><img
+                                                                            src="{{url('storage/' . $wajibRetribusi->fotoWajibRetribusi)}}"
+                                                                            class="w-100 h-100" alt="...">
+                                                                    </span>
+                                                                </td>
+                                                                <td>{{ $wajibRetribusi->fileName }}</td>
+                                                                <td>
+                                                                    <button type="button"
+                                                                        class="btn btn-icon btn-teal-light btn-wave btn-sm editBtn">
+                                                                        <i class="ri-edit-box-line"></i>
+                                                                    </button>
+                                                                    <button type="button" id="delFoto"
+                                                                        class="btn btn-icon btn-danger-light btn-wave btn-sm">
+                                                                        <i class="ri-delete-bin-line"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12" id="uploadFoto">
+                                                
                                             </div>
                                         </div>
                                     </div>

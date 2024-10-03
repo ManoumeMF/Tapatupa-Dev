@@ -160,7 +160,7 @@
                                         <div class="d-flex">
                                             @if($pg->fileFoto)
                                                 <span class="avatar avatar-md avatar-square bg-light"><img
-                                                        src="{{url('storage/' . $pg->fileFoto)}}" class="w-100 h-100"
+                                                        src="{{Storage::disk('biznet')->url('/' . $pg->fileFoto)}}" class="w-100 h-100"
                                                         alt="..."></span>
                                             @else
                                                 <span class="avatar avatar-md avatar-square bg-light"><img

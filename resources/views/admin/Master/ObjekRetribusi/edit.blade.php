@@ -21,59 +21,24 @@
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
-
-        // jQuery button click event to add Anggota Keluarga row
-        $("#tambahFoto").on("click", function () {
-
-            // Adding a row inside the tbody.
-            $("#tblFoto tbody").append('<tr>' +
-                '<td>' +
-                '<input type="text" class="form-control" id="namaFoto" name="namaFoto[]"' +
-                'placeholder="Masukkan Nama Foto" required>' +
-                '</td>' +
-                '<td>' +
-                '<input class="foto-objek form-control" type="file" id="foto-objek" name="fileFoto[]">' +
-                '</td>' +
-                '<td>' +
-                '<textarea class="form-control" id="keterangan" rows="1" name="keteranganFoto[]"' +
-                'placeholder="Masukkan Keterangan Foto"></textarea>' +
-                '</td>' +
-                '<td style="text-align: center">' +
-                '<div class="form-check form-switch mb-2">' +
-                '<input class="form-check-input gambarUtama" type="checkbox" value="" name="gambarUtama[]" id="gambarUtama" onclick="checkedOnClick(this);">' +
-                '</div>' +
-                '</td>' +
-                '<td style="text-align: center">' +
-                '<button class="btn btn-sm btn-icon btn-danger-light" type="button" id="delFoto"><i class="ri-delete-bin-5-line"></i></button>' +
-                '</td>' +
-                '</tr>');
-        });
-
-        $(document).on('click', '#delFoto', function () {
-            $(this).closest('tr').remove();
-            return false;
-        });
     });
-
-    function checkedOnClick(el) {
-        // Select all checkboxes by class
-        var checkboxesList = document.getElementsByClassName("gambarUtama");
-        for (var i = 0; i < checkboxesList.length; i++) {
-            checkboxesList.item(i).checked = false; // Uncheck all checkboxes
-        }
-
-        el.checked = true; // Checked clicked checkbox
-    }
-
 </script>
 
 <script>
     $(document).ready(function () {
-        $('#gambarUtama').change(function () {
-            if ($('#gambarUtama').is(":checked") == true) {
-                $('#gambarUtama').val('1');
+        $('#checkebox-lg').change(function () {
+            if (this.checked) {
+                $('#isGambarUtama').val('1');
             } else {
-                $('#gambarUtama').val('0');
+                $('#isGambarUtama').val('0');
+            }
+        });
+
+        $('#checkebox-lg-Add').change(function () {
+            if (this.checked) {
+                $('#isGambarUtamaAdd').val('1');
+            } else {
+                $('#isGambarUtamaAdd').val('0');
             }
         });
 
@@ -201,6 +166,65 @@
                 $('#kelurahan').empty();
             }
         });
+
+        $(document).on('click', '.editDenahBtn', function (e) {
+            var st_id = $(this).val();
+
+            $('#ubahDenahModal').modal('show');
+            $('#idFileDenah').val(st_id);
+        });
+
+        $(document).on('click', '.tambahFotoBtn', function (e) {
+            var fo_id = $(this).val();
+
+            $('#tambahFotoModal').modal('show');
+            $('#idObjekRetribusiAdd').val(fo_id);
+        });
+
+        $(document).on('click', '.editFotoBtn', function (e) {
+            e.preventDefault();
+
+            var fo_id = $(this).val();
+
+            $('#ubahFotoModal').modal('show');
+
+            $('#idFotoObjek').val('');
+            $('#namaFoto').val('');
+            $('#keteranganFoto').val('');
+            $('#checkebox-lg').prop('checked', false);
+
+            //console.log(fo_id);
+
+            $.ajax({
+                method: "GET",
+                url: "{{ route('ObjekRetribusi.editFotoObjek') }}",
+                data: {
+                    id: fo_id
+                },
+                success: function (response) {
+                    if (response.status == 404) {
+                        new Noty({
+                            text: response.message,
+                            type: 'warning',
+                            modal: true
+                        }).show();
+                    } else {
+                        //console.log(response);
+                        $('#idFotoObjek').val(response.fotoObjekRetribusi.idPhotoObjekRetribusi);
+                        $('#namaFoto').val(response.fotoObjekRetribusi.namaPhotoObjekRetribusi);
+                        $('#keteranganFoto').val(response.fotoObjekRetribusi.keterangan);
+                        if (response.fotoObjekRetribusi.isGambarUtama == '1') {
+                            $('#checkebox-lg').prop('checked', true);
+                            $('#isGambarUtama').val('1');
+                        } else {
+                            $('#checkebox-lg').prop('checked', false);
+                            $('#isGambarUtama').val('0');
+                        }
+                        //$('#gambarUtama').text(response.fotoObjekRetribusi.isGambarUtama);
+                    }
+                }
+            });
+        });
     });
 </script>
 
@@ -225,7 +249,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.store')}}" method="post"
+        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.update')}}" method="post"
             enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
@@ -239,6 +263,8 @@
                         <div class="row gx-5">
                             <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
                                 <div class="card custom-card shadow-none mb-0 border-0">
+                                    <input type="hidden" id="idObjekRetribusi" name="idObjekRetribusi"
+                                        value="{{ $objekRetribusi->idObjekRetribusi }}">
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
                                             <div class="col-xl-6">
@@ -248,7 +274,7 @@
                                                     name="jenisObjekRetribusi" data-trigger required>
                                                     <option></option>
                                                     @foreach ($objectType as $oT)
-                                                        <option value="{{ $oT->idJenisObjekRetribusi }}">
+                                                        <option value="{{ $oT->idJenisObjekRetribusi }}" {{ $oT->idJenisObjekRetribusi === $objekRetribusi->idJenisObjekRetribusi ? 'selected' : '' }}>
                                                             {{ $oT->jenisObjekRetribusi }}
                                                         </option>
                                                     @endforeach
@@ -262,6 +288,7 @@
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="kodeObjekRetribusi"
                                                     placeholder="Masukkan Kode Objek Retribusi"
+                                                    value="{{ $objekRetribusi->kodeObjekRetribusi }}"
                                                     name="kodeObjekRetribusi" required>
                                                 <div class="invalid-feedback">
                                                     Kode Objek Retribusi Tidak Boleh Kosong
@@ -270,13 +297,15 @@
                                             <div class="col-xl-4">
                                                 <label for="nomor-bangunan" class="form-label">Nomor bangunan</label>
                                                 <input type="text" class="form-control" id="nomorBangunan"
-                                                    name="nomorBangunan" placeholder="Masukkan Nomor Bangunan">
+                                                    value="{{ $objekRetribusi->noBangunan }}" name="nomorBangunan"
+                                                    placeholder="Masukkan Nomor Bangunan">
                                             </div>
                                             <div class="col-xl-8">
                                                 <label for="nama-objek-retribusi" class="form-label">Nama Objek
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="namaObjekRetribusi"
                                                     placeholder="Masukkan Nama Objek Retribusi"
+                                                    value="{{ $objekRetribusi->objekRetribusi }}"
                                                     name="namaObjekRetribusi" required>
                                                 <div class="invalid-feedback">
                                                     Nama Objek Retribusi Tidak Boleh Kosong
@@ -289,7 +318,7 @@
                                                     name="lokasiObjekRetribusi" required>
                                                     <option></option>
                                                     @foreach ($objectLocation as $oL)
-                                                        <option value="{{ $oL->idLokasiObjekRetribusi }}">
+                                                        <option value="{{ $oL->idLokasiObjekRetribusi }}" {{ $oL->idLokasiObjekRetribusi === $objekRetribusi->idLokasiObjekRetribusi ? 'selected' : '' }}>
                                                             {{ $oL->lokasiobjekretribusi }}
                                                         </option>
                                                     @endforeach
@@ -304,7 +333,7 @@
                                                     required>
                                                     <option></option>
                                                     @foreach ($province as $pV)
-                                                        <option value="{{ $pV->prov_id }}">
+                                                        <option value="{{ $pV->prov_id }}" {{ $pV->prov_id === $objekRetribusi->prov_id ? 'selected' : '' }}>
                                                             {{ $pV->prov_name }}
                                                         </option>
                                                     @endforeach
@@ -316,9 +345,13 @@
                                             <div class="col-xl-6">
                                                 <label for="kabupaten-kota" class="form-label">Kabupaten/Kota</label>
                                                 <select class="kabupaten-kota form-control" name="kabupatenKota"
-                                                    id="kota" disabled required>
+                                                    id="kota" required>
                                                     <option></option>
-
+                                                    @foreach ($kota as $kT)
+                                                        <option value="{{ $kT->city_id }}" {{ $kT->city_id === $objekRetribusi->city_id ? 'selected' : '' }}>
+                                                            {{ $kT->city_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kabupaten/Kota Tidak Boleh Kosong
@@ -327,9 +360,13 @@
                                             <div class="col-xl-6">
                                                 <label for="kecamatan" class="form-label">Kecamatan</label>
                                                 <select class="kecamatan form-control" name="kecamatan" id="distrik"
-                                                    required disabled>
+                                                    required>
                                                     <option></option>
-
+                                                    @foreach ($kecamatan as $kC)
+                                                        <option value="{{ $kC->dis_id }}" {{ $kC->dis_id === $objekRetribusi->dis_id ? 'selected' : '' }}>
+                                                            {{ $kC->dis_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kecamatan Tidak Boleh Kosong
@@ -338,10 +375,13 @@
                                             <div class="col-xl-6">
                                                 <label for="kelurahan-kota" class="form-label">Kelurahan/Desa</label>
                                                 <select class="kelurahan-desa form-control" name="kelurahan"
-                                                    id="kelurahan" required disabled>
+                                                    id="kelurahan" required>
                                                     <option></option>
-
-
+                                                    @foreach ($kelurahan as $kL)
+                                                        <option value="{{ $kL->subdis_id }}" {{ $kL->subdis_id === $objekRetribusi->subdis_id ? 'selected' : '' }}>
+                                                            {{ $kL->subdis_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Kelurahan/Desa Tidak Boleh Kosong
@@ -352,7 +392,8 @@
                                                     Retribusi</label>
                                                 <textarea class="form-control" id="alamat-objek" rows="2"
                                                     name="alamatObjekRetribusi"
-                                                    placeholder="Masukkan Alamat Objek Retribusi" required></textarea>
+                                                    placeholder="Masukkan Alamat Objek Retribusi"
+                                                    required>{{ $objekRetribusi->alamat }}</textarea>
                                             </div>
                                             <div class="invalid-feedback">
                                                 Alamat Tidak Boleh Kosong
@@ -360,11 +401,13 @@
                                             <div class="col-xl-6">
                                                 <label for="longitude" class="form-label">Longitude (Kordinat X)</label>
                                                 <input type="text" class="form-control" id="longitudu-x"
-                                                    name="longitudu" placeholder="Masukkan Kordinat X">
+                                                    value="{{ $objekRetribusi->longitude }}" name="longitudu"
+                                                    placeholder="Masukkan Kordinat X">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="latitude" class="form-label">Latitude (Kordinat Y)</label>
                                                 <input type="text" class="form-control" id="latitude-y" name="latitude"
+                                                    value="{{ $objekRetribusi->latitute }}"
                                                     placeholder="Masukkan Kordinat Y">
                                             </div>
 
@@ -380,81 +423,106 @@
                                                 <label for="panajng-tanah" class="form-label">Panjang Tanah
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="panjang-tanah"
-                                                    name="panjangTanah" placeholder="Masukkan Panjang Tanah">
+                                                    value="{{ $objekRetribusi->panjangTanah }}" name="panjangTanah"
+                                                    placeholder="Masukkan Panjang Tanah">
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="lebar-tanah" class="form-label">Lebar Tanah (meter)</label>
                                                 <input type="text" class="form-control" id="panjang-tanah"
-                                                    name="lebarTanah" placeholder="Masukkan Lebar Tanah">
+                                                    value="{{ $objekRetribusi->lebarTanah }}" name="lebarTanah"
+                                                    placeholder="Masukkan Lebar Tanah">
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="luas-tanah" class="form-label">Luas Tanah (meter)</label>
                                                 <input type="text" class="form-control" id="luas-tanah" name="luasTanah"
+                                                    value="{{ $objekRetribusi->luasTanah }}"
                                                     placeholder="Masukkan Luas Tanah" name="luasTanah">
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="panjang-bangunan" class="form-label">Panjang Bangunan
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="panjang-bangunan"
+                                                    value="{{ $objekRetribusi->panjangBangunan }}"
                                                     placeholder="Masukkan Panjang Bangunan" name="panjangBangunan">
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="lebar-bangunan" class="form-label">Lebar Bangunan
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="lebar-bangunan"
+                                                    value="{{ $objekRetribusi->lebarBangunan }}"
                                                     placeholder="Masukkan Lebar Bangunan" name="lebarBangunan">
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="luas-bangunan" class="form-label">Luas Bangunan
                                                     (meter)</label>
                                                 <input type="text" class="form-control" id="luas-bangunan"
+                                                    value="{{ $objekRetribusi->luasBangunan }}"
                                                     placeholder="Masukkan Luas Bangunan" name="luasBangunan">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="jumlah-lantai" class="form-label">Jumlah Lantai</label>
                                                 <input type="text" class="form-control" id="jumlah-lantai"
+                                                    value="{{ $objekRetribusi->jumlahLantai }}"
                                                     placeholder="Masukkan Jumlah Lantai" name="jumlahLantai">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kapasitas" class="form-label">Kapasitas (Orang)</label>
                                                 <input type="text" class="form-control" id="kapasitas"
+                                                    value="{{ $objekRetribusi->kapasitas }}"
                                                     placeholder="Masukkan Kapasitas" name="kapasitas">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="jumlah-lantai" class="form-label">Batas Sebelah
                                                     Utara</label>
                                                 <input type="text" class="form-control" id="batasUtara"
+                                                    value="{{ $objekRetribusi->batasUtara }}"
                                                     placeholder="Masukkan Batas Sebelah Utara" name="batasUtara">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kapasitas" class="form-label">Batas Sebelah Selatan</label>
                                                 <input type="text" class="form-control" id="batasSelatan"
+                                                    value="{{ $objekRetribusi->batasSelatan }}"
                                                     placeholder="Masukkan Batas Sebelah Selatan" name="batasSelatan">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="jumlah-lantai" class="form-label">Batas Sebelah
                                                     Timur</label>
                                                 <input type="text" class="form-control" id="batasTimur"
+                                                    value="{{ $objekRetribusi->batasTimur }}"
                                                     placeholder="Masukkan Batas Sebelah Timur" name="batasTimur">
                                             </div>
                                             <div class="col-xl-6">
                                                 <label for="kapasitas" class="form-label">Batas Sebelah Barat</label>
                                                 <input type="text" class="form-control" id="batasBarat"
+                                                    value="{{ $objekRetribusi->batasBarat }}"
                                                     placeholder="Masukkan Batas Sebelah Barat" name="batasBarat">
                                             </div>
-                                            <div class="col-xl-12 product-documents-container">
-                                                <label for="kapasitas" class="form-label">Gambar Denah Tanah</label>
-                                                <!--<input type="file" class="gambar-denah-tanah" name="fileGambarDenahTanah"
-                                                    data-allow-reorder="true" data-max-file-size="5MB"
-                                                    data-max-files="1">-->
-                                                <input class="foto-objek form-control" type="file" id="foto-objek "
-                                                    name="fileGambarDenahTanah">
-                                            </div>
-                                            </label>
                                             <div class="col-xl-12">
                                                 <label for="keterangan" class="form-label">Keterangan</label>
                                                 <textarea class="form-control" id="keterangan" rows="3"
-                                                    name="keterangan" placeholder="Masukkan Keterangan"></textarea>
+                                                    name="keterangan" placeholder="Masukkan Keterangan">{{ $objekRetribusi->keterangan }}</textarea>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table text-nowrap table-hover" id="tblFoto">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nama File/Gambar Denah Tanah</th>
+                                                            <th width="30px">Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{{ $objekRetribusi->fileName }}</td>
+                                                            <td>
+                                                                <button type="button"
+                                                                    value="{{ $objekRetribusi->idObjekRetribusi }}"
+                                                                    class="btn btn-icon btn-outline-teal btn-wave btn-sm editDenahBtn">
+                                                                    <i class="ri-edit-box-line"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -464,7 +532,8 @@
                     </div>
                     <div class="px-4 py-3 border-top">
                         <div class="d-sm-flex justify-content-end">
-                            <button class="btn btn-primary m-1" id="tambahFoto" type="button"><span
+                            <button class="btn btn-primary m-1 tambahFotoBtn" id="tambahFoto" type="button"
+                                value="{{ $objekRetribusi->idObjekRetribusi }}"><span
                                     class="bi bi-plus-circle align-middle me-1 fw-medium"></span>
                                 Tambah Foto
                             </button>
@@ -474,14 +543,52 @@
                                 <thead>
                                     <tr>
                                         <th>Nama Foto</th>
-                                        <th>File Foto</th>
                                         <th>Keterangan</th>
-                                        <th width="40px">Gambar Utama</th>
+                                        <th width="30px">Gambar Utama</th>
                                         <th width="20px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    @if (isset($fotoObjekRetribusi) && count($fotoObjekRetribusi) > 0)
+                                        @foreach ($fotoObjekRetribusi as $fO)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <span class="avatar avatar-md avatar-square bg-light"><img
+                                                                src="{{Storage::disk('biznet')->url('/' . $fO->photoObjekRetribusi)}}"
+                                                                class="w-100 h-100" alt="..."></span>
+                                                        <div class="ms-2">
+                                                            <p class="fw-semibold mb-0 d-flex align-items-center"><a
+                                                                    href="javascript:void(0);">{{ $fO->namaPhotoObjekRetribusi }}</a>
+                                                            </p>
+                                                            <p class="fs-12 text-muted mb-0">Nama File:
+                                                                {{ $fO->fileName }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $fO->keterangan }}</td>
+                                                <td class="text-center">
+                                                    @if($fO->isGambarUtama == 1)
+                                                        <span class="bi bi-check-lg align-middle me-1 fw-medium"></span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <button type="button" value="{{ $fO->idPhotoObjekRetribusi }}"
+                                                        class="btn btn-icon btn-outline-teal btn-wave btn-sm editFotoBtn">
+                                                        <i class="ri-edit-box-line"></i>
+                                                    </button>
+                                                    <a
+                                                        href="{{ route('ObjekRetribusi.deleteFotoObjek', $fO->idPhotoObjekRetribusi) }}">
+                                                        <button type="button"
+                                                            class="btn btn-icon btn-outline-danger btn-wave btn-sm hapusFotoBtn">
+                                                            <i class="ri-delete-bin-line"></i>
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -498,4 +605,161 @@
     </div>
 </div>
 </div>
+
+<!-- Start:: Edit Denah Tanah-->
+<div class="modal fade" id="ubahDenahModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Ubah File/Gambar Denah Tanah</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.updateDenahTanah')}}" method="post"
+                enctype="multipart/form-data" novalidate>
+                {{ csrf_field() }}
+                <input type="hidden" id="idFileDenah" name="idFileDenah">
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Upload File/Gambar Denah Tanah</h6>
+                            <input type="file" class="denah-tanah form-control" name="fileDenahTanah">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary m-1" type="submit">Simpan <i
+                            class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End:: Edit Foto Denah Tanah -->
+
+<!-- Start:: Edit Foto Objek Retribusi-->
+<div class="modal fade" id="ubahFotoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Ubah Foto Objek Retribusi</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.updateFotoObjek')}}" method="post"
+                enctype="multipart/form-data" novalidate>
+                {{ csrf_field() }}
+                <input type="hidden" id="idFotoObjek" name="idFotoObjek">
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Nama Foto</h6>
+                            <input type="text" class="form-control" id="namaFoto" name="namaFoto"
+                                placeholder="Masukkan Nama Foto" required>
+                            <div class="invalid-feedback">
+                                Nama Foto Tidak Boleh Kosong
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">File Foto</h6>
+                            <input type="file" class="denah-tanah form-control" name="fileFoto" id="fileFoto">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Keterangan</h6>
+                            <textarea class="form-control" id="keteranganFoto" rows="3" name="keteranganFoto"
+                                placeholder="Masukkan Keterangan Foto"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Atur Sebagai Gambar Utama</h6>
+                            <div class="form-check form-check-lg d-flex align-items-center">
+                                <input class="form-check-input gambarUtama" type="checkbox" value="1" id="checkebox-lg"
+                                    name="gambarUtama">
+                                <input type="hidden" id="isGambarUtama" name="isGambarUtama">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary m-1" type="submit">Simpan <i
+                            class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End:: Edit Foto Objek Retribusi -->
+
+
+<!-- Start:: Add Foto Objek Retribusi-->
+<div class="modal fade" id="tambahFotoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Tambah Foto Objek Retribusi</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.storeFotoObjek')}}" method="post"
+                enctype="multipart/form-data" novalidate>
+                {{ csrf_field() }}
+                <input type="hidden" id="idObjekRetribusiAdd" name="idObjekRetribusiAdd">
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Nama Foto</h6>
+                            <input type="text" class="form-control" id="namaFotoAdd" name="namaFotoAdd"
+                                placeholder="Masukkan Nama Foto" required>
+                            <div class="invalid-feedback">
+                                Nama Foto Tidak Boleh Kosong
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">File Foto</h6>
+                            <input type="file" class="denah-tanah form-control" name="fileFotoAdd" id="fileFotoAdd">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Keterangan</h6>
+                            <textarea class="form-control" id="keteranganFotoAdd" rows="3" name="keteranganFotoAdd"
+                                placeholder="Masukkan Keterangan Foto"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Atur Sebagai Gambar Utama</h6>
+                            <div class="form-check form-check-lg d-flex align-items-center">
+                                <input class="form-check-input gambarUtama" type="checkbox" value="1"
+                                    id="checkebox-lg-Add" name="gambarUtama">
+                                <input type="hidden" id="isGambarUtamaAdd" name="isGambarUtamaAdd">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary m-1" type="submit">Simpan <i
+                            class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End:: Add Foto Objek Retribusi -->
 @endsection

@@ -64,10 +64,17 @@ class WajibRetribusiController extends Controller
     }
 
     public function edit($id)
-    {      
-        $perkerjaan = DB::select('CALL cbo_pekerjaan()'); 
+    {   
+        $province = DB::select('CALL cbo_province()');
 
-        //$statusData = DB::select('CALL view_statusById(' . $id . ')');
+        $wajibRetribusiData = DB::select('CALL view_WajibRetribusiById(' . $id . ')');
+        $wajibRetribusi = $wajibRetribusiData[0];
+
+        $kota =  DB::select('CALL cbo_cities('  . $wajibRetribusi->prov_id . ')');  
+        $kecamatan =  DB::select('CALL cbo_districts('  . $wajibRetribusi->city_id . ')');
+        $kelurahan =  DB::select('CALL cbo_subdistricts('  . $wajibRetribusi->dis_id . ')');  
+
+        $pekerjaan = DB::select('CALL cbo_pekerjaan()'); 
         //$status = $statusData[0];
 
         /*if ($status) {
@@ -76,7 +83,7 @@ class WajibRetribusiController extends Controller
              return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
          }*/
 
-         return view('admin.Master.WajibRetribusi.edit', compact('perkerjaan'));
+         return view('admin.Master.WajibRetribusi.edit', compact('pekerjaan', 'province', 'kota', 'kecamatan', 'kelurahan', 'wajibRetribusi'));
     }
 
 

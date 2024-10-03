@@ -30,31 +30,41 @@ class ObjekRetribusiController extends Controller
 
     public function store(Request $request)
     {
-
-        //dd($request->all());
-        $uploadedFile = $request->file('fileGambarDenahTanah');
-
-
-        $uploadedFile = $request->file('fileGambarDenahTanah');
-        $photo = $request->get('kodeObjekRetribusi') . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
-        $photoPath = Storage::disk('public')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
-
-        //dd($photoPath);
+        if ($request->hasFile('fileGambarDenahTanah')) {
+            $uploadedFile = $request->file('fileGambarDenahTanah');
+            $photo = $request->get('kodeObjekRetribusi') . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+            $photoPath = Storage::disk('biznet')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
+        } else {
+            $photoPath = "";
+        }
 
         $namaFoto = $request->input('namaFoto');
         $fileFoto = $request->file('fileFoto');
+        $gambarUtama = $request->input('gambarUtama');
         $keteranganFoto = $request->input('keteranganFoto');
 
         $detailobjekRetribusi = [];
 
         for ($count = 0; $count < collect($namaFoto)->count(); $count++) {
-            $uploadedFileFoto = $fileFoto[$count];
-            $fotoObjek = $count . "-" . $request->get('kodeObjekRetribusi') . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
-            $fotoObjekPath = Storage::disk('public')->putFileAs("images/objekRetribusi/fotoObjekRetribusi", $uploadedFileFoto, $fotoObjek);
+            //dd($fileFoto[$count]);
+            if ($fileFoto[$count]) {
+                $uploadedFileFoto = $fileFoto[$count];
+                $fotoObjek = $count + 1 . "-" . $request->get('kodeObjekRetribusi') . "-" . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
+                $fotoObjekPath = Storage::disk('biznet')->putFileAs("images/fotoObjekRetribusi", $uploadedFileFoto, $fotoObjek);
+            } else {
+                $fotoObjekPath = "";
+            }
+
+            if (is_null($request->input('gambarUtama[' . $count . ']'))) {
+                $isGambarUtama = 0;
+            } else {
+                $isGambarUtama = 1;
+            }
 
             $detailobjekRetribusi[] = [
                 'NamaFoto' => $namaFoto[$count],
                 'FileFoto' => $fotoObjekPath,
+                'GambarUtama' => $isGambarUtama,
                 'KeteranganFoto' => $keteranganFoto[$count],
             ];
         }
@@ -97,47 +107,69 @@ class ObjekRetribusiController extends Controller
 
     public function edit($id)
     {
+        $province = DB::select('CALL cbo_province()');
         $objectType = DB::select('CALL cbo_jenisObjekRetribusi()');
         $objectLocation = DB::select('CALL cbo_lokasiObjekRetribusi()');
 
-        //$statusData = DB::select('CALL view_statusById(' . $id . ')');
-        //$status = $statusData[0];
+        $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $id . ')');
+        $objekRetribusi = $objekRetribusiData[0];
 
-        /*if ($status) {
-            return view('admin.PengaturanDanKonfigurasi.Status.edit', ['statusType' => $statusTypeCombo], ['status' => $status]);
-         } else {
-             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
-         }*/
+        $fotoObjekRetribusi = DB::select('CALL view_fotoObjekRetribusiById(' . $id . ')');
+        //$fotoObjekRetribusi = $fotoObjekRetribusiData[0];
 
-        return view('admin.Master.ObjekRetribusi.edit', compact('objectType', 'objectLocation'));
+        $kota = DB::select('CALL cbo_cities(' . $objekRetribusi->prov_id . ')');
+        $kecamatan = DB::select('CALL cbo_districts(' . $objekRetribusi->city_id . ')');
+        $kelurahan = DB::select('CALL cbo_subdistricts(' . $objekRetribusi->dis_id . ')');
+
+        return view('admin.Master.ObjekRetribusi.edit', compact('objectType', 'objectLocation', 'province', 'objekRetribusi', 'kota', 'kecamatan', 'kelurahan', 'fotoObjekRetribusi'));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $Status = json_encode([
-            'IdStatus' => $id,
-            'IdJenisStatus' => $request->get('jenisStatus'),
-            'Status' => $request->get('namaStatus'),
-            'Keterangan' => $request->get('keterangan')
+        //dd($request->all());
+        $dataObjekRetribusi = json_encode([
+            'IdObjekRetribusi' => $request->get('idObjekRetribusi'),
+            'KodeObjekRetribusi' => $request->get('kodeObjekRetribusi'),
+            'NoBangunan' => $request->get('nomorBangunan'),
+            'ObjekRetribusi' => $request->get('namaObjekRetribusi'),
+            'IdLokasiObjekRetribusi' => $request->get('lokasiObjekRetribusi'),
+            'IdJenisObjekRetribusi' => $request->get('jenisObjekRetribusi'),
+            'PanjangTanah' => $request->get('panjangTanah'),
+            'LebarTanah' => $request->get('lebarTanah'),
+            'LuasTanah' => $request->get('luasTanah'),
+            'PanjangBangunan' => $request->get('panjangBangunan'),
+            'LebarBangunan' => $request->get('lebarBangunan'),
+            'LuasBangunan' => $request->get('luasBangunan'),
+            'Subdis_Id' => $request->get('kelurahan'),
+            'Alamat' => $request->get('alamatObjekRetribusi'),
+            'Latitute' => $request->get('latitude'),
+            'Longitude' => $request->get('longitudu'),
+            'Keterangan' => $request->get('keterangan'),
+            'JumlahLantai' => $request->get('jumlahLantai'),
+            'Kapasitas' => $request->get('kapasitas'),
+            'BatasUtara' => $request->get('batasUtara'),
+            'BatasSelatan' => $request->get('batasSelatan'),
+            'BatasTimur' => $request->get('batasTimur'),
+            'BatasBarat' => $request->get('batasBarat'),
         ]);
 
-        //dd($Status);
+        //dd($dataObjekRetribusi);
 
-        $statusData = DB::select('CALL view_statusById(' . $id . ')');
-        $statusTemp = $statusData[0];
+        $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idObjekRetribusi') . ')');
+        $objekRetribusiTemp = $objekRetribusiData[0];
 
-        if ($statusTemp) {
-            $response = DB::statement('CALL update_status(:dataStatus)', ['dataStatus' => $Status]);
+        if ($objekRetribusiTemp) {
+            $response = DB::statement('CALL update_objekRetribusi(:dataObjekRetribusi)', ['dataObjekRetribusi' => $dataObjekRetribusi]);
 
             if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Diubah!');
+                return redirect()->route('ObjekRetribusi.index')->with('success', 'Objek Retribusi Berhasil Diubah!');
             } else {
-                return redirect()->route('Status.edit', $id)->with('error', 'Status Gagal Diubah!');
+                return redirect()->route('ObjekRetribusi.edit', $objekRetribusiTemp->idObjekRetribusi)->with('error', 'Objek Retribusi Gagal Diubah!');
             }
 
         } else {
-            return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
+            return redirect()->route('ObjekRetribusi.index')->with('error', 'Objek Retribusi Tidak Ditemukan!');
         }
     }
 
@@ -177,36 +209,168 @@ class ObjekRetribusiController extends Controller
         return view('admin.Master.ObjekRetribusi.detail', compact('objekRetribusi', 'fotoObjek'));
     }
 
-    public function storeStatusType(Request $request)
+    public function updateDenahTanah(Request $request)
     {
+        $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idFileDenah') . ')');
+        $objekRetribusi = $objekRetribusiData[0];
 
-        $JenisStatus = json_encode([
-            'JenisStatus' => $request->get('jenisStatusModal'),
-            'Keterangan' => $request->get('jenisKeteranganModal')
-        ]);
+        //dd($objekRetribusi->kodeObjekRetribusi);
 
-        //dd($JenisStatus);
+        $file = Storage::disk('biznet')->get($objekRetribusi->gambarDenahTanah);
 
-        $response = DB::statement('CALL insert_jenisStatus(:dataJenisStatus)', ['dataJenisStatus' => $JenisStatus]);
+        //dd($file);
 
-        if ($response) {
+        if ($file) {
+            Storage::disk('biznet')->delete($objekRetribusi->gambarDenahTanah);
+
+            if ($request->hasFile('fileDenahTanah')) {
+                $uploadedFile = $request->file('fileDenahTanah');
+                $photo = $objekRetribusi->kodeObjekRetribusi . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $photoPath = Storage::disk('biznet')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
+            } else {
+                $photoPath = "";
+            }
+
+            $dataDenahTanah = json_encode([
+                'IdObjekReribusi' => $request->get('idFileDenah'),
+                'FileDenahTanah' => $photoPath
+            ]);
+
+
+            if ($objekRetribusi) {
+                $response = DB::statement('CALL update_fileDenahTanah(:dataDenahTanah)', ['dataDenahTanah' => $dataDenahTanah]);
+
+                if ($response) {
+                    return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('success', 'File/Gambar Denah Tanah Berhasil Diubah!');
+                } else {
+                    return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'File/Gambar Denah Tanah Gagal Diubah!');
+                }
+
+            }
+        } else {
+            return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'File/Gambar Denah Tanah Tidak Ditemukan!');
+        }
+    }
+
+    public function editFotoObjek(Request $request)
+    {
+        $fotoObjekRetribusiData = DB::select('CALL view_fotoObjekRetribusiByPhotoId(:id)', ['id' => $request->id]);
+        $fotoObjekRetribusi = $fotoObjekRetribusiData[0];
+
+        if ($fotoObjekRetribusi) {
             return response()->json([
                 'status' => 200,
-                'message' => 'Jenis Status Berhasil Ditambahkan.'
+                'fotoObjekRetribusi' => $fotoObjekRetribusi
             ]);
         } else {
             return response()->json([
-                'status' => 400,
-                'message' => 'Jenis Status Gagal Ditambahkan.'
+                'status' => 404,
+                'message' => 'Foto Objek Retribusi Tidak Ditemukan.'
             ]);
         }
     }
 
-    public function getComboJenisStatus()
+    public function updateFotoObjek(Request $request)
     {
-        $statusTypeCombo = DB::select('CALL cbo_JenisStatus()');
+        $fotoObjekRetribusiData = DB::select('CALL view_fotoObjekRetribusiByPhotoId(:id)', ['id' => $request->idFotoObjek]);
+        $fotoObjekRetribusi = $fotoObjekRetribusiData[0];
 
-        return response()->json($statusTypeCombo);
+        $strAwalFoto = substr($fotoObjekRetribusi->fileName, 0, strpos($fotoObjekRetribusi->fileName, '-'));
+        $file = Storage::disk('biznet')->get($fotoObjekRetribusi->photoObjekRetribusi);
+
+        if ($fotoObjekRetribusi) {
+            if ($request->hasFile('fileFoto')) {
+                if ($file) {
+                    Storage::disk('biznet')->delete($fotoObjekRetribusi->photoObjekRetribusi);
+                }
+
+                $uploadedFileFoto = $request->file('fileFoto');
+                $fotoObjek = $strAwalFoto . "-" . $fotoObjekRetribusi->kodeObjekRetribusi . "-" . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
+                $fotoObjekPath = Storage::disk('biznet')->putFileAs("images/fotoObjekRetribusi", $uploadedFileFoto, $fotoObjek);
+            } else {
+                $fotoObjekPath = "";
+            }
+
+            $dataFotoObjek = json_encode([
+                'IdPhotoObjekRetribusi' => $request->get('idFotoObjek'),
+                'NamaPhotoObjekRetribusi' => $request->get('namaFoto'),
+                'Keterangan' => $request->get('keteranganFoto'),
+                'FileFoto' => $fotoObjekPath,
+                'IsGambarUtama' => $request->get('isGambarUtama'),
+            ]);
+
+            $response = DB::statement('CALL update_fotoObjekRetribusi(:dataFotoObjek)', ['dataFotoObjek' => $dataFotoObjek]);
+
+            if ($response) {
+                return redirect()->route('ObjekRetribusi.edit', $fotoObjekRetribusi->idObjekRetribusi)->with('success', 'Foto Objek Retribusi Berhasil Diubah!');
+            } else {
+                return redirect()->route('ObjekRetribusi.edit', $fotoObjekRetribusi->idObjekRetribusi)->with('error', 'Foto Objek Retribusi Gagal Diubah!');
+            }
+
+        } else {
+            return redirect()->route('ObjekRetribusi.edit', $fotoObjekRetribusi->idObjekRetribusi)->with('error', 'Foto Objek Retribusi Tidak Ditemukan!');
+        }
+    }
+
+    public function storeFotoObjek(Request $request){
+
+        $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idObjekRetribusiAdd') . ')');
+        $objekRetribusi = $objekRetribusiData[0];
+
+        if ($request->hasFile('fileFotoAdd')) {
+            $uploadedFileFoto = $request->file('fileFotoAdd');
+            $photo = '00' . "-" . $objekRetribusi->kodeObjekRetribusi . "-" . time() . "." . $uploadedFileFoto->getClientOriginalExtension();
+            $photoPath = Storage::disk('biznet')->putFileAs("images/fotoObjekRetribusi", $uploadedFileFoto, $photo);
+        } else {
+            $photoPath = "";
+        }
+
+        if(is_null($request->get('gambarUtama'))){
+            $isGambarUtama = 0;
+        }else{
+            $isGambarUtama = 1;
+        }
+
+        $fotoObjekRetribusi = json_encode([
+            'IdObjekRetribusi' => $request->get('idObjekRetribusiAdd'),
+            'NamaPhotoObjekRetribusi' => $request->get('namaFotoAdd'),
+            'PhotoObjekRetribusi' => $photoPath,
+            'Keterangan' => $request->get('keteranganFotoAdd'),
+            'IsGambarUtama' => $isGambarUtama,
+        ]);
+
+        $response = DB::statement('CALL insert_fotoObjekRetribusi(:dataPhotoObjekRetribusi)', ['dataPhotoObjekRetribusi' => $fotoObjekRetribusi]);
+
+        if ($response) {
+            return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('success', 'Foto Objek Retribusi Berhasil Ditambahkan!');
+        } else {
+            return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'Foto Objek Retribusi Gagal Disimpan!');
+        }
+    }
+
+    public function deleteFotoObjek($id)
+    {
+        $fotoObjekRetribusiData = DB::select('CALL view_fotoObjekRetribusiByPhotoId(:id)', ['id' => $id]);
+        $fotoObjekRetribusi = $fotoObjekRetribusiData[0];
+
+        $file = Storage::disk('biznet')->get($fotoObjekRetribusi->photoObjekRetribusi);
+
+        if ($fotoObjekRetribusi) {
+            if ($file) {
+                Storage::disk('biznet')->delete($fotoObjekRetribusi->photoObjekRetribusi);
+            }
+
+            $response = DB::statement('CALL delete_fotoObjekRetribusi(:id)', ['id' => $id]);
+
+            if ($response) {
+                return redirect()->route('ObjekRetribusi.edit', $fotoObjekRetribusi->idObjekRetribusi)->with('success', 'Foto Objek Retribusi Berhasil Dihapus!');
+            } else {
+                return redirect()->route('ObjekRetribusi.edit', $fotoObjekRetribusi->idObjekRetribusi)->with('error', 'Foto Objek Retribusi Gagal Dihapus!');
+            }
+
+        } else {
+            return redirect()->route('ObjekRetribusi.edit', $fotoObjekRetribusi->idObjekRetribusi)->with('error', 'Foto Objek Retribusi Tidak Ditemukan!');
+        }
     }
 
     public function tarif()
@@ -250,30 +414,32 @@ class ObjekRetribusiController extends Controller
     }
 
     public function storeTarif(Request $request)
-    {
+    {   
+        //dd($request->all());
         if ($request->hasFile('filePenilaian')) {
             $uploadedFile = $request->file('filePenilaian');
             $filePenilaian = $request->get('objekRetribusi') . "-Dokumen Penilaian Tarif-" . time() . "." . $uploadedFile->getClientOriginalExtension();
-            $filePath = Storage::disk('public')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
-        }else{
-            $filePath="";
+            $filePath = Storage::disk('biznet')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
+        } else {
+            $filePath = "";
         }
 
+        if(is_null($request->get('statusPenilaian'))){
+            $isStatusPenilaian = 0;
+        }else{
+            $isStatusPenilaian = 1;
+        }
 
         $tarifObjekRetribusi = json_encode([
             'IdObjekRetribusi' => $request->get('objekRetribusi'),
             'IdJenisJangkaWaktu' => $request->get('jangkaWaktu'),
-            'TanggalDinilai' => $request->get('tanggalDinilai'),
-            'IsDinilai' => $request->get('statusPenilaian'),
+            'TanggalDinilai' => date("m/d/Y", strtotime($request->get('tanggalDinilai'))),
+            'IsDinilai' => $isStatusPenilaian,
             'NamaPenilai' => $request->get('namaPenilai'),
             'NominalTarif' => $request->get('tarifObjek'),
             'Keterangan' => $request->get('keterangan'),
             'FileHasilPenilaian' => $filePath
         ]);
-
-        //dd($tarifObjekRetribusi);
-
-        //$request->fileGambarDenahTanah->move(public_path('images'), $denahTanah);
 
         $response = DB::statement('CALL insert_tarifObjekRetribusi(:dataTarifObjekRetribusi)', ['dataTarifObjekRetribusi' => $tarifObjekRetribusi]);
 
@@ -301,6 +467,20 @@ class ObjekRetribusiController extends Controller
                 'status' => 404,
                 'message' => 'Data Tarif Objek Retribusi Tidak Ditemukan.'
             ]);
+        }
+    }
+
+    public function editTarif($id)
+    {
+        $tarifObjekData = DB::select('CALL view_TarifObjekRetribusiById(' . $id . ')');
+        $tarifObjek = $tarifObjekData[0];
+
+        $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
+
+        if ($tarifObjek) {
+            return view('admin.Master.ObjekRetribusi.editTarifObjek', compact('tarifObjek', 'jangkaWaktu'));
+        } else {
+            return redirect()->route('admin.Master.ObjekRetribusi.tarif')->with('error', 'Tarif Objek Retribusi Tidak Ditemukan!');
         }
     }
 

@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("/", [DashboardController::class, 'index'])->name('Dashboard.index');
-    
+
     // Route untuk Lokasi Objek Retribusi
     Route::get("/lokasi-objek-retribusi", [LokasiObjekRetribusiController::class, 'index'])->name('LokasiObjekRetribusi.index');
     Route::get("/lokasi-objek-retribusi/tambah", [LokasiObjekRetribusiController::class, 'create'])->name('LokasiObjekRetribusi.create');
@@ -121,9 +121,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/objek-retribusi/tambah", [ObjekRetribusiController::class, 'create'])->name('ObjekRetribusi.create');
     Route::post("/objek-retribusi/simpan", [ObjekRetribusiController::class, 'store'])->name('ObjekRetribusi.store');
     Route::get("/objek-retribusi/ubah/{id}", [ObjekRetribusiController::class, 'edit'])->name('ObjekRetribusi.edit');
-    Route::post("/objek-retribusi/update/{id}", [ObjekRetribusiController::class, 'update'])->name('ObjekRetribusi.update');
+    Route::post("/objek-retribusi/update", [ObjekRetribusiController::class, 'update'])->name('ObjekRetribusi.update');
     Route::get("/objek-retribusi/detail/{id}", [ObjekRetribusiController::class, 'detail'])->name('ObjekRetribusi.detail');
     Route::delete("/objek-retribusi/hapus", [ObjekRetribusiController::class, 'delete'])->name('ObjekRetribusi.delete');
+    Route::post("/objek-retribusi/update-denah-tanah", [ObjekRetribusiController::class, 'updateDenahTanah'])->name('ObjekRetribusi.updateDenahTanah');
+    Route::get("/objek-retribusi/ubah-foto-objek", [ObjekRetribusiController::class, 'editFotoObjek'])->name('ObjekRetribusi.editFotoObjek');
+    Route::post("/objek-retribusi/update-foto-objek", [ObjekRetribusiController::class, 'updateFotoObjek'])->name('ObjekRetribusi.updateFotoObjek');
+    Route::get("/objek-retribusi/hapus-foto-objek/{id}", [ObjekRetribusiController::class, 'deleteFotoObjek'])->name('ObjekRetribusi.deleteFotoObjek');
+    Route::post("/objek-retribusi/simpan-foto-objek", [ObjekRetribusiController::class, 'storeFotoObjek'])->name('ObjekRetribusi.storeFotoObjek');
 
     // Route untuk Tarif Objek Retribusi
     Route::get("/objek-retribusi/tarif", [ObjekRetribusiController::class, 'tarif'])->name('ObjekRetribusi.tarif');
@@ -131,6 +136,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/objek-retribusi/detail-objek/", [ObjekRetribusiController::class, 'detailObjekToTarif'])->name('ObjekRetribusi.detailObjekToTarif');
     Route::post("/objek-retribusi/simpan-tarif", [ObjekRetribusiController::class, 'storeTarif'])->name('ObjekRetribusi.storeTarif');
     Route::get("/objek-retribusi/detail-tarif", [ObjekRetribusiController::class, 'detailTarif'])->name('ObjekRetribusi.detailTarif');
+    Route::get("/objek-retribusi/ubah-tarif/{id}", [ObjekRetribusiController::class, 'editTarif'])->name('ObjekRetribusi.editTarif');
     Route::delete("/objek-retribusi/hapus-tarif", [ObjekRetribusiController::class, 'deleteTarif'])->name('ObjekRetribusi.deleteTarif');
 
     // Route untuk Wajib Retribusi

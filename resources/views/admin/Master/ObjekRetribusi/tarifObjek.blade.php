@@ -28,7 +28,10 @@
                     }).show();
                 } else {
                     //console.log(response.fieldEducation.nama_bidang_pendidikan)
-                    var fileDokumen = {!! json_encode(url('storage/')) !!};
+                    var filePath = response.tarifObjek.fileHasilPenilaian;
+                    var fileDokumen = {!! json_encode(Storage::disk('biznet')->url('/documents/tarifObjekRetribusi/' )) !!};
+
+                    console.log(fileDokumen);
 
                     $('#d_kodeObjek').text(response.tarifObjek.kodeObjekRetribusi);
                     $('#d_namaObjek').text(response.tarifObjek.objekRetribusi);
@@ -49,7 +52,7 @@
                     $('#d_namaPenilai').text(response.tarifObjek.namaPenilai);
                     $('#d_tarifObjek').text("Rp. " + response.tarifObjek.nominalTarif);
                     $('#d_keterangan').text(response.tarifObjek.keterangan);
-                    $('#d_fileDokumen').attr("href", fileDokumen + "/" + response.tarifObjek.fileHasilPenilaian);
+                    $('#d_fileDokumen').attr("href", fileDokumen + response.tarifObjek.fileName);
                     $('#d_fileDokumen').attr("download", response.tarifObjek.fileHasilPenilaian);
                     $('#d_fileName').text(response.tarifObjek.fileName);
                 }
@@ -185,7 +188,7 @@
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('ObjekRetribusi.edit', $tR->idTarifObjekRetribusi) }}"><i
+                                                        href="{{ route('ObjekRetribusi.editTarif', $tR->idTarifObjekRetribusi) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
                                                 <li><button type="button" value="{{ $tR->idTarifObjekRetribusi }}"

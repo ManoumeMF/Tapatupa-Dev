@@ -159,7 +159,7 @@
                                                             class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail</a>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Pekerjaan.edit', $oR->idObjekRetribusi) }}"><i
+                                                        href="{{ route('ObjekRetribusi.edit', $oR->idObjekRetribusi) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
                                                 <li><button type="button" value="{{ $oR->idObjekRetribusi }}"
