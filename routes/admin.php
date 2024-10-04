@@ -137,7 +137,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/objek-retribusi/simpan-tarif", [ObjekRetribusiController::class, 'storeTarif'])->name('ObjekRetribusi.storeTarif');
     Route::get("/objek-retribusi/detail-tarif", [ObjekRetribusiController::class, 'detailTarif'])->name('ObjekRetribusi.detailTarif');
     Route::get("/objek-retribusi/ubah-tarif/{id}", [ObjekRetribusiController::class, 'editTarif'])->name('ObjekRetribusi.editTarif');
+    Route::post("/objek-retribusi/update-tarif", [ObjekRetribusiController::class, 'updateTarif'])->name('ObjekRetribusi.updateTarif');
     Route::delete("/objek-retribusi/hapus-tarif", [ObjekRetribusiController::class, 'deleteTarif'])->name('ObjekRetribusi.deleteTarif');
+    Route::post("/objek-retribusi/update-hasil-penilaian", [ObjekRetribusiController::class, 'updateHasilPenilaian'])->name('ObjekRetribusi.updateHasilPenilaian');
 
     // Route untuk Wajib Retribusi
     Route::get("/wajib-retribusi", [WajibRetribusiController::class, 'index'])->name('WajibRetribusi.index');

@@ -88,8 +88,14 @@
             $(".tanggal-dinilai").prop("disabled", true); // disable the input field
             $("#namaPenilai").prop("disabled", true); // disable the input field
         }
-    });
 
+        $(document).on('click', '.editPenilaianBtn', function (e) {
+            var tf_id = $(this).val();
+
+            $('#ubahPenilaianModal').modal('show');
+            $('#idFilePenilaian').val(tf_id);
+        });
+    });
 </script>
 
 <!-- Page Header -->
@@ -113,7 +119,7 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.storeTarif')}}" method="post"
+        <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.updateTarif')}}" method="post"
             enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
@@ -127,6 +133,10 @@
                         <div class="row gx-5">
                             <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
                                 <div class="card custom-card shadow-none mb-0 border-0">
+                                <input type="hidden" id="idTarifObjekRetribusi" name="idTarifObjekRetribusi"
+                                value="{{ $tarifObjek->idTarifObjekRetribusi }}">
+                                <input type="hidden" id="idObjekRetribusi" name="idObjekRetribusi"
+                                value="{{ $tarifObjek->idObjekRetribusi }}">
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
                                             <div class="col-xl-12">
@@ -271,12 +281,42 @@
                                                 <textarea class="form-control" id="keterangan" rows="3"
                                                     name="keterangan" placeholder="Masukkan Keterangan">{{ $tarifObjek->keterangan }}</textarea>
                                             </div>
+                                            @if(isset($file))
+                                            <table class="table text-nowrap table-hover" id="tblFoto">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nama File Hasil Penilaian</th>
+                                                            <th width="30px">Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{{ $tarifObjek->fileName }}</td>
+                                                            <td>
+                                                                <button type="button"
+                                                                    value="{{ $tarifObjek->idTarifObjekRetribusi }}"
+                                                                    class="btn btn-icon btn-outline-teal btn-wave btn-sm editPenilaianBtn">
+                                                                    <i class="ri-edit-box-line"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="col-xl-12 product-documents-container">
+                                                <label for="keterangan" class="form-label">Upload File Hasil
+                                                    Penilaian Baru</label>
+                                                <input class="form-control" type="file" id="filePenilaian"
+                                                    name="filePenilaian">
+                                            </div>
+                                            @else
                                             <div class="col-xl-12 product-documents-container">
                                                 <label for="keterangan" class="form-label">Upload File Hasil
                                                     Penilaian</label>
                                                 <input class="form-control" type="file" id="filePenilaian"
                                                     name="filePenilaian">
                                             </div>
+                                            @endif
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -294,4 +334,35 @@
     </div>
 </div>
 </div>
+
+<!-- Start:: Edit File Hasil Penilaian-->
+<div class="modal fade" id="ubahPenilaianModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Ubah File Hasil Penilaian</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.updateHasilPenilaian')}}" method="post"
+                enctype="multipart/form-data" novalidate>
+                {{ csrf_field() }}
+                <input type="hidden" id="idFilePenilaian" name="idFilePenilaian">
+                <div class="modal-body px-4">
+                    <div class="d-flex gap-3">
+                        <div class="flex-fill">
+                            <h6 class="mb-1 fs-13">Upload File Hasil Penilaian</h6>
+                            <input type="file" class="hasil-penilaian form-control" name="fileHasilPenelian">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary m-1" type="submit">Simpan <i
+                            class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End:: Edit File Hasil Penilaian -->
+
 @endsection

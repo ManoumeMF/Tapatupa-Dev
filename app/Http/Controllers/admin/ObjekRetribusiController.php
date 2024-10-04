@@ -475,13 +475,110 @@ class ObjekRetribusiController extends Controller
         $tarifObjekData = DB::select('CALL view_TarifObjekRetribusiById(' . $id . ')');
         $tarifObjek = $tarifObjekData[0];
 
+        $file = Storage::disk('biznet')->get($tarifObjek->fileHasilPenilaian);
+
+        //dd($file);
+
         $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
 
         if ($tarifObjek) {
-            return view('admin.Master.ObjekRetribusi.editTarifObjek', compact('tarifObjek', 'jangkaWaktu'));
+            return view('admin.Master.ObjekRetribusi.editTarifObjek', compact('tarifObjek', 'jangkaWaktu', 'file'));
         } else {
             return redirect()->route('admin.Master.ObjekRetribusi.tarif')->with('error', 'Tarif Objek Retribusi Tidak Ditemukan!');
         }
+    }
+
+    public function updateHasilPenilaian(Request $request)
+    {
+        //dd($request->all());
+
+        $tarifObjekData = DB::select('CALL view_TarifObjekRetribusiById(' . $request->get('idFilePenilaian') . ')');
+        $tarifObjek = $tarifObjekData[0];
+
+        //dd($objekRetribusi->kodeObjekRetribusi);
+
+        $file = Storage::disk('biznet')->get($tarifObjek->fileHasilPenilaian);
+
+        //dd($file);
+
+        if ($file) {
+            Storage::disk('biznet')->delete($tarifObjek->fileHasilPenilaian);
+
+            if ($request->hasFile('fileHasilPenelian')) {
+                $uploadedFile = $request->file('fileHasilPenelian');
+                $filePenilaian = $tarifObjek->idObjekRetribusi . "-Dokumen Penilaian Tarif-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $filePath = Storage::disk('biznet')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
+            } else {
+                $filePath = "";
+            }
+
+            $dataHasilPenilaian = json_encode([
+                'IdTarifObjekReribusi' => $request->get('idFilePenilaian'),
+                'FileHasilPenilaian' => $filePath
+            ]);
+
+
+            if ($tarifObjek) {
+                $response = DB::statement('CALL update_fileHasilPenilaian(:dataHasilPenilaian)', ['dataHasilPenilaian' => $dataHasilPenilaian]);
+
+                if ($response) {
+                    return redirect()->route('ObjekRetribusi.editTarif', $tarifObjek->idTarifObjekRetribusi)->with('success', 'File Hasil Penilaian Berhasil Diubah!');
+                } else {
+                    return redirect()->route('ObjekRetribusi.editTarif', $tarifObjek->idTarifObjekRetribusi)->with('error', 'File Hasil Penilaian Gagal Diubah!');
+                }
+
+            }
+        } else {
+            return redirect()->route('ObjekRetribusi.editTarif', $tarifObjek->idTarifObjekRetribusi)->with('error', 'File Hasil Penilaian Tidak Ditemukan!');
+        }
+    }
+
+    public function updateTarif(Request $request)
+    {
+        //dd($request->all());
+
+        $tarifObjekData = DB::select('CALL view_TarifObjekRetribusiById(' . $request->get('idTarifObjekRetribusi') . ')');
+        $tarifObjek = $tarifObjekData[0];
+
+        /*if(is_null($request->get('statusPenilaian'))){
+            $isStatusPenilaian = 0;
+        }else{
+            $isStatusPenilaian = 1;
+        }*/
+
+        if ($request->hasFile('filePenilaian')) {
+            $uploadedFile = $request->file('filePenilaian');
+            $filePenilaian = $tarifObjek->idObjekRetribusi . "-Dokumen Penilaian Tarif-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+            $filePath = Storage::disk('biznet')->putFileAs("documents/tarifObjekRetribusi", $uploadedFile, $filePenilaian);
+        } else {
+            $filePath = "";
+        }
+
+        $tarifObjekRetribusi = json_encode([
+            'IdTarifObjekRetribusi' => $request->get('idTarifObjekRetribusi'),
+            'IdObjekRetribusi' => $request->get('idObjekRetribusi'),
+            'IdJangkaWaktu' => $request->get('jangkaWaktu'),
+            'TanggalDinilai' => date("m/d/Y", strtotime($request->get('tanggalDinilai'))),
+            //'StatusPenilaian' => $isStatusPenilaian,
+            'NamaPenilai' => $request->get('namaPenilai'),
+            'NominalTarif' => $request->get('tarifObjek'),
+            'Keterangan' => $request->get('keterangan'),
+            'FileHasilPenilaian' => $filePath
+        ]);
+
+        if ($tarifObjek) {
+            $response = DB::statement('CALL update_TarifObjekRetribusi(:dataTarifObjek)', ['dataTarifObjek' => $tarifObjekRetribusi]);
+
+            if ($response) {
+                return redirect()->route('ObjekRetribusi.tarif')->with('success', 'Tarif Objek Retribusi Berhasil Diubah!');
+            } else {
+                return redirect()->route('ObjekRetribusi.tarif')->with('error', 'Tarif Objek Retribusi Gagal Diubah!');
+            }
+
+        } else {
+            return redirect()->route('ObjekRetribusi.tarif')->with('error', 'Tarif Objek Retribusi Tidak Ditemukan!');
+        }
+        
     }
 
     public function deleteTarif(Request $request)
