@@ -31,8 +31,6 @@
                     var filePath = response.tarifObjek.fileHasilPenilaian;
                     var fileDokumen = {!! json_encode(Storage::disk('biznet')->url('/documents/tarifObjekRetribusi/' )) !!};
 
-                    console.log(fileDokumen);
-
                     $('#d_kodeObjek').text(response.tarifObjek.kodeObjekRetribusi);
                     $('#d_namaObjek').text(response.tarifObjek.objekRetribusi);
                     $('#d_noBangunan').text(response.tarifObjek.noBangunan);

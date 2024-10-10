@@ -27,17 +27,22 @@
                         modal: true
                     }).show();
                 } else {
+                    var fotoPath = response.wajibRetribusi.fotoWajibRetribusi;
+                    var fileFoto = {!! json_encode(Storage::disk('biznet')->url('/images/wajibRetribusi' )) !!};
+
                     var photo = {!! json_encode(url('storage/')) !!};
                     var no_photo = {!! json_encode(url('admin_resources/assets/images/user-general/no_photo_profile_color.png')) !!};
                     //console.log(photo)
-                    if(response.wajibRetribusi.fotoWajibRetribusi){
-                        $('#d_fotoWajib').attr("src", photo + "/" + response.wajibRetribusi.fotoWajibRetribusi);
-                    }else{
-                        $('#d_fotoWajib').attr("src", no_photo );
+                    if (response.wajibRetribusi.fotoWajibRetribusi) {
+                        $('#d_fotoWajib').attr("src", fileFoto + '/' + response.wajibRetribusi.fileName);
+                    } else {
+                        $('#d_fotoWajib').attr("src", no_photo);
                     }
+                    
                     $('#d_namaWajib').text(response.wajibRetribusi.namaWajibRetribusi);
                     $('#d_jenisWajib').text(response.wajibRetribusi.namaJenisWajibRetribusi);
                     $('#d_nik').text("NIK: " + response.wajibRetribusi.nik);
+                    $('#d_npwrd').text("NIK: " + response.wajibRetribusi.npwrd);
                     $('#d_pekerjaan').text(response.wajibRetribusi.namaPekerjaan);
                     $('#d_alamat').text(response.wajibRetribusi.alamatLengkap);
                     $('#d_nomorPonsel').text(response.wajibRetribusi.nomorPonsel);
@@ -142,6 +147,7 @@
                 <table id="responsivemodal-DataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
+                            <th>NPWRD</th>
                             <th>Wajib Retribusi</th>
                             <th>Alamat</th>
                             <th>Nomor WhatsApp</th>
@@ -153,16 +159,17 @@
                         @if (isset($wajibRetribusi) && count($wajibRetribusi) > 0)
                             @foreach ($wajibRetribusi as $wR)
                                 <tr>
+                                    <td>{{ $wR->npwrd }}</td>
                                     <td>
                                         <div class="d-flex">
                                             @if($wR->fotoWajibRetribusi)
-                                            <span class="avatar avatar-md avatar-square bg-light"><img
-                                                    src="{{url('storage/' . $wR->fotoWajibRetribusi)}}" class="w-100 h-100"
-                                                    alt="..."></span>
+                                                <span class="avatar avatar-md avatar-square bg-light"><img
+                                                        src="{{Storage::disk('biznet')->url('/' . $wR->fotoWajibRetribusi)}}"
+                                                        class="w-100 h-100" alt="..."></span>
                                             @else
-                                            <span class="avatar avatar-md avatar-square bg-light"><img
-                                                    src="{{ asset('admin_resources/assets/images/user-general/no_image1.png') }}" class="w-100 h-100"
-                                                    alt="..."></span>
+                                                <span class="avatar avatar-md avatar-square bg-light"><img
+                                                        src="{{ asset('admin_resources/assets/images/user-general/no_image1.png') }}"
+                                                        class="w-100 h-100" alt="..."></span>
                                             @endif
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center">
@@ -240,7 +247,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">NPWRD</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_npwrd"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-xl-4">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Jenis wajib Retribusi</h6>
@@ -249,7 +266,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Pekerjaan</h6>
@@ -267,7 +284,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Nomor Ponsel</h6>
@@ -276,7 +293,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Nomor WhatsApp</h6>
@@ -285,7 +302,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12">
+                                        <div class="col-xl-4">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Email</h6>

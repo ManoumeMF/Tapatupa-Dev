@@ -278,7 +278,7 @@
                                 <div class="card custom-card shadow-none mb-0 border-0">
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <label for="jenis-wajib" class="form-label">Jenis Wajib
                                                     Retribusi</label>
                                                 <select class="jenis-wajib form-control" id="jenis-wajib"
@@ -294,7 +294,7 @@
                                                     Jenis Wajib Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-8">
                                                 <label for="nik" class="form-label">Nomor Induk Kependudukan
                                                     (NIK)</label>
                                                 <input type="text" class="form-control" id="nik" name="nik"
@@ -303,7 +303,15 @@
                                                     Nomor Induk Kependudukan (NIK) Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
+                                                <label for="nik" class="form-label">NPWRD</label>
+                                                <input type="text" class="form-control" id="npwrd" name="npwrd"
+                                                    placeholder="Masukkan NPWRD" required>
+                                                <div class="invalid-feedback">
+                                                    NPWRD
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8">
                                                 <label for="nama-wajib-retribusi" class="form-label">Nama Wajib
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="nama-wajib-retribusi"

@@ -77,16 +77,18 @@
             }
         });
 
-        var statusPenilaian = {!! json_encode($tarifObjek->namaPenilai) !!};
+        let statusPenilaian = {!! json_encode($tarifObjek->namaPenilai) !!};
 
-        if (statusPenilaian) {
-            $('#checkebox-md').prop('checked', true);
-            $(".tanggal-dinilai").prop("disabled", false); // enable the input field
-            $("#namaPenilai").prop("disabled", false); // enable the input field
-        } else {
+        //console.log(statusPenilaian);
+
+        if (statusPenilaian===null || statusPenilaian === "") {
             $('#checkebox-md').prop('checked', false);
             $(".tanggal-dinilai").prop("disabled", true); // disable the input field
             $("#namaPenilai").prop("disabled", true); // disable the input field
+        } else{
+            $('#checkebox-md').prop('checked', true);
+            $(".tanggal-dinilai").prop("disabled", false); // enable the input field
+            $("#namaPenilai").prop("disabled", false); // enable the input field
         }
 
         $(document).on('click', '.editPenilaianBtn', function (e) {
