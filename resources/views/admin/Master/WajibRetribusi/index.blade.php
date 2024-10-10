@@ -30,9 +30,8 @@
                     var fotoPath = response.wajibRetribusi.fotoWajibRetribusi;
                     var fileFoto = {!! json_encode(Storage::disk('biznet')->url('/images/wajibRetribusi' )) !!};
 
-                    var photo = {!! json_encode(url('storage/')) !!};
                     var no_photo = {!! json_encode(url('admin_resources/assets/images/user-general/no_photo_profile_color.png')) !!};
-                    //console.log(photo)
+                    
                     if (response.wajibRetribusi.fotoWajibRetribusi) {
                         $('#d_fotoWajib').attr("src", fileFoto + '/' + response.wajibRetribusi.fileName);
                     } else {

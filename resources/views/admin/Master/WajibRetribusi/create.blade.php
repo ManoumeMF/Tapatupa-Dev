@@ -39,8 +39,6 @@
             });
         });
 
-
-
         $(document).on('click', '#delFoto', function () {
             $(this).closest('tr').remove();
             return false;

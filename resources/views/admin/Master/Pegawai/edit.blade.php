@@ -136,33 +136,21 @@
             }
         });
 
-        /* filepond 
-        FilePond.registerPlugin(
-            FilePondPluginImagePreview,
-            FilePondPluginImageExifOrientation,
-            FilePondPluginFileValidateSize,
-            FilePondPluginFileEncode,
-            FilePondPluginImageEdit,
-            FilePondPluginFileValidateType,
-            FilePondPluginImageCrop,
-            FilePondPluginImageResize,
-            FilePondPluginImageTransform
-        );
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-        /* single upload 
-        FilePond.create(
-            document.querySelector('.single-fileupload'),
-            {
-                labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
-                imagePreviewHeight: 170,
-                imageCropAspectRatio: '1:1',
-                imageResizeTargetWidth: 200,
-                imageResizeTargetHeight: 200,
-                stylePanelLayout: 'compact circle',
-                styleLoadIndicatorPosition: 'center bottom',
-                styleButtonRemoveItemPosition: 'center bottom'
+                reader.onload = function (e) {
+                    $('#previewFoto').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
             }
-        );*/
+        }
+
+        $("#photoPegawai").change(function () {
+            readURL(this);
+        });
 
         //-------------------------------------------------------------------------------------------------
         //Ajax Form Ubah Foto
@@ -362,45 +350,40 @@
                                                     Nomor Whatsapp Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12 border-top">
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table text-nowrap table-hover table-bordered"
-                                                        id="tblFoto">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="40px">Foto</th>
-                                                                <th>File Foto</th>
-                                                                <th width="30px">Aksi</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <span
-                                                                        class="avatar avatar-md avatar-square bg-light"><img
-                                                                            src="{{url('storage/' . $pegawai->fileFoto)}}"
-                                                                            class="w-100 h-100" alt="...">
-                                                                    </span>
-                                                                </td>
-                                                                <td>{{ $pegawai->fileName }}</td>
-                                                                <td>
-                                                                    <button type="button"
-                                                                        class="btn btn-icon btn-teal-light btn-wave btn-sm editBtn">
-                                                                        <i class="ri-edit-box-line"></i>
-                                                                    </button>
-                                                                    <button type="button" id="delFoto"
-                                                                        class="btn btn-icon btn-danger-light btn-wave btn-sm">
-                                                                        <i class="ri-delete-bin-line"></i>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                            <div class="col-xl-12">
+                                                <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                                                    <div class="card custom-card shadow-none mb-0 border-0">
+                                                        <div class="card-body p-0">
+                                                            <div class="row gy-3">
+                                                                <div class="col-xl-8">
+                                                                    <div class="text-center d-grid gap-2 mb-4">
+                                                                        <label for="file-foto" class="form-label">Upload Foto Pegawai</label>
+                                                                        @if (isset($file))
+                                                                        <img src="{{Storage::disk('biznet')->url('/' . $pegawai->fileFoto)}}"
+                                                                            class="img-thumbnail float-start"
+                                                                            width="100%" height="220" alt=""
+                                                                            id="previewFoto" alt="...">
+                                                                        @else
+                                                                        <img src="{{ asset('admin_resources/assets/images/user-general/no_picture.png') }}"
+                                                                            class="img-thumbnail float-start"
+                                                                            width="100%" height="220" alt=""
+                                                                            id="previewFoto" alt="...">                                                                  
+                                                                        @endif
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-primary btn-wave waves-effect waves-light"
+                                                                            onclick="javascript:document.getElementById('photoPegawai').click();">
+                                                                            <i class="ri-edit-2-fill me-1"></i>Ubah
+                                                                            Gambar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-12" id="uploadFoto">
-                                                
+                                                <div class="col-xl-12">
+                                                <input id="photoPegawai" type="file" style='visibility: hidden;' name="photoPegawai" accept="image/png, image/jpeg, image/gif" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -40,6 +40,23 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
 
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewFoto').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#photoWajibRetribusi").change(function () {
+            readURL(this);
+        });
+
         // for product images upload
         //const MultipleElement1 = document.querySelector('.foto-wajib-retribusi');
         //FilePond.create(MultipleElement1,);
@@ -164,7 +181,8 @@
 <div class="row">
     <div class="col-xl-12">
 
-        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{route('WajibRetribusi.update')}}" method="post"
+            enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -177,18 +195,44 @@
                         <div class="row gx-5">
                             <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
                                 <div class="card custom-card shadow-none mb-0 border-0">
+                                <input type="hidden" id="idWajibRetribusi" name="idWajibRetribusi"
+                                value="{{ $wajibRetribusi->idWajibRetribusi }}">
                                     <div class="card-body p-0">
                                         <div class="row gy-3">
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
+                                                <label for="jenis-wajib" class="form-label">Jenis Wajib
+                                                    Retribusi</label>
+                                                <select class="jenis-wajib form-control" id="jenis-wajib"
+                                                    name="jenisWajib" required>
+                                                    <option></option>
+                                                    @foreach ($jenisWajibRetribusi as $jW)
+                                                        <option value="{{ $jW->idJenisWajibRetribusi }}" {{ $jW->idJenisWajibRetribusi === $wajibRetribusi->idJenisWajibRetribusi ? 'selected' : '' }}>
+                                                            {{ $jW->namaJenisWajibRetribusi }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Jenis Wajib Retribusi Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8">
                                                 <label for="nik" class="form-label">Nomor Induk Kependudukan
                                                     (NIK)</label>
-                                                <input type="text" class="form-control" id="nik" value="{{ $wajibRetribusi->nik }}"
+                                                <input type="text" class="form-control" id="nik" name="nik" value="{{ $wajibRetribusi->nik }}"
                                                     placeholder="Masukkan Nomor Induk Kependudukan (NIK)" required>
                                                 <div class="invalid-feedback">
                                                     Nomor Induk Kependudukan (NIK) Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
+                                                <label for="nik" class="form-label">NPWRD</label>
+                                                <input type="text" class="form-control" id="npwrd" name="npwrd" value="{{ $wajibRetribusi->npwrd }}"
+                                                    placeholder="Masukkan NPWRD" required>
+                                                <div class="invalid-feedback">
+                                                    NPWRD
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8">
                                                 <label for="nama-wajib-retribusi" class="form-label">Nama Wajib
                                                     Retribusi</label>
                                                 <input type="text" class="form-control" id="namaWajib" name="namaWajib" value="{{ $wajibRetribusi->namaWajibRetribusi }}"
@@ -273,7 +317,7 @@
                                                     Retribusi</label>
                                                 <textarea class="form-control" id="alamat-wajib" rows="2"
                                                     name="alamatWajibRetribusi"
-                                                    placeholder="Masukkan Alamat Wajib Retribusi"></textarea>
+                                                    placeholder="Masukkan Alamat Wajib Retribusi">{{ $wajibRetribusi->alamat }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -298,45 +342,43 @@
                                                 <input type="text" class="form-control" id="email" name="email" value="{{ $wajibRetribusi->email }}"
                                                     placeholder="Masukkan email">
                                             </div>
-                                            <div class="col-xl-12 border-top">
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table text-nowrap table-hover table-bordered"
-                                                        id="tblFoto">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="40px">Foto</th>
-                                                                <th>File Foto</th>
-                                                                <th width="30px">Aksi</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <span
-                                                                        class="avatar avatar-md avatar-square bg-light"><img
-                                                                            src="{{url('storage/' . $wajibRetribusi->fotoWajibRetribusi)}}"
-                                                                            class="w-100 h-100" alt="...">
-                                                                    </span>
-                                                                </td>
-                                                                <td>{{ $wajibRetribusi->fileName }}</td>
-                                                                <td>
-                                                                    <button type="button"
-                                                                        class="btn btn-icon btn-teal-light btn-wave btn-sm editBtn">
-                                                                        <i class="ri-edit-box-line"></i>
-                                                                    </button>
-                                                                    <button type="button" id="delFoto"
-                                                                        class="btn btn-icon btn-danger-light btn-wave btn-sm">
-                                                                        <i class="ri-delete-bin-line"></i>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                            <div class="col-xl-12">
+                                                <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
+                                                    <div class="card custom-card shadow-none mb-0 border-0">
+                                                        <div class="card-body p-0">
+                                                            <div class="row gy-3">
+                                                                <div class="col-xl-8">
+                                                                    <div class="text-center d-grid gap-2 mb-4">
+                                                                        <label for="file-foto" class="form-label">Upload
+                                                                            Foto Wajib Retribusi</label>
+                                                                        @if (isset($file))
+                                                                        <img src="{{Storage::disk('biznet')->url('/' . $wajibRetribusi->fotoWajibRetribusi)}}"
+                                                                            class="img-thumbnail float-start"
+                                                                            width="100%" height="220" alt=""
+                                                                            id="previewFoto" alt="...">
+                                                                        @else
+                                                                        <img src="{{ asset('admin_resources/assets/images/user-general/no_picture.png') }}"
+                                                                            class="img-thumbnail float-start"
+                                                                            width="100%" height="220" alt=""
+                                                                            id="previewFoto" alt="...">                                                                  
+                                                                        @endif
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-primary btn-wave waves-effect waves-light"
+                                                                            onclick="javascript:document.getElementById('photoWajibRetribusi').click();">
+                                                                            <i class="ri-edit-2-fill me-1"></i>Ubah
+                                                                            Gambar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-12" id="uploadFoto">
-                                                
+                                                <div class="col-xl-12">
+                                                    <input id="photoWajibRetribusi" type="file"
+                                                        style='visibility: hidden;' name="photoWajibRetribusi"
+                                                        accept="image/png, image/jpeg, image/gif" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

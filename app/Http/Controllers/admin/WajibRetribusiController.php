@@ -43,9 +43,6 @@ class WajibRetribusiController extends Controller
             $photoPath = "";
         }
 
-
-
-
         $wajibRetribusi = json_encode([
             'Nik' => $request->get('nik'),
             'IdJenisWajibRetribusi' => $request->get('jenisWajib'),
@@ -82,43 +79,71 @@ class WajibRetribusiController extends Controller
         $kelurahan = DB::select('CALL cbo_subdistricts(' . $wajibRetribusi->dis_id . ')');
 
         $pekerjaan = DB::select('CALL cbo_pekerjaan()');
-        //$status = $statusData[0];
+        $jenisWajibRetribusi = DB::select('CALL cbo_JenisWajibRetribusi()');
 
-        /*if ($status) {
-            return view('admin.PengaturanDanKonfigurasi.Status.edit', ['statusType' => $statusTypeCombo], ['status' => $status]);
-         } else {
-             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
-         }*/
+        $file = Storage::disk('biznet')->get($wajibRetribusi->fotoWajibRetribusi);
 
-        return view('admin.Master.WajibRetribusi.edit', compact('pekerjaan', 'province', 'kota', 'kecamatan', 'kelurahan', 'wajibRetribusi'));
+        return view('admin.Master.WajibRetribusi.edit', compact('pekerjaan', 'file', 'province', 'kota', 'kecamatan', 'kelurahan', 'wajibRetribusi', 'jenisWajibRetribusi'));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $Status = json_encode([
-            'IdStatus' => $id,
-            'IdJenisStatus' => $request->get('jenisStatus'),
-            'Status' => $request->get('namaStatus'),
-            'Keterangan' => $request->get('keterangan')
-        ]);
+        //dd($request->all());
 
-        //dd($Status);
+        $wajibRetribusiData = DB::select('CALL view_WajibRetribusiById(' . $request->get('idWajibRetribusi') . ')');
+        $wajibRetribusi = $wajibRetribusiData[0];
 
-        $statusData = DB::select('CALL view_statusById(' . $id . ')');
-        $statusTemp = $statusData[0];
+        $file = Storage::disk('biznet')->get($wajibRetribusi->fotoWajibRetribusi);
 
-        if ($statusTemp) {
-            $response = DB::statement('CALL update_status(:dataStatus)', ['dataStatus' => $Status]);
+        //dd($file);
 
-            if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Diubah!');
+        if ($file) {
+            Storage::disk('biznet')->delete($wajibRetribusi->fotoWajibRetribusi);
+
+            if ($request->hasFile('photoWajibRetribusi')) {
+                $uploadedFile = $request->file('photoWajibRetribusi');
+                $photo = $wajibRetribusi->namaWajibRetribusi . " - " . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $photoPath = Storage::disk('biznet')->putFileAs("images/wajibRetribusi", $uploadedFile, $photo);
             } else {
-                return redirect()->route('Status.edit', $id)->with('error', 'Status Gagal Diubah!');
+                $photoPath = "";
             }
 
         } else {
-            return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
+            if ($request->hasFile('photoWajibRetribusi')) {
+                $uploadedFile = $request->file('photoWajibRetribusi');
+                $photo = $wajibRetribusi->namaWajibRetribusi . " - " . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $photoPath = Storage::disk('biznet')->putFileAs("images/wajibRetribusi", $uploadedFile, $photo);
+            } else {
+                $photoPath = "";
+            }
+        }
+        
+        $wajibRetribusi = json_encode([
+            'IdWajibRetribusi' => $request->get('idWajibRetribusi'),
+            'Nik' => $request->get('nik'),
+            'IdJenisWajibRetribusi' => $request->get('jenisWajib'),
+            'NPWRD' => $request->get('npwrd'),
+            'NamaWajibRetribusi' => $request->get('namaWajib'),
+            'NamaPekerjaan' => $request->get('pekerjaan'),
+            'SubdisName' => $request->get('kelurahan'),
+            'Alamat' => $request->get('alamatWajibRetribusi'),
+            'NomorPonsel' => $request->get('nomorPonsel'),
+            'NomorWhatsapp' => $request->get('nomorWhatsapp'),
+            'Email' => $request->get('email'),
+            'FotoWajibRetribusi' => $photoPath
+        ]);
+
+        //dd($wajibRetribusi);
+
+        if ($wajibRetribusi) {
+            $response = DB::statement('CALL update_wajibRetribusi(:dataWajibRetribusi)', ['dataWajibRetribusi' => $wajibRetribusi]);
+
+            if ($response) {
+                return redirect()->route('WajibRetribusi.index')->with('success', 'Wajib Retribusi Berhasil Diubah!');
+            } else {
+                return redirect()->route('WajibRetribusi.edit', $wajibRetribusi->idWajibRetribusi)->with('error', 'Wajib Retribusi Gagal Diubah!');
+            }
         }
     }
 

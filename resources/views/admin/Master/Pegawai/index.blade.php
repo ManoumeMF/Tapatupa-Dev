@@ -26,11 +26,14 @@
                         modal: true
                     }).show();
                 } else {
-                    var photo = {!! json_encode(url('storage/')) !!};
+                    
+                    var fotoPath = response.pegawai.fileFoto;
+                    var fileFoto = {!! json_encode(Storage::disk('biznet')->url('/images/pegawai' )) !!};
+
                     var no_photo = {!! json_encode(url('admin_resources/assets/images/user-general/no_photo_profile_color.png')) !!};
-                    //console.log(photo)
+
                     if(response.pegawai.fileFoto){
-                        $('#d_fotoPegawai').attr("src", photo + "/" + response.pegawai.fileFoto);
+                        $('#d_fotoPegawai').attr("src", fileFoto + "/" + response.pegawai.fileName);
                     }else{
                         $('#d_fotoPegawai').attr("src", no_photo );
                     }
