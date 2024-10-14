@@ -23,17 +23,6 @@ class JabatanController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'jabatan' => 'required|string|max:100',
-            'keterangan' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('Jabatan.create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $dataJabatan = json_encode([
             'Jabatan' => $request->get('jabatan'),
             'Keterangan' => $request->get('keterangan')
@@ -50,7 +39,7 @@ class JabatanController extends Controller
 
     public function edit($id)
     {
-        $jabatanData = DB::select('CALL view_jabatan_ById(:id)', ['id' => $id]);
+        $jabatanData = DB::select('CALL view_jabatanById(:id)', ['id' => $id]);
         $jabatan = $jabatanData[0] ?? null;
 
         if ($jabatan) {
@@ -62,17 +51,6 @@ class JabatanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'jabatan' => 'required|string|max:100',
-            'keterangan' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('Jabatan.edit', $id)
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $dataJabatan = json_encode([
             'IdJabatan' => $id,
             'Jabatan' => $request->get('jabatan'),
@@ -90,7 +68,7 @@ class JabatanController extends Controller
 
     public function delete(Request $request)
     {
-        $jabatanData = DB::select('CALL view_jabatan_ById(' . $request -> get('idJabatan') . ')');
+        $jabatanData = DB::select('CALL view_jabatanById(' . $request -> get('idJabatan') . ')');
         $jabatanTemp = $jabatanData[0];
 
         if ($jabatanTemp) {
@@ -114,7 +92,7 @@ class JabatanController extends Controller
     {
         $id = $request->id;
 
-        $jabatanData = DB::select('CALL view_jabatan_ById(' . $id . ')');
+        $jabatanData = DB::select('CALL view_jabatanById(' . $id . ')');
         $jabatan = $jabatanData[0];
 
         if ($jabatan) {

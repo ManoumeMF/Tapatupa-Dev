@@ -87,7 +87,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Bidang.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('Bidang.index') }}'", 1200);
                 }
             }
         });

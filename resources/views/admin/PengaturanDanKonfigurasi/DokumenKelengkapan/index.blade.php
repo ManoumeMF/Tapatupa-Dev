@@ -95,7 +95,7 @@
 
                     setTimeout(function() {
                         window.location='{{ route('DokumenKelengkapan.index') }}';
-                    }, 2500);
+                    }, 1200);
                 }
             }
         });

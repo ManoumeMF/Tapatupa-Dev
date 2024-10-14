@@ -1,28 +1,16 @@
 @extends('layouts.admin.template')
 @section('content')
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        /* single select with placeholder */
-        $(".js-example-placeholder-single").select2({
-            placeholder: "Pilih Jenis Status",
-            allowClear: true,
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        });
-    });
-
-</script>
-
-<!-- Page Header. -->
+<!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Status</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Golongan dan Pangkat</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">General</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Status</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Organisasi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Golongan dan Pangkat</li>
                 </ol>
             </nav>
         </div>
@@ -33,41 +21,36 @@
 <!-- Start:: row-1 -->
 <div class="row">
     <div class="col-xl-12">
-        <form class="row g-3 needs-validation" action="{{route('Status.store')}}" method="post" novalidate>
+        <form class="row g-3 needs-validation" action="{{ route('GolonganPangkat.store', $golonganPangkat -> idGolonganPangkat) }}" method="post" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Tambah Status
+                        Tambah Bidang
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Jenis Status</label>
-                        <select class="js-example-placeholder-single form-control" name="jenisStatus" required>
-                            <option></option>
-                            @foreach ($statusTypeCombo as $sT)
-                                <option value="{{ $sT->idJenisStatus }}">{{ $sT->jenisStatus }}</option>
-                            @endforeach
-                        </select>
+                        <label for="validationCustom01" class="form-label">Golongan</label>
+                        <input type="text" class="form-control" id="golongan" value="{{ $golonganPangkat->golongan }}"
+                            placeholder="Masukkan Golongan" name="golongan" required>
                         <div class="invalid-feedback">
-                            Jenis Status Tidak Boleh Kosong
+                            Golongan Tidak Boleh Kosong
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Status</label>
-                        <input type="text" class="form-control" id="validationCustom01" name="namaStatus"
-                            placeholder="Masukkan Status" required>
+                        <label for="validationCustom01" class="form-label">Pangkat</label>
+                        <input type="text" class="form-control" id="pangkat" name="pangkat" value="{{ $golonganPangkat->pangkat }}"
+                            placeholder="Masukkan Pangkat" required>
                         <div class="invalid-feedback">
-                            Status Tidak Boleh Kosong
+                            Pangkat Tidak Boleh Kosong
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="validationTextarea" class="form-label">Keterangan</label>
                         <textarea class="form-control" id="validationTextarea" name="keterangan"
-                            placeholder="Masukkan Keterangan" rows="4"></textarea>
+                            placeholder="Masukkan Keterangan" rows="4">{{ $golonganPangkat->keterangan }}</textarea>
                     </div>
-
                 </div>
                 <div class="card-footer text-end">
                     <button class="btn btn-danger m-1" type="reset">Batal<i
@@ -75,8 +58,9 @@
                     <button class="btn btn-primary m-1" type="submit">Simpan <i
                             class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
                 </div>
+            </div>
         </form>
     </div>
 </div>
-</div>
+
 @endsection

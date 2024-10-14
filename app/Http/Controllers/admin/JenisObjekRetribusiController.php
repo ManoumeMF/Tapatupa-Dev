@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class JenisObjekRetribusiController extends Controller
 {
@@ -27,6 +26,8 @@ class JenisObjekRetribusiController extends Controller
             'JenisObjekRetribusi' => $request->get('JenisObjekRetribusi'),
             'Keterangan' => $request->get('Keterangan')
         ]);
+
+        //dd($objekRetribusi);
 
         $response = DB::statement('CALL insert_JenisObjekRetribusi(:dataJenisObjekRetribusi)', ['dataJenisObjekRetribusi' => $objekRetribusi]);
 

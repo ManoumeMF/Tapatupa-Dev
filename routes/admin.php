@@ -26,6 +26,7 @@ use App\Http\Controllers\admin\JabatanController;
 use App\Http\Controllers\admin\PermohonanSewaController;
 use App\Http\Controllers\admin\PerjanjianController;
 use App\Http\Controllers\admin\DropdownLokasiContoller;
+use App\Http\Controllers\admin\GolonganPangkatController;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
 /*
@@ -79,15 +80,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/jangka-waktu-sewa/update/{id}", [JangkaWaktuSewaController::class, 'update'])->name('JangkaWaktuSewa.update');
     Route::delete("/jangka-waktu-sewa/hapus", [JangkaWaktuSewaController::class, 'delete'])->name('JangkaWaktuSewa.delete');
     Route::get("/jangka-waktu-sewa/detail", [JangkaWaktuSewaController::class, 'detail'])->name('JangkaWaktuSewa.detail');
-
-    // Route untuk Jenis Permohonan
-    Route::get("/jenis-permohonan", [JenisPermohonanController::class, 'index'])->name('JenisPermohonan.index');
-    Route::get("/jenis-permohonan/tambah", [JenisPermohonanController::class, 'create'])->name('JenisPermohonan.create');
-    Route::post("/jenis-permohonan/simpan", [JenisPermohonanController::class, 'store'])->name('JenisPermohonan.store');
-    Route::get("/jenis-permohonan/ubah/{id}", [JenisPermohonanController::class, 'edit'])->name('JenisPermohonan.edit');
-    Route::post("/jenis-permohonan/update/{id}", [JenisPermohonanController::class, 'update'])->name('JenisPermohonan.update');
-    Route::delete("/jenis-permohonan/hapus", [JenisPermohonanController::class, 'delete'])->name('JenisPermohonan.delete');
-    Route::get("/jenis-permohonan/detail", [JenisPermohonanController::class, 'detail'])->name('JenisPermohonan.detail');
 
     // Route untuk Peruntukan Sewa
     Route::get("/peruntukan-sewa", [PeruntukanSewaController::class, 'index'])->name('PeruntukanSewa.index');
@@ -187,6 +179,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete("/bidang/hapus", [BidangController::class, 'delete'])->name('Bidang.delete');
     Route::post("/bidang/simpan-departmen", [BidangController::class, 'storeDepartmen'])->name('Bidang.storeDepartmen');
 
+    // Route untuk Jenis objek Retribusi
+    Route::get("/golongan-pangkat", [GolonganPangkatController::class, 'index'])->name('GolonganPangkat.index');
+    Route::get("/golongan-pangkat/tambah", [GolonganPangkatController::class, 'create'])->name('GolonganPangkat.create');
+    Route::post("/golongan-pangkat/simpan", [GolonganPangkatController::class, 'store'])->name('GolonganPangkat.store');
+    Route::get("/golongan-pangkat/ubah/{id}", [GolonganPangkatController::class, 'edit'])->name('GolonganPangkat.edit');
+    Route::post("/golongan-pangkat/update/{id}", [GolonganPangkatController::class, 'update'])->name('GolonganPangkat.update');
+    Route::delete("/golongan-pangkat/hapus", [GolonganPangkatController::class, 'delete'])->name('GolonganPangkat.delete');
+    Route::get("/golongan-pangkat/detail", [GolonganPangkatController::class, 'detail'])->name('GolonganPangkat.detail');
+
     // Route untuk Pegawai
     Route::get("/pegawai", [PegawaiController::class, 'index'])->name('Pegawai.index');
     Route::get("/pegawai/tambah", [PegawaiController::class, 'create'])->name('Pegawai.create');
@@ -217,9 +218,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete("/perjanjian-sewa/hapus", [PerjanjianController::class, 'delete'])->name('Perjanjian.delete');
     Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
     Route::get("/perjanjian-sewa/detail-permohonan/", [PerjanjianController::class, 'detailPermohonanToPerjanjian'])->name('Perjanjian.detailPermohonanToPerjanjian');
-    
+
     Route::group(['middleware' => ['cek_login:Super Admin']], function () {
-        
+        // Route untuk Jenis Permohonan
+        Route::get("/jenis-permohonan", [JenisPermohonanController::class, 'index'])->name('JenisPermohonan.index');
+        Route::get("/jenis-permohonan/tambah", [JenisPermohonanController::class, 'create'])->name('JenisPermohonan.create');
+        Route::post("/jenis-permohonan/simpan", [JenisPermohonanController::class, 'store'])->name('JenisPermohonan.store');
+        Route::get("/jenis-permohonan/ubah/{id}", [JenisPermohonanController::class, 'edit'])->name('JenisPermohonan.edit');
+        Route::post("/jenis-permohonan/update/{id}", [JenisPermohonanController::class, 'update'])->name('JenisPermohonan.update');
+        Route::delete("/jenis-permohonan/hapus", [JenisPermohonanController::class, 'delete'])->name('JenisPermohonan.delete');
+        Route::get("/jenis-permohonan/detail", [JenisPermohonanController::class, 'detail'])->name('JenisPermohonan.detail');
+
+
         // Route untuk Pekerjaan
         Route::get("/pekerjaan", [PekerjaanController::class, 'index'])->name('Pekerjaan.index');
         Route::get("/pekerjaan/tambah", [PekerjaanController::class, 'create'])->name('Pekerjaan.create');

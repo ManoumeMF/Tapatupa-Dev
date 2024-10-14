@@ -70,8 +70,6 @@ class JenisStatusController extends Controller
 
             $statusTypeData = DB::select('CALL view_jenisStatusById(' . $id . ')');
             $statusTypeTemp = $statusTypeData[0];
-            
-            //dd($statusTypeTemp);
 
         if ($statusTypeTemp) {
             $response = DB::statement('CALL update_jenisStatus(:dataJenisStatus)', ['dataJenisStatus' => $jenisStatus]);

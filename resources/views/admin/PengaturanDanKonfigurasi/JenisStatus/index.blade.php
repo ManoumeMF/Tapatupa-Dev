@@ -86,7 +86,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('JenisStatus.index') }}'", 1500);
+                    setTimeout("window.location='{{ route('JenisStatus.index') }}'", 1200);
                 }
             }
         });

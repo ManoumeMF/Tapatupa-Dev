@@ -5,7 +5,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         /* single select with placeholder */
         $(".js-example-placeholder-single").select2({
-            placeholder: "Pilih Departmen",
+            placeholder: "Pilih Badan/Dinas",
             allowClear: true,
             width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
         });
@@ -43,17 +43,15 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Departemen</label>
+                        <label for="validationCustom01" class="form-label">Badan/Dinas</label>
                         <select class="js-example-placeholder-single form-control" name="idDepartemen" required>
                             <option></option>
                             @foreach ($departemen as $dpt)
-                                <option value="{{ $dpt->idDepartemen }}" {{ $dpt->idDepartemen === $bidang->idDepartemen ? 'selected' : '' }}>
-                                    {{ $dpt->namaDepartmen }}
-                                </option>
+                                <option value="{{$dpt->idDepartemen}}" {{ $dpt->idDepartemen === $bidang->idDepartemen ? 'selected' : '' }}>{{ $dpt->namaDepartmen }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback">
-                            Departemen Tidak Boleh Kosong
+                        Badan/Dinas Tidak Boleh Kosong
                         </div>
                     </div>
                     <div class="mb-3">

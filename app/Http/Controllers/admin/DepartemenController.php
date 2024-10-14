@@ -46,9 +46,9 @@ class DepartemenController extends Controller
         $response = DB::statement('CALL insert_departemen(:dataDepartemen)', ['dataDepartemen' => $dataDepartemen]);
 
         if ($response) {
-            return redirect()->route('Departemen.index')->with('success', 'Departemen Berhasil Ditambahkan!');
+            return redirect()->route('Departemen.index')->with('success', 'Badan/Dinas Berhasil Ditambahkan!');
         } else {
-            return redirect()->route('Departemen.create')->with('error', 'Departemen Gagal Disimpan!');
+            return redirect()->route('Departemen.create')->with('error', 'Badan/Dinas Gagal Disimpan!');
         }
     }
 
@@ -61,7 +61,7 @@ class DepartemenController extends Controller
         if ($departemen) {
             return view('admin.PengaturanDanKonfigurasi.Departemen.edit', compact('departemen'));
         } else {
-            return redirect()->route('Departemen.index')->with('error', 'Departemen Tidak Ditemukan!');
+            return redirect()->route('Departemen.index')->with('error', 'Badan/Dinas Tidak Ditemukan!');
         }
     }
 
@@ -93,12 +93,12 @@ class DepartemenController extends Controller
             $response = DB::statement('CALL update_departemen(:dataDepartemen)', ['dataDepartemen' => $dataDepartemen]);
 
             if ($response) {
-                return redirect()->route('Departemen.index')->with('success', 'Departemen Berhasil Diubah!');
+                return redirect()->route('Departemen.index')->with('success', 'Badan/Dinas Berhasil Diubah!');
             } else {
                 return redirect()->route('Departemen.edit', $id)->with('error', 'Departemen Gagal Diubah!');
             }
         } else {
-            return redirect()->route('Departemen.index')->with('error', 'Data Departemen Tidak Ditemukan!');
+            return redirect()->route('Departemen.index')->with('error', 'Data Badan/Dinas Tidak Ditemukan!');
         }
     }
 
@@ -113,12 +113,12 @@ class DepartemenController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Departemen Berhasil Dihapus.'
+                'message' => 'Badan/Dinas Berhasil Dihapus.'
             ]);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Data Departemen Tidak Ditemukan.'
+                'message' => 'Data Badan/Dinas Tidak Ditemukan.'
             ]);
         }
     }
@@ -137,7 +137,7 @@ class DepartemenController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Data Departemen Tidak Ditemukan.'
+                'message' => 'Data Badan/Dinas Tidak Ditemukan.'
             ]);
         }
     }

@@ -86,7 +86,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Pekerjaan.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('Pekerjaan.index') }}'", 1200);
                 }
             }
         });

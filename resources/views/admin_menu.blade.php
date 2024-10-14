@@ -46,13 +46,7 @@
                 <a href="{{ route('JenisObjekRetribusi.index') }}" class="side-menu__item">Jenis Objek Retribusi</a>
             </li>
             <li class="slide">
-                <a href="{{ route('jenisJangkaWaktu.index') }}" class="side-menu__item">Jenis Jangka Waktu</a>
-            </li>
-            <li class="slide">
-                <a href="{{ route('JangkaWaktuSewa.index') }}" class="side-menu__item">Jangka Waktu Sewa</a>
-            </li>
-            <li class="slide">
-                <a href="{{ route('JenisPermohonan.index') }}" class="side-menu__item">Jenis Permohonan</a>
+                <a href="{{ route('jenisJangkaWaktu.index') }}" class="side-menu__item">Perioditas</a>
             </li>
             <li class="slide">
                 <a href="{{ route('PeruntukanSewa.index') }}" class="side-menu__item">Peruntukan Sewa</a>
@@ -93,7 +87,7 @@
                 <a href="javascript:void(0)">Organisasi</a>
             </li>
             <li class="slide">
-                <a href="{{ route('Departemen.index') }}" class="side-menu__item">Departemen</a>
+                <a href="{{ route('Departemen.index') }}" class="side-menu__item">Badan/Dinas</a>
             </li>
             <li class="slide">
                 <a href="{{ route('Jabatan.index') }}" class="side-menu__item">Jabatan</a>
@@ -103,6 +97,9 @@
             </li>
             <li class="slide">
                 <a href="{{ route('Bidang.index') }}" class="side-menu__item">Bidang</a>
+            </li>
+            <li class="slide">
+                <a href="{{ route('GolonganPangkat.index') }}" class="side-menu__item">Golongan dan Pangkat</a>
             </li>
         </ul>
     </li>

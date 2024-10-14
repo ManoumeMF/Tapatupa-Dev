@@ -127,7 +127,7 @@
                     <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
                         <button class="btn btn-danger m-1" type="reset">Batal<i
                                 class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
-                        <button class="btn btn-primary m-1" type="submit">Ubah <i
+                        <button class="btn btn-primary m-1" type="submit">Simpan <i
                                 class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
                     </div>
                 </div>

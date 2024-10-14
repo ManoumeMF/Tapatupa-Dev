@@ -84,7 +84,9 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('LokasiObjekRetribusi.index') }}'", 2500);
+                    $('#product_table').DataTable().ajax.reload();
+
+                    setTimeout("window.location='{{ route('LokasiObjekRetribusi.index') }}'", 1200);
                 }
             }
         });

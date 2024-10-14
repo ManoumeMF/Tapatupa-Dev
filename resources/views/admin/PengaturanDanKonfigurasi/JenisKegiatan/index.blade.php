@@ -84,7 +84,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('JenisKegiatan.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('JenisKegiatan.index') }}'", 1200);
                 }
             }
         });

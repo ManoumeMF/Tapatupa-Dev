@@ -96,7 +96,7 @@
 
                     setTimeout(function() {
                         window.location='{{ route('JabatanBidang.index') }}';
-                    }, 2500);
+                    }, 1200);
                 }
             }
         });

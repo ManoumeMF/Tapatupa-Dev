@@ -27,20 +27,6 @@ class BidangController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the input data
-        $validator = Validator::make($request->all(), [
-            'idDepartemen' => 'required|integer',
-            'parentBidang' => 'required|integer',
-            'namaBidang' => 'required|string|max:255',
-            'keterangan' => 'nullable|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('Bidang.create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         // Encode input data as JSON and call the insert stored procedure
         $dataBidang = json_encode([
             'IdDepartemen' => $request->get('idDepartemen'),
@@ -76,20 +62,6 @@ class BidangController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the input data
-        $validator = Validator::make($request->all(), [
-            'idDepartemen' => 'required|integer',
-            'parentBidang' => 'required|integer',
-            'namaBidang' => 'required|string|max:255',
-            'keterangan' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('Bidang.edit', $id)
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         // Encode input data as JSON and call the update stored procedure
         $dataBidang = json_encode([
             'IdBidang' => $id,

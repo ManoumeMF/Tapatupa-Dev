@@ -86,7 +86,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('jenisJangkaWaktu.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('jenisJangkaWaktu.index') }}'", 1200);
                 }
             }
         });
@@ -96,13 +96,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Jenis Jangka Waktu</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Perioditas</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengaturan & Konfigurasi</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Penyewaan Aset</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Jenis Jangka Waktu</li>
+                    <li class="breadcrumb-item active" aria-current="page">Perioditas</li>
                 </ol>
             </nav>
         </div>
@@ -115,11 +115,11 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Jenis Jangka Waktu
+                    Daftar Perioditas
                 </div>
                 <div class="prism-toggle">
                     <a class="btn btn-primary btn-wave waves-effect waves-light" href="{{ route('JenisJangkaWaktu.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Jenis Jangka Waktu
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Perioditas
                     </a>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                 <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
-                            <th>Jenis Jangka Waktu</th>
+                            <th>Perioditas</th>
                             <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
@@ -168,18 +168,18 @@
     </div>
 </div>
 
-<!-- Start:: Detail Jenis Jangka Waktu -->
+<!-- Start:: Detail Perioditas -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Detail Jenis Jangka Waktu</h6>
+                <h6 class="modal-title">Detail Perioditas</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-4">
                 <div class="d-flex gap-3">
                     <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Jenis Jangka Waktu</h6>
+                        <h6 class="mb-1 fs-13">Perioditas</h6>
                         <span class="d-block fs-13 text-muted fw-normal" id="d_jenis_jangka_waktu"></span>
                     </div>
                 </div>
@@ -198,9 +198,9 @@
         </div>
     </div>
 </div>
-<!-- End:: Detail Jenis Jangka Waktu -->
+<!-- End:: Detail Perioditas -->
 
-<!-- Start:: Delete Jenis Jangka Waktu-->
+<!-- Start:: Delete Perioditas -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -232,5 +232,5 @@
     </div>
 </div>
 
-<!-- End:: Delete Jenis Jangka Waktu-->
+<!-- End:: Delete Perioditas -->
 @endsection

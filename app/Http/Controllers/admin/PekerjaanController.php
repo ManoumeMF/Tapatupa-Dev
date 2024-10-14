@@ -58,6 +58,8 @@ class PekerjaanController extends Controller
             'Keterangan' => $request->get('keterangan')
         ]);
 
+        //dd($pekerjaan);
+
         $pekerjaanData = DB::select('CALL view_pekerjaanById(' . $id . ')');
         $pekerjaanTemp = $pekerjaanData[0];
 

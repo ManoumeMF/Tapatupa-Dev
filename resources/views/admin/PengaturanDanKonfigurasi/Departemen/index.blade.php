@@ -84,7 +84,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Departemen.index') }}'", 2500);
+                    setTimeout("window.location='{{ route('Departemen.index') }}'", 1200);
                 }
             }
         });
@@ -94,13 +94,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Departemen</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Badan/Dinas</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Organisasi</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Departemen</li>
+                    <li class="breadcrumb-item active" aria-current="page">Badan/Dinas</li>
                 </ol>
             </nav>
         </div>
@@ -114,12 +114,12 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Departemen
+                    Daftar Badan/Dinas
                 </div>
                 <div class="prism-toggle">
                     <a class="btn btn-primary btn-wave waves-effect waves-light"
                         href="{{ route('Departemen.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Departemen
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Badan/Dinas
                     </a>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                 <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
-                            <th>Departemen</th>
+                            <th>Badan/Dinas</th>
                             <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
@@ -174,18 +174,18 @@
 </div>
 <!--End::row-1 -->
 
-<!-- Start:: Detail Departemen -->
+<!-- Start:: Detail Badan/Dinas -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Detail Departemen</h6>
+                <h6 class="modal-title">Detail Badan/Dinas</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-4">
                 <div class="d-flex gap-3">
                     <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Departemen</h6>
+                        <h6 class="mb-1 fs-13">Badan/Dinas</h6>
                         <span class="d-block fs-13 text-muted fw-normal" id="d_departemen"></span>
                     </div>
                 </div>
@@ -204,9 +204,9 @@
         </div>
     </div>
 </div>
-<!-- End:: Detail Departemen -->
+<!-- End:: Detail Badan/Dinas -->
 
-<!-- Start:: Delete Departemen-->
+<!-- Start:: Delete Badan/Dinas-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -237,6 +237,6 @@
         </div>
     </div>
 </div>
-<!-- End:: Delete Departemen -->
+<!-- End:: Delete Badan/Dinas -->
 
 @endsection

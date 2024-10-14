@@ -4,13 +4,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Jenis Jangka Waktu</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Perioditas</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Penyewaan Aset</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Jenis Jangka Waktu</li>
+                    <li class="breadcrumb-item active" aria-current="page">Perioditas</li>
                 </ol>
             </nav>
         </div>
@@ -27,15 +27,15 @@
         <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Ubah Jenis Jangka Waktu
+                        Ubah Perioditas
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Jenis Jangka Waktu</label>
-                        <input type="text" class="form-control" id="validationCustom01" placeholder="Masukkan Jenis Jangka Waktu" name="jenisJangkaWaktu" value="{{ $JangkaWaktuType->jenisJangkaWaktu }}" required>
+                        <label for="validationCustom01" class="form-label">Perioditas</label>
+                        <input type="text" class="form-control" id="validationCustom01" placeholder="Masukkan Perioditas" name="jenisJangkaWaktu" value="{{ $JangkaWaktuType->jenisJangkaWaktu }}" required>
                         <div class="invalid-feedback">
-                            Jenis Jangka Waktu Tidak Boleh Kosong
+                        Perioditas Tidak Boleh Kosong
                         </div>
                     </div>
                     <div class="mb-3">

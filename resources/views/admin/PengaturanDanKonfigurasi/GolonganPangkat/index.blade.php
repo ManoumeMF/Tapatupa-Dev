@@ -7,18 +7,17 @@
     $(document).on('click', '.detailBtn', function (e) {
         e.preventDefault();
 
-        var st_id = $(this).val();
+        var gp_id = $(this).val();
 
         $("#detailModal").modal('show');
 
         $.ajax({
             method: "GET",
-            url: "{{ route('Status.detail') }}",
+            url: "{{ route('GolonganPangkat.detail') }}",
             data: {
-                id: st_id
+                id: gp_id
             },
             success: function (response) {
-                //console.log(response);
                 if (response.status == 404) {
                     new Noty({
                         text: response.message,
@@ -26,10 +25,9 @@
                         modal: true
                     }).show();
                 } else {
-                    //console.log(response.fieldEducation.nama_bidang_pendidikan)
-                    $('#d_status').text(response.status.namaStatus);
-                    $('#d_jenis_status').text(response.status.jenisStatus);
-                    $('#d_keterangan').text(response.status.keterangan);
+                    $('#d_golongan').text(response.golonganPangkat.golongan);
+                    $('#d_pangkat').text(response.golonganPangkat.pangkat);
+                    $('#d_keterangan').text(response.golonganPangkat.keterangan);
                 }
             }
         });
@@ -54,7 +52,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idStatus': id,
+            'idGol': id,
         }
 
         //console.log(data);
@@ -67,7 +65,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('Status.delete') }}",
+            url: "{{ route('GolonganPangkat.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -88,7 +86,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout("window.location='{{ route('Status.index') }}'", 1200);
+                    setTimeout("window.location='{{ route('GolonganPangkat.index') }}'", 1200);
                 }
             }
         });
@@ -99,13 +97,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Status</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Golongan dan Pangkat</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Pengatusan & Konfigurasi</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">General</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Status</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Organisasi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Golongan dan Pangkat</li>
                 </ol>
             </nav>
         </div>
@@ -119,11 +117,11 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Status
+                    Daftar Golongan dan Pangkat
                 </div>
                 <div class="prism-toggle">
-                    <a class="btn btn-primary btn-wave waves-effect waves-light" href="{{ route('Status.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Status
+                    <a class="btn btn-primary btn-wave waves-effect waves-light" href="{{ route('GolonganPangkat.create') }}">
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Golongan & Pangkat
                     </a>
                 </div>
             </div>
@@ -131,19 +129,19 @@
                 <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
-                            <th>Status</th>
-                            <th>Jenis Status</th>
+                            <th>Golongan</th>
+                            <th>Pangkat</th>
                             <th>Keterangan</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($status) && count($status) > 0)
-                            @foreach ($status as $sts)
+                        @if (isset($golonganPangkat) && count($golonganPangkat) > 0)
+                            @foreach ($golonganPangkat as $gP)
                                 <tr>
-                                    <td>{{ $sts->namaStatus }}</td>
-                                    <td>{{ $sts->jenisStatus }}</td>
-                                    <td>{{ $sts->keterangan }}</td>
+                                    <td>{{ $gP->golongan }}</td>
+                                    <td>{{ $gP->pangkat }}</td>
+                                    <td>{{ $gP->keterangan }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -152,16 +150,16 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <button type="button" value="{{ $sts->idStatus }}"
+                                                    <button type="button" value="{{ $gP->idGolonganPangkat }}"
                                                         class="dropdown-item detailBtn">
                                                         <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Status.edit', $sts->idStatus) }}"><i
+                                                        href="{{ route('GolonganPangkat.edit', $gP->idGolonganPangkat) }}"><i
                                                             class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $sts->idStatus }}"
+                                                <li><button type="button" value="{{ $gP->idGolonganPangkat }}"
                                                         class="dropdown-item deleteBtn">
                                                         <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
                                                 </li>
@@ -179,27 +177,27 @@
 </div>
 <!--End::row-1 -->
 
-<!-- Start:: Detail Status-->
+<!-- Start:: Detail Golongan Pangkat-->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Detail Status</h6>
+                <h6 class="modal-title">Detail Golongan dan Pangkat</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-4">
                 <div class="d-flex gap-3">
                     <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Status</h6>
-                        <span class="d-block fs-13 text-muted fw-normal" id="d_status"></span>
+                        <h6 class="mb-1 fs-13">Golongan</h6>
+                        <span class="d-block fs-13 text-muted fw-normal" id="d_golongan"></span>
                     </div>
                 </div>
             </div>
             <div class="modal-body px-4">
                 <div class="d-flex gap-3">
                     <div class="flex-fill">
-                        <h6 class="mb-1 fs-13">Jenis Status</h6>
-                        <span class="d-block fs-13 text-muted fw-normal" id="d_jenis_status"></span>
+                        <h6 class="mb-1 fs-13">Pangkat</h6>
+                        <span class="d-block fs-13 text-muted fw-normal" id="d_pangkat"></span>
                     </div>
                 </div>
             </div>
@@ -217,17 +215,17 @@
         </div>
     </div>
 </div>
-<!-- End:: Detail Status -->
+<!-- End:: Detail Golongan Pangkat -->
 
-<!-- Start:: Delete Status-->
+<!-- Start:: Delete Bidang-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Hapus Data Status</h6>
+                <h6 class="modal-title">Hapus Data Golongan dan Pangkat</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteStatusForm">
+            <form id="deleteGolonganPangkatForm">
                 @csrf
                 <div class="modal-body">
                     <div class="text-center px-5 pb-0 svg-danger">
@@ -237,7 +235,7 @@
                             <path
                                 d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z" />
                         </svg>
-                        
+
                         <h5>Anda yakin untuk menghapus data?</h5>
                     </div>
                     <input type="hidden" id="deleting_id" />
@@ -250,6 +248,6 @@
         </div>
     </div>
 </div>
-<!-- End:: Delete Status -->
+<!-- End:: Delete Bidang -->
 
 @endsection

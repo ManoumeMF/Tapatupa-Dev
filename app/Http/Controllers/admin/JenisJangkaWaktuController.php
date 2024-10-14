@@ -38,9 +38,9 @@ class JenisJangkaWaktuController extends Controller
 
         // Check response and redirect accordingly
         if ($response) {
-            return redirect()->route('jenisJangkaWaktu.index')->with('success', 'Jenis Jangka Waktu Berhasil Ditambahkan!');
+            return redirect()->route('jenisJangkaWaktu.index')->with('success', 'Perioditas Berhasil Ditambahkan!');
         } else {
-            return redirect()->route('JenisJangkaWaktu.create')->with('error', 'Jenis Jangka Waktu Gagal Disimpan!');
+            return redirect()->route('JenisJangkaWaktu.create')->with('error', 'Perioditas Gagal Disimpan!');
         }
     }
 
@@ -52,7 +52,7 @@ class JenisJangkaWaktuController extends Controller
         if ($JangkaWaktuType) {
             return view('admin.PengaturanDanKonfigurasi.JenisJangkaWaktu.edit', ['JangkaWaktuType' => $JangkaWaktuType]);
         } else {
-            return redirect()->route('JenisJangkaWaktu.index')->with('error', 'Jenis Jangka Waktu Tidak Ditemukan!');
+            return redirect()->route('JenisJangkaWaktu.index')->with('error', 'Perioditas Tidak Ditemukan!');
         }
     }
 
@@ -72,12 +72,12 @@ class JenisJangkaWaktuController extends Controller
         $response = DB::statement('CALL update_jenisJangkaWaktu(?)', [$jenisJangkaWaktu]);
 
         if ($response) {
-            return redirect()->route('jenisJangkaWaktu.index')->with('success', 'Jenis Jangka Waktu Berhasil Diubah!');
+            return redirect()->route('jenisJangkaWaktu.index')->with('success', 'Perioditas Berhasil Diubah!');
         } else {
-            return redirect()->route('JenisJangkaWaktu.edit', $id)->with('error', 'Jenis Jangka Waktu Gagal Diubah!');
+            return redirect()->route('JenisJangkaWaktu.edit', $id)->with('error', 'JPerioditas Gagal Diubah!');
         }
     } else {
-        return redirect()->route('jenisJangkaWaktu.index')->with('error', 'Data Jenis Jangka Waktu Tidak Ditemukan!');
+        return redirect()->route('jenisJangkaWaktu.index')->with('error', 'Data Perioditas Tidak Ditemukan!');
     }
 }
 
@@ -94,12 +94,12 @@ class JenisJangkaWaktuController extends Controller
                 
                 return response()->json([
                     'status' => 200,
-                    'message'=> 'Jenis Jangka Wakru Berhasil Dihapus.'
+                    'message'=> 'Perioditas Berhasil Dihapus.'
                 ]);
             }else{
                 return response()->json([
                     'status'=> 404,
-                    'message' => 'Data Jenis Jangka Waktu Tidak Ditemukan.'
+                    'message' => 'Data Perioditas Tidak Ditemukan.'
                 ]);
             }
     }
@@ -119,7 +119,7 @@ class JenisJangkaWaktuController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Data Jenis Jangka Waktu Tidak Ditemukan.'
+                'message' => 'Data Perioditas Tidak Ditemukan.'
             ]);
         }
     }

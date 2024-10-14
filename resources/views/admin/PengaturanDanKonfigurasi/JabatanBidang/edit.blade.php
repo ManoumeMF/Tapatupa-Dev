@@ -4,8 +4,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         /* single select with placeholder */
-        $(".js-example-placeholder-single").select2({
-            placeholder: "Pilih Jenis Status",
+        $("#jabatan").select2({
+            placeholder: "Pilih Jabatan",
+            allowClear: true,
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+        });
+
+        $("#bidang").select2({
+            placeholder: "Pilih bidang",
             allowClear: true,
             width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
         });
@@ -44,7 +50,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label">Jabatan</label>
-                        <select class="js-example-placeholder-single form-control" name="jabatan" required>
+                        <select class="js-example-placeholder-single form-control" name="jabatan" id="jabatan" required>
                             <option></option>
                             @foreach ($jabatanCombo as $sT)
                                 <option value="{{ $sT->idJabatan }}" 
@@ -60,7 +66,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label">Bidang</label>
-                        <select class="js-example-placeholder-single form-control" name="bidang" required>
+                        <select class="js-example-placeholder-single form-control" name="bidang" id="bidang" required>
                             <option></option>
                             @foreach ($bidangCombo as $sT)
                                 <option value="{{ $sT->idBidang }}" 
