@@ -81,7 +81,7 @@
 
         //console.log(statusPenilaian);
 
-        if (statusPenilaian===null || statusPenilaian === "") {
+        if (statusPenilaian==="null" || statusPenilaian === "") {
             $('#checkebox-md').prop('checked', false);
             $(".tanggal-dinilai").prop("disabled", true); // disable the input field
             $("#namaPenilai").prop("disabled", true); // disable the input field
@@ -251,7 +251,7 @@
                                             <div class="col-xl-4">
                                                 <label for="nama-penilai" class="form-label">Status Penilaian</label>
                                                 <div style="display: flex;  align-items: center;  height: 50%;" class="form-check form-check-md d-flex align-items-center">
-                                                    <input class="form-check-input" type="checkbox" value="1"
+                                                    <input class="form-check-input" type="checkbox" value="0"
                                                         id="checkebox-md" name="statusPenilaian">
                                                     <label class="form-check-label" for="statusPenilaian"
                                                         style="margin-left: 5px; padding-top:2px;">

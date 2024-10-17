@@ -337,7 +337,7 @@
                                                 <input type="text" class="form-control" id="nomor-whatsapp" value="{{ $wajibRetribusi->nomorWhatsapp }}"
                                                     name="nomorWhatsapp" placeholder="Masukkan Nomor Whatsapp">
                                             </div>
-                                            <div class="col-xl-14">
+                                            <div class="col-xl-12">
                                                 <label for="wmail" class="form-label">Email</label>
                                                 <input type="text" class="form-control" id="email" name="email" value="{{ $wajibRetribusi->email }}"
                                                     placeholder="Masukkan email">

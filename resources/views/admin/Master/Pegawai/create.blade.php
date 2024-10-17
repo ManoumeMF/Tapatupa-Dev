@@ -57,9 +57,8 @@
                     success: function (data) {
                         if (data) {
                             $('#kota').empty();
-                            //$("#kota>optgroup>option[value='1']").removeAttr('disabled');
                             $('#kota').prop('disabled', false);
-                            //$('#kota').append('<option hidden>Choose Course</option>');
+                            $('#kota').append('<option>Pilih Kabupaten/Kota</option>');
                             $.each(data, function (key, kota) {
                                 $('#kota').append('<option value="' + kota.city_id + '">' + kota.city_name + '</option>');
                             });
@@ -91,6 +90,7 @@
                         if (data) {
                             $('#distrik').empty();
                             $('#distrik').prop('disabled', false);
+                            $('#distrik').append('<option>Pilih Kecamatan</option>');
                             $.each(data, function (key, kecamatan) {
                                 $('#distrik').append('<option value="' + kecamatan.dis_id + '">' + kecamatan.dis_name + '</option>');
                             });
@@ -122,6 +122,7 @@
                         if (data) {
                             $('#kelurahan').empty();
                             $('#kelurahan').prop('disabled', false);
+                            $('#kelurahan').append('<option>Kelurahan</option>');
                             $.each(data, function (key, kelurahan) {
                                 $('#kelurahan').append('<option value="' + kelurahan.subdis_id + '">' + kelurahan.subdis_name + '</option>');
                             });
@@ -151,33 +152,6 @@
             readURL(this);
         });
 
-        /* filepond 
-        FilePond.registerPlugin(
-            FilePondPluginImagePreview,
-            FilePondPluginImageExifOrientation,
-            FilePondPluginFileValidateSize,
-            FilePondPluginFileEncode,
-            FilePondPluginImageEdit,
-            FilePondPluginFileValidateType,
-            FilePondPluginImageCrop,
-            FilePondPluginImageResize,
-            FilePondPluginImageTransform
-        );
-
-        /* single upload 
-        FilePond.create(
-            document.querySelector('.single-fileupload'),
-            {
-                labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
-                imagePreviewHeight: 170,
-                imageCropAspectRatio: '1:1',
-                imageResizeTargetWidth: 200,
-                imageResizeTargetHeight: 200,
-                stylePanelLayout: 'compact circle',
-                styleLoadIndicatorPosition: 'center bottom',
-                styleButtonRemoveItemPosition: 'center bottom'
-            }
-        );*/
     });
 </script>
 
@@ -222,7 +196,7 @@
                                                 <input type="text" class="form-control" id="nip" name="nip"
                                                     placeholder="Masukkan NIP" required>
                                                 <div class="invalid-feedback">
-                                                    NIP Tidak Boleh Kosong
+                                                    NIP Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-8">
@@ -230,7 +204,7 @@
                                                 <input type="text" class="form-control" id="namaPegawai"
                                                     name="namaPegawai" placeholder="Masukkan Nama Pegawai" required>
                                                 <div class="invalid-feedback">
-                                                    Nama Pegawai Tidak Boleh Kosong
+                                                    Nama Pegawai Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -245,7 +219,7 @@
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Jabatan Bidang Tidak Boleh Kosong
+                                                    Jabatan Bidang Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -260,7 +234,7 @@
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Golongan Tidak Boleh Kosong
+                                                    Golongan Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -275,7 +249,7 @@
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Provinsi Tidak Boleh Kosong
+                                                    Provinsi Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -286,7 +260,7 @@
 
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Kabupaten/Kota Tidak Boleh Kosong
+                                                    Kabupaten/Kota Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -297,7 +271,7 @@
 
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Kecamatan Tidak Boleh Kosong
+                                                    Kecamatan Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -309,13 +283,16 @@
 
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Kelurahan/Desa Tidak Boleh Kosong
+                                                    Kelurahan/Desa Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
                                                 <label for="alamat-pegawai" class="form-label">Alamat Pegawai</label>
-                                                <textarea class="form-control" id="alamat-wajib" rows="3" name="alamat"
-                                                    placeholder="Masukkan Alamat Detail (Cth: Jalan, Blok, Nomor Rumah, dll)"></textarea>
+                                                <textarea class="form-control" id="alamat-wajib" rows="5" name="alamat"
+                                                    placeholder="Masukkan Alamat Detail (Cth: Jalan, Blok, Nomor Rumah, dll)" required></textarea>
+                                                <div class="invalid-feedback">
+                                                   Alamat Tidak Boleh Kosong!
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -330,7 +307,7 @@
                                                 <input type="text" class="form-control" id="nomorPonsel"
                                                     name="nomorPonsel" placeholder="Masukkan Nomor Ponsel" required>
                                                 <div class="invalid-feedback">
-                                                    Nomor Ponsel Tidak Boleh Kosong
+                                                    Nomor Ponsel Tidak Boleh Kosong!
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
@@ -338,7 +315,15 @@
                                                 <input type="text" class="form-control" id="nomorWhatsapp"
                                                     name="nomorWhatsapp" placeholder="Masukkan Nomor Whatsapp" required>
                                                 <div class="invalid-feedback">
-                                                    Nomor Whatsapp Tidak Boleh Kosong
+                                                    Nomor Whatsapp Tidak Boleh Kosong!
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <label for="wmail" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Masukkan email">
+                                                <div class="invalid-feedback">
+                                                    Format email salah!
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">

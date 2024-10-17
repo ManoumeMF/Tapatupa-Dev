@@ -113,7 +113,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var dataSession = {!! json_encode(Session::get('userSession')) !!};
-            var fotoPath = {!! json_encode(url('storage/')) !!};
+            var fotoPath = {!! json_encode(Storage::disk('biznet')->url('images' )) !!}
             //console.log(fotoPath + dataSession[0]["fotoUser"] );
             $('#nama-lengkap').text(dataSession[0]["namaLengkap"]);
             $("#fotoUser").attr("src", fotoPath + '/' + dataSession[0]["fotoUser"]);

@@ -351,6 +351,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
+                                                <label for="wmail" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Masukkan email">
+                                                <div class="invalid-feedback">
+                                                    Format email salah!
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
                                                 <div class="col-xxl-6 col-xl-12 col-lg-12 col-md-6">
                                                     <div class="card custom-card shadow-none mb-0 border-0">
                                                         <div class="card-body p-0">

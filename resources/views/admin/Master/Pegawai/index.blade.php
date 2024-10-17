@@ -47,6 +47,7 @@
                     $('#d_alamat').text(response.pegawai.alamatLengkap);
                     $('#d_nomorPonsel').text(response.pegawai.nomorPonsel);
                     $('#d_nomorWA').text(response.pegawai.nomorWhatsapp);
+                    $('#d_email').text(response.pegawai.email);
                 }
             }
         });
@@ -306,6 +307,15 @@
                                                     <h6 class="mb-1 fs-13">Nomor WhatsApp</h6>
                                                     <span class="d-block fs-13 text-muted fw-normal"
                                                         id="d_nomorWA"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Email</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_email"></span>
                                                 </div>
                                             </div>
                                         </div>
