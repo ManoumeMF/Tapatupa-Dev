@@ -54,6 +54,7 @@
                     type: "GET",
                     data: data,
                     dataType: "json",
+                    delay: 250,
                     success: function (data) {
                         if (data) {
                             $('#kota').empty();
@@ -86,6 +87,7 @@
                     type: "GET",
                     data: data,
                     dataType: "json",
+                    delay: 250,
                     success: function (data) {
                         if (data) {
                             $('#distrik').empty();
@@ -118,6 +120,7 @@
                     type: "GET",
                     data: data,
                     dataType: "json",
+                    delay: 250,
                     success: function (data) {
                         if (data) {
                             $('#kelurahan').empty();
