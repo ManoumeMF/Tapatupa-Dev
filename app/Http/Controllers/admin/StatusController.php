@@ -24,7 +24,7 @@ class StatusController extends Controller
     {
         $statusTypeCombo = DB::select('CALL cbo_JenisStatus()');  
 
-        return view('admin.PengaturanDanKonfigurasi.Status.create', compact('statusTypeCombo'));
+        return view('admin.PengaturanDanKonfigurasi.status.create', compact('statusTypeCombo'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
@@ -41,9 +41,9 @@ class StatusController extends Controller
             $response = DB::statement('CALL insert_status(:dataStatus)', ['dataStatus' => $Status]);
 
             if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Ditambahkan!');
+                return redirect()->route('status.index')->with('success', 'Status Berhasil Ditambahkan!');
             } else {
-                return redirect()->route('Status.create')->with('error', 'Status Gagal Disimpan!');
+                return redirect()->route('status.create')->with('error', 'Status Gagal Disimpan!');
             }
     }
 
@@ -57,7 +57,7 @@ class StatusController extends Controller
         if ($status) {
             return view('admin.PengaturanDanKonfigurasi.Status.edit', compact('statusTypeCombo', 'status') );
          } else {
-             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
+             return redirect()->route('status.index')->with('error', 'Status Tidak Ditemukan!');
          }
 
     }
@@ -81,13 +81,13 @@ class StatusController extends Controller
             $response = DB::statement('CALL update_status(:dataStatus)', ['dataStatus' => $Status]);
 
             if ($response) {
-                return redirect()->route('Status.index')->with('success', 'Status Berhasil Diubah!');
+                return redirect()->route('status.index')->with('success', 'Status Berhasil Diubah!');
             } else {
-                return redirect()->route('Status.edit', $id)->with('error', 'Status Gagal Diubah!');
+                return redirect()->route('status.edit', $id)->with('error', 'Status Gagal Diubah!');
             }
 
          } else {
-             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
+             return redirect()->route('status.index')->with('error', 'Status Tidak Ditemukan!');
          }     
     }
 
