@@ -219,6 +219,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
     Route::get("/perjanjian-sewa/detail-permohonan/", [PerjanjianController::class, 'detailPermohonanToPerjanjian'])->name('Perjanjian.detailPermohonanToPerjanjian');
 
+    //Route untuk DropdownLokasi
+    Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
+    Route::get("/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
+    Route::get("/kelurahan", [DropdownLokasiContoller::class, 'kelurahan'])->name('DropdownLokasi.kelurahan');
+
     Route::group(['middleware' => ['cek_login:Super Admin']], function () {
         // Route untuk Jenis Permohonan
         Route::get("/jenis-permohonan", [JenisPermohonanController::class, 'index'])->name('JenisPermohonan.index');
@@ -276,11 +281,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete("/status/hapus", [StatusController::class, 'delete'])->name('Status.delete');
         Route::post("/status/simpan-jenis-status", [StatusController::class, 'storeStatusType'])->name('Status.storeStatusType');
         //Route::get("/status/combo-jenis-status", [StatusController::class, 'getComboJenisStatus'])->name('Status.getComboJenisStatus');
-
-        //Route untuk DropdownLokasi
-        Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
-        Route::get("/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
-        Route::get("/kelurahan", [DropdownLokasiContoller::class, 'kelurahan'])->name('DropdownLokasi.kelurahan');
 
     });
 
