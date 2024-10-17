@@ -14,7 +14,7 @@ class StatusController extends Controller
     {
         $status = DB::select('CALL viewAll_Status()'); 
 
-        return view('admin.PengaturanDanKonfigurasi.Status.index', ['status' => $status]);
+        return view('admin.PengaturanDanKonfigurasi.Status.index', compact('status'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.index');
         
@@ -55,7 +55,7 @@ class StatusController extends Controller
         $status = $statusData[0];
 
         if ($status) {
-            return view('admin.PengaturanDanKonfigurasi.Status.edit', ['statusType' => $statusTypeCombo], ['status' => $status]);
+            return view('admin.PengaturanDanKonfigurasi.Status.edit', compact('statusTypeCombo', 'status') );
          } else {
              return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
          }
