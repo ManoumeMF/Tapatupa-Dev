@@ -14,7 +14,7 @@ class StatusController extends Controller
     {
         $status = DB::select('CALL viewAll_Status()'); 
 
-        return view('admin.PengaturanDanKonfigurasi.Status.index', compact('status'));
+        return view('admin.PengaturanDanKonfigurasi.status.index', compact('status'));
 
         //return view('admin.PengaturanDanKonfigurasi.Status.index');
         
