@@ -78,6 +78,8 @@
                             $("#perioditasSewa").val(response.permohonanSewa.jenisJangkaWaktu);
                             $("#lamaSewa").val(response.permohonanSewa.lamaSewa);
                             $("#Satuan").val(response.permohonanSewa.namaSatuan);
+                            $("#luasTanah").val(response.permohonanSewa.luasTanah);
+                            $("#luasBangunan").val(response.permohonanSewa.luasBangunan);
                         }
                     }
                 });
@@ -94,9 +96,9 @@
             // Adding a row inside the tbody.
             $("#tblSaksi tbody").append('<tr>' +
                 '<td>' +
-                '<input type="text" class="form-control" id="nik" name="nik[]" placeholder="Masukkan NIK" required>' +
+                '<input type="text" class="form-control" id="nik" name="nik[]" placeholder="Masukkan NIP" required>' +
                 '<div class="invalid-feedback">' +
-                'NIK Tidak Boleh Kosong' +
+                'NIP Tidak Boleh Kosong' +
                 '</div>' +
                 '</td>' +
                 '<td>' +
@@ -222,13 +224,21 @@
                                                 <input type="text" class="form-control" id="peruntukanSewa" disabled>
                                             </div>
                                             <div class="col-xl-6">
+                                                <label for="jangka-waktu-sewa" class="form-label">Luas Tanah (m<sup>2</sup>)</label>
+                                                <input type="text" class="form-control" id="luasTanah" name="luasTanah" readonly>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="jangka-waktu-sewa" class="form-label">Luas Bangunan (m<sup>2</sup>)</label>
+                                                <input type="text" class="form-control" id="luasBangunan" name="luasBangunan" readonly>
+                                            </div>
+                                            <div class="col-xl-6">
                                                 <label for="jangka-waktu-sewa" class="form-label">Perioditas
                                                     Sewa</label>
                                                 <input type="text" class="form-control" id="perioditasSewa" disabled>
                                             </div>
                                             <div class="col-xl-4">
                                                 <label for="jangka-waktu-sewa" class="form-label">Lama Sewa</label>
-                                                <input type="text" class="form-control" id="lamaSewa" disabled>
+                                                <input type="text" class="form-control" id="lamaSewa" name="lamaSewa" readonly>
                                             </div>
                                             <div class="col-xl-2">
                                                 <label for="jangka-waktu-sewa" class="form-label">Satuan</label>
@@ -295,6 +305,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div class="invalid-feedback">
+                                                    Pejabat Yang Mensahkan Tidak Boleh Kosong
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -313,7 +326,7 @@
                             <table class="table text-nowrap table-hover" id="tblSaksi">
                                 <thead>
                                     <tr>
-                                        <th>NIK</th>
+                                        <th>NIP</th>
                                         <th>Nama Saksi (Sesuai KTP)</th>
                                         <th>Keterangan</th>
                                         <th width="20px">Aksi</th>

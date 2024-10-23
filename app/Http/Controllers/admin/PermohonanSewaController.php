@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 class PermohonanSewaController extends Controller
 {
     private  $stat = 1;
-    private $createBy = 1;
 
     private $parentIdPermohonan = 1;
 
@@ -50,7 +50,7 @@ class PermohonanSewaController extends Controller
         for ($count = 0; $count < collect($jenisDokumen)->count(); $count++) {
             $uploadedFileDokumen = $fileDokumen[$count];
             $dokumenPermohonan = $count . "-" . $request->get('nomorPermohonan') . time() . "." . $uploadedFileDokumen->getClientOriginalExtension();
-            $dokumenPermohonanPath = Storage::disk('public')->putFileAs("documents/permohonanSewa", $uploadedFileDokumen, $dokumenPermohonan);
+            $dokumenPermohonanPath = Storage::disk('biznet')->putFileAs("documents/permohonanSewa", $uploadedFileDokumen, $dokumenPermohonan);
 
             $dokumenKelengkapan[] = [
                 'JenisDokumen' => $jenisDokumen[$count],
@@ -70,7 +70,7 @@ class PermohonanSewaController extends Controller
             'Satuan' => $request->get('satuan'),
             'Status' => $this->stat,
             'Catatan' => $request->get('catatan'),
-            'DibuatOleh' => $this->createBy,
+            'DibuatOleh' => Auth::user()->id,
             'DokumenKelengkapan' => $dokumenKelengkapan
         ]);
     
