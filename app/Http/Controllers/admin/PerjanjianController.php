@@ -179,20 +179,20 @@ class PerjanjianController extends Controller
     {      
         $id = $request->id;
 
-        $statusData = DB::select('CALL view_statusById('  . $id . ')');
-        $status = $statusData[0];
+        $perjanjianData = DB::select('CALL view_perjanjianSewaById('  . $id . ')');
+        $perjanjianSewa = $perjanjianData[0];
 
         //dd($fieldEducation);
 
-        if ($status) {
+        if ($perjanjianSewa) {
             return response()->json([
                 'status'=> 200,
-                'status' => $status
+                'perjanjianSewa' => $perjanjianSewa
             ]);
         }else{
             return response()->json([
                 'status'=> 404,
-                'message' => 'Data Status Tidak Ditemukan.'
+                'message' => 'Data Perjanjian Sewa Tidak Ditemukan.'
             ]);
         }
     }
