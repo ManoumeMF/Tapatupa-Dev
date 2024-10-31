@@ -124,10 +124,10 @@
                 <a href="javascript:void(0)">Manajemen Pengguna</a>
             </li>
             <li class="slide">
-                <a href="{{ route('Departemen.index') }}" class="side-menu__item">Role Pengguna</a>
+                <a href="{{ route('Role.index') }}" class="side-menu__item">Role Pengguna</a>
             </li>
             <li class="slide">
-                <a href="{{ route('Jabatan.index') }}" class="side-menu__item">Pengguna/User</a>
+                <a href="{{ route('User.index') }}" class="side-menu__item">Pengguna/User</a>
             </li>
         </ul>
     </li>
@@ -276,11 +276,11 @@
         </a>
         <!-- End::slide -->
 
-        <!-- Start::slide__category -->
+        <!-- Start::slide__category
     <li class="slide__category"><span class="category-name">Laporan-laporan</span></li>
-    <!-- End::slide__category -->
+     End::slide__category -->
 
-    <!-- Start::slide -->
+    <!-- Start::slide 
     <li class="slide">
         <a href="icons.html" class="side-menu__item">
             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24"
@@ -311,9 +311,9 @@
             <span class="side-menu__label">Laporan</span>
         </a>
     </li>
-    <!-- End::slide -->
+     End::slide
 
-    <!-- Start::slide -->
+     Start::slide
     <li class="slide has-sub">
         <a href="javascript:void(0);" class="side-menu__item">
             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" height="24px" viewBox="0 0 24 24"
@@ -341,5 +341,5 @@
             </li>
         </ul>
     </li>
-    <!-- End::slide -->
+    End::slide -->
 </ul>

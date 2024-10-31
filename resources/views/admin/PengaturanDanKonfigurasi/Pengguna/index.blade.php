@@ -1,5 +1,6 @@
 @extends('layouts.admin.template')
 @section('content')
+
 <script>
     //-------------------------------------------------------------------------------------------------
     //Ajax Form Detail Data
@@ -7,15 +8,15 @@
     $(document).on('click', '.detailBtn', function (e) {
         e.preventDefault();
 
-        var pg_id = $(this).val();
+        var usr_id = $(this).val();
 
         $("#detailModal").modal('show');
 
         $.ajax({
             method: "GET",
-            url: "{{ route('Pegawai.detail') }}",
+            url: "{{ route('User.detail') }}",
             data: {
-                idPegawai: pg_id
+                id: usr_id
             },
             success: function (response) {
                 //console.log(response);
@@ -26,35 +27,30 @@
                         modal: true
                     }).show();
                 } else {
-                    
-                    var fotoPath = response.pegawai.fileFoto;
-                    var fileFoto = {!! json_encode(Storage::disk('biznet')->url('/images/pegawai' )) !!};
+                    var fotoPath = response.user.fotoUser;
+                    var fileFoto = {!! json_encode(Storage::disk('biznet')->url('/images' )) !!};
 
                     var no_photo = {!! json_encode(url('admin_resources/assets/images/user-general/no_photo_profile_color.png')) !!};
-
-                    if(response.pegawai.fileFoto){
-                        $('#d_fotoPegawai').attr("src", fileFoto + "/" + response.pegawai.fileName);
-                    }else{
-                        $('#d_fotoPegawai').attr("src", no_photo );
+                    
+                    if (response.user.fotoUser) {
+                        $('#d_fotoUser').attr("src", fileFoto + '/' + response.user.fotoUser);
+                    } else {
+                        $('#d_fotoUser').attr("src", no_photo);
                     }
-                    //$('#d_fotoPegawai').attr("src", photo + "/" + response.pegawai.fileFoto);
-                    $('#d_namaPegawai').text(response.pegawai.namaPegawai);
-                    $('#d_jabatan').text(response.pegawai.namaJabatanBidang);
-                    $('#d_bidang').text(response.pegawai.namaBidang);
-                    $('#d_dinas').text(response.pegawai.namaDepartmen);
-                    $('#d_nip').text("NIK: " + response.pegawai.nip);
-                    $('#d_golongan').text(response.pegawai.golonganPangkat);
-                    $('#d_alamat').text(response.pegawai.alamatLengkap);
-                    $('#d_nomorPonsel').text(response.pegawai.nomorPonsel);
-                    $('#d_nomorWA').text(response.pegawai.nomorWhatsapp);
-                    $('#d_email').text(response.pegawai.email);
+                    
+                    $('#d_namaLengkap').text(response.user.namaLengkap);
+                    $('#d_jenisUser').text(response.user.jenisUser);
+                    $('#d_username').text(response.user.username);
+                    $('#d_password').text(response.user.password);
+                    $('#d_role').text(response.user.roleName);
+                    $('#d_email').text(response.user.email);
                 }
             }
         });
     });
 
     //-------------------------------------------------------------------------------------------------
-    // Ajax Form Delete Data
+    //Ajax Form Delete Data
     //-------------------------------------------------------------------------------------------------
     $(document).on('click', '.deleteBtn', function (e) {
         var st_id = $(this).val();
@@ -64,7 +60,7 @@
     });
 
     //-------------------------------------------------------------------------------------------------
-    // Ajax Delete Data
+    //Ajax Delete Data
     //-------------------------------------------------------------------------------------------------
     $(document).on('click', '.delete_data', function (e) {
         e.preventDefault();
@@ -72,7 +68,7 @@
         var id = $('#deleting_id').val();
 
         var data = {
-            'idPegawai': id,
+            'idUser': id,
         }
 
         $.ajaxSetup({
@@ -83,7 +79,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: "{{ route('Pegawai.delete') }}",
+            url: "{{ route('User.delete') }}",
             data: data,
             dataType: "json",
             success: function (response) {
@@ -104,9 +100,7 @@
                     const toast = new bootstrap.Toast(primarytoastDeleteSuccess)
                     toast.show()
 
-                    setTimeout(function () {
-                        window.location = '{{ route('Pegawai.index') }}';
-                    }, 1000);
+                    setTimeout("window.location='{{ route('User.index') }}'", 1200);
                 }
             }
         });
@@ -116,13 +110,13 @@
 <!-- Page Header -->
 <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
     <div>
-        <h1 class="page-title fw-medium fs-18 mb-2">Pegawai</h1>
+        <h1 class="page-title fw-medium fs-18 mb-2">Pengguna/User Aplikasi</h1>
         <div class="">
             <nav>
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Master</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pegawai</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Daftar Pegawai</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pengaturan dan Konfigurasi</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Manajemen Pengguna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Daftar Pengguna/User</li>
                 </ol>
             </nav>
         </div>
@@ -136,52 +130,52 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Daftar Pegawai
+                    Daftar Pengguns/User
                 </div>
                 <div class="prism-toggle">
-                    <a class="btn btn-primary btn-wave waves-effect waves-light" href="{{ route('Pegawai.create') }}">
-                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Pegawai
+                    <a class="btn btn-primary btn-wave waves-effect waves-light"
+                        href="{{ route('User.create') }}">
+                        <i class="ri-add-line align-middle me-1 fw-medium"></i> Tambah Pengguna/Sser
                     </a>
                 </div>
             </div>
             <div class="card-body">
-                <table id="responsiveDataTable" class="table table-bordered text-nowrap w-100">
+                <table id="responsivemodal-DataTable" class="table table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
-                            <th>Nama Pegawai</th>
-                            <th>Golongan</th>
-                            <th>Jabatan Bidang</th>
-                            <th>Bidang/Unit</th>
-                            <th>Dinas/Badan</th>
+                            <th>Nama Lengkap User</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Email</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (isset($pegawai) && count($pegawai) > 0)
-                            @foreach ($pegawai as $pg)
+                        @if (isset($users) && count($users) > 0)
+                            @foreach ($users as $uS)
                                 <tr>
                                     <td>
                                         <div class="d-flex">
-                                            @if($pg->fileFoto)
+                                            @if($uS->fotoUser)
                                                 <span class="avatar avatar-md avatar-square bg-light"><img
-                                                        src="{{Storage::disk('biznet')->url('/' . $pg->fileFoto)}}" class="w-100 h-100"
-                                                        alt="..."></span>
+                                                        src="{{Storage::disk('biznet')->url('images/' . $uS->fotoUser)}}"
+                                                        class="w-100 h-100" alt="..."></span>
                                             @else
                                                 <span class="avatar avatar-md avatar-square bg-light"><img
-                                                        src="{{ asset('admin_resources/assets/images/user-general/no_image1.png') }}"
+                                                        src="{{ asset('admin_resources/assets/images/user-general/no_picture.png') }}"
                                                         class="w-100 h-100" alt="..."></span>
                                             @endif
                                             <div class="ms-2">
-                                                <p class="fw-semibold mb-0 d-flex align-items-center"><a
-                                                        href="javascript:void(0);">{{ $pg->namaPegawai }}</a></p>
-                                                <p class="fs-12 text-muted mb-0">NIP: {{ $pg->nip }}</p>
+                                                <p class="fw-semibold mb-0 d-flex align-items-center">
+                                                    {{ $uS->namaLengkap }}
+                                                </p>
+                                                <p class="fs-12 text-muted mb-0">Role: {{ $uS->roleName }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $pg->golonganPangkat }}</td>
-                                    <td>{{ $pg->namaJabatanBidang }}</td>
-                                    <td>{{ $pg->namaBidang }}</td>
-                                    <td>{{ $pg->namaDepartmen }}</td>
+                                    <td>{{ $uS->username }}</td>
+                                    <td>{{ $uS->password }}</td>
+                                    <td>{{ $uS->email }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm"
@@ -190,19 +184,19 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
-                                                    <button type="button" value="{{ $pg->idPegawai }}"
+                                                    <button type="button" value="{{ $uS->id }}"
                                                         class="dropdown-item detailBtn">
-                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i> Detail
+                                                        <i class="ri-eye-line me-1 align-middle d-inline-block"></i>Detail
                                                     </button>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Pegawai.edit', $pg->idPegawai) }}"><i
-                                                            class="ri-edit-line me-1 align-middle d-inline-block"></i> Ubah</a>
+                                                        href="{{ route('User.edit', $uS->id) }}"><i
+                                                            class="ri-edit-line me-1 align-middle d-inline-block"></i>Ubah</a>
                                                 </li>
-                                                <li><button type="button" value="{{ $pg->idPegawai }}"
+                                                <li><button type="button" value="{{ $uS->id }}"
                                                         class="dropdown-item deleteBtn">
-                                                        <i class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>
-                                                        Hapus</a>
+                                                        <i
+                                                            class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -216,15 +210,15 @@
         </div>
     </div>
 </div>
-<!-- End::row-1 -->
+<!--End::row-1 -->
 
-<!-- Start:: Detail Pegawai-->
+<!-- Start:: Detail User -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalXlLabel">Detail Pegawai</h6>
+                <h6 class="modal-title" id="exampleModalXlLabel">Detail Pengguna/User</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -238,75 +232,40 @@
                                             <div class="d-flex align-items-center flex-wrap gap-3">
                                                 <div>
                                                     <span class="avatar avatar-xxl avatar-rounded p-1 bg-light">
-                                                        <img src="" alt="" id="d_fotoPegawai">
+                                                        <img src="" alt="" id="d_fotoUser">
                                                     </span>
                                                 </div>
                                                 <div>
-                                                    <span class="fw-medium d-block mb-2" id="d_namaPegawai"></span>
-                                                    <span class="d-block fs-12 text-muted" id="d_nip"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Bidang/Unit</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_bidang"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Dinas</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_dinas"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Jabatan</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_jabatan"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Golongan</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_golongan"></span>
+                                                    <span class="fw-medium d-block mb-2" id="d_namaLengkap"></span>
+                                                    <span class="d-block fs-12 text-muted" id="d_jenisUser"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Alamat Lengkap</h6>
+                                                    <h6 class="mb-1 fs-13">Username</h6>
                                                     <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_alamat"></span>
+                                                        id="d_username"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-xl-12">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Password</h6>
+                                                    <span class="d-block fs-13 text-muted fw-normal"
+                                                        id="d_password"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Nomor Ponsel</h6>
+                                                    <h6 class="mb-1 fs-13">Nama Role</h6>
                                                     <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_nomorPonsel"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="d-flex gap-3">
-                                                <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Nomor WhatsApp</h6>
-                                                    <span class="d-block fs-13 text-muted fw-normal"
-                                                        id="d_nomorWA"></span>
+                                                        id="d_role"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -329,10 +288,9 @@
         </div>
     </div>
 </div>
-</div>
-<!-- End::  Detail Pegawai -->
+<!-- End::  Detail User -->
 
-<!-- Start:: Delete Pegawai-->
+<!-- Start:: Delete User -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -340,7 +298,7 @@
                 <h6 class="modal-title">Hapus Data</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteStatusForm">
+            <form id="deleteJenisStatusForm">
                 @csrf
                 <div class="modal-body">
                     <div class="text-center px-5 pb-0 svg-danger">
@@ -363,6 +321,6 @@
         </div>
     </div>
 </div>
-<!-- End:: Delete Pegawai -->
+<!-- End:: Delete User -->
 
 @endsection

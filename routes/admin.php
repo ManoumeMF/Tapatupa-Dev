@@ -27,6 +27,8 @@ use App\Http\Controllers\admin\PermohonanSewaController;
 use App\Http\Controllers\admin\PerjanjianController;
 use App\Http\Controllers\admin\DropdownLokasiContoller;
 use App\Http\Controllers\admin\GolonganPangkatController;
+use App\Http\Controllers\admin\RoleController;
+use App\Http\Controllers\admin\PenggunaController;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route;
 /*
@@ -197,6 +199,24 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete("/pegawai/hapus", [PegawaiController::class, 'delete'])->name('Pegawai.delete');
     Route::get("/pegawai/detail", [PegawaiController::class, 'detail'])->name('Pegawai.detail');
 
+     // Route untuk Role
+     Route::get("/role", [RoleController::class, 'index'])->name('Role.index');
+     Route::get("/role/tambah", [RoleController::class, 'create'])->name('Role.create');
+     Route::post("/role/simpan", [RoleController::class, 'store'])->name('Role.store');
+     Route::get("/role/ubah/{id}", [RoleController::class, 'edit'])->name('Role.edit');
+     Route::post("/role/update/{id}", [RoleController::class, 'update'])->name('Role.update');
+     Route::get("/role/detail", [RoleController::class, 'detail'])->name('Role.detail');
+     Route::delete("/role/hapus", [RoleController::class, 'delete'])->name('Role.delete');
+
+      // Route untuk Pengguna
+      Route::get("/user", [PenggunaController::class, 'index'])->name('User.index');
+      Route::get("/user/tambah", [PenggunaController::class, 'create'])->name('User.create');
+      Route::post("/user/simpan", [PenggunaController::class, 'store'])->name('User.store');
+      Route::get("/user/ubah/{id}", [PenggunaController::class, 'edit'])->name('User.edit');
+      Route::post("/user/update/{id}", [PenggunaController::class, 'update'])->name('User.update');
+      Route::get("/user/detail", [PenggunaController::class, 'detail'])->name('User.detail');
+      Route::delete("/user/hapus", [PenggunaController::class, 'delete'])->name('User.delete');
+
     // Route untuk Permohonan Sewa
     Route::get("/permohonan-sewa", [PermohonanSewaController::class, 'index'])->name('PermohonanSewa.index');
     Route::get("/permohonan-sewa/tambah", [PermohonanSewaController::class, 'create'])->name('PermohonanSewa.create');
@@ -223,6 +243,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');
     Route::get("/kecamatan", [DropdownLokasiContoller::class, 'kecamatan'])->name('DropdownLokasi.kecamatan');
     Route::get("/kelurahan", [DropdownLokasiContoller::class, 'kelurahan'])->name('DropdownLokasi.kelurahan');
+    Route::get("/namaLengkapUser", [DropdownLokasiContoller::class, 'namaLengkapUser'])->name('DropdownLokasi.namaLengkapUser');
 
     Route::group(['middleware' => ['cek_login:Super Admin']], function () {
         // Route untuk Jenis Permohonan
