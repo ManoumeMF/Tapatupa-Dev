@@ -92,7 +92,7 @@
                         <label for="wmail" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" value="{{ $user->email }}">
                         <div class="invalid-feedback">
-                            Format email salah!
+                            Format Email salah!
                         </div>
                     </div>
                 </div>

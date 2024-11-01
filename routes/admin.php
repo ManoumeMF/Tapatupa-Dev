@@ -25,6 +25,7 @@ use App\Http\Controllers\admin\WajibRetribusiController;
 use App\Http\Controllers\admin\JabatanController;
 use App\Http\Controllers\admin\PermohonanSewaController;
 use App\Http\Controllers\admin\PerjanjianController;
+use App\Http\Controllers\admin\TagihanController;
 use App\Http\Controllers\admin\DropdownLokasiContoller;
 use App\Http\Controllers\admin\GolonganPangkatController;
 use App\Http\Controllers\admin\RoleController;
@@ -238,6 +239,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete("/perjanjian-sewa/hapus", [PerjanjianController::class, 'delete'])->name('Perjanjian.delete');
     Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
     Route::get("/perjanjian-sewa/detail-permohonan/", [PerjanjianController::class, 'detailPermohonanToPerjanjian'])->name('Perjanjian.detailPermohonanToPerjanjian');
+
+    // Route untuk Tagihan Sewa
+    Route::get("/tagihan-sewa", [TagihanController::class, 'index'])->name('Tagihan.index');
+    Route::get("/tagihan-sewa/detail/{id}", [TagihanController::class, 'detail'])->name('Tagihan.detail');
 
     //Route untuk DropdownLokasi
     Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');

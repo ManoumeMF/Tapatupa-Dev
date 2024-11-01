@@ -88,15 +88,6 @@ class PermohonanSewaController extends Controller
     {
         $perkerjaan = DB::select('CALL cbo_pekerjaan()');
 
-        //$statusData = DB::select('CALL view_statusById(' . $id . ')');
-        //$status = $statusData[0];
-
-        /*if ($status) {
-            return view('admin.PengaturanDanKonfigurasi.Status.edit', ['statusType' => $statusTypeCombo], ['status' => $status]);
-         } else {
-             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
-         }*/
-
         return view('admin.Master.WajibRetribusi.edit', compact('perkerjaan'));
     }
 

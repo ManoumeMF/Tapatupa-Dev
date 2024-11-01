@@ -28,7 +28,7 @@ Route::get("/objek-retribusi-mobile", [AssetRentalMobileController::class, 'obje
 Route::get("/objek-retribusi-mobile/detail/{id}", [AssetRentalMobileController::class, 'objekRetribusiDetail'])->name('AssetRentalMobile.objekRetribusiDetail');
 
 // Route API untuk Tarif Objek Retribusi
-Route::get("/objek-retribusi-mobile/tarif", [AssetRentalMobileController::class, 'detailTarifObjekRetribusi'])->name('AssetRentalMobile.detailTarifObjekRetribusi');
+Route::get("/objek-retribusi-mobile/tarif", [AssetRentalMobileController::class, 'tarifObjekRetribusi'])->name('AssetRentalMobile.tarifObjekRetribusi');
 Route::get("/objek-retribusi-mobile/detail-tarif/{id}", [AssetRentalMobileController::class, 'detailTarifObjekRetribusi'])->name('AssetRentalMobile.detailTarifObjekRetribusi');
 
 // Route API untuk Perjanjian
