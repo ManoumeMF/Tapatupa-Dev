@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get("/", [DashboardController::class, 'index'])->name('Dashboard.index');
+    Route::get("/dashboard", [DashboardController::class, 'index'])->name('Dashboard.index');
 
     // Route untuk Lokasi Objek Retribusi
     Route::get("/lokasi-objek-retribusi", [LokasiObjekRetribusiController::class, 'index'])->name('LokasiObjekRetribusi.index');

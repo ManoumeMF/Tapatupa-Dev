@@ -276,11 +276,54 @@
         </a>
         <!-- End::slide -->
 
+        <!-- Start::slide__category -->
+    <li class="slide__category"><span class="category-name">Tagihan dan Pembayaran</span></li>
+    <!-- End::slide__category -->
+
+    <!-- Start::slide -->
+    <li class="slide">
+        <a href="{{ route('Tagihan.index') }}" class="side-menu__item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" height="24px" viewBox="0 0 24 24"
+                width="24px" fill="#5f6368">
+                <path d="M0 0h24v24H0V0z" fill="none"></path>
+                <path
+                    d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22v-2z">
+                </path>
+            </svg>
+            <span class="side-menu__label">Tagihan Sewa</span>
+        </a>
+        <!-- End::slide -->
+
+        <!-- Start::slide -->
+    <li class="slide">
+        <a href="{{ route('Perjanjian.index') }}" class="side-menu__item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24"
+                height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+                <g>
+                    <rect fill="none" height="24" width="24"></rect>
+                </g>
+                <g>
+                    <g>
+                        <rect height="4" opacity=".3" width="4" x="5" y="5"></rect>
+                        <rect height="4" opacity=".3" width="4" x="5" y="15"></rect>
+                        <rect height="4" opacity=".3" width="4" x="15" y="15"></rect>
+                        <rect height="4" opacity=".3" width="4" x="15" y="5"></rect>
+                        <path d="M3,21h8v-8H3V21z M5,15h4v4H5V15z"></path>
+                        <path d="M3,11h8V3H3V11z M5,5h4v4H5V5z"></path>
+                        <path d="M13,21h8v-8h-8V21z M15,15h4v4h-4V15z"></path>
+                        <path d="M13,3v8h8V3H13z M19,9h-4V5h4V9z"></path>
+                    </g>
+                </g>
+            </svg>
+            <span class="side-menu__label">Pembayaran Sewa</span>
+        </a>
+        <!-- End::slide -->
+
         <!-- Start::slide__category
     <li class="slide__category"><span class="category-name">Laporan-laporan</span></li>
      End::slide__category -->
 
-    <!-- Start::slide 
+        <!-- Start::slide 
     <li class="slide">
         <a href="icons.html" class="side-menu__item">
             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24"

@@ -95,27 +95,27 @@
 
 <script>
     (function () {
-    "use strict"
+        "use strict"
 
-    let checkAll = document.querySelector('.check-all');
-    checkAll.addEventListener('click', checkAllFn)
+        let checkAll = document.querySelector('.check-all');
+        checkAll.addEventListener('click', checkAllFn)
 
-    function checkAllFn() {
-        if (checkAll.checked) {
-            document.querySelectorAll('.task-checkbox input').forEach(function (e) {
-                e.closest('.task-list').classList.add('selected');
-                e.checked = true;
-            });
+        function checkAllFn() {
+            if (checkAll.checked) {
+                document.querySelectorAll('.task-checkbox input').forEach(function (e) {
+                    e.closest('.task-list').classList.add('selected');
+                    e.checked = true;
+                });
+            }
+            else {
+                document.querySelectorAll('.task-checkbox input').forEach(function (e) {
+                    e.closest('.task-list').classList.remove('selected');
+                    e.checked = false;
+                });
+            }
         }
-        else {
-            document.querySelectorAll('.task-checkbox input').forEach(function (e) {
-                e.closest('.task-list').classList.remove('selected');
-                e.checked = false;
-            });
-        }
-    }
-    
-})();
+
+    })();
 </script>
 
 <!-- Page Header -->
@@ -145,57 +145,74 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table text-nowrap">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input class="form-check-input check-all" type="checkbox" id="all-tasks" value=""
-                                    aria-label="...">
-                            </th>
-                            <th scope="col">#</th>
-                            <th scope="col">Nomor Tagihan</th>
-                            <th scope="col">Jatuh Tempo</th>
-                            <th scope="col">Jumlah Tagihan</th>
-                            <th scope="col">Jumlah Denda</th>
-                            <th scope="col">Total Tagihan</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="task-list">
-                            <td class="task-checkbox"><input class="form-check-input" type="checkbox" value=""
-                                    aria-label="..."></td>
-                            <td>
-                                <span class="fw-medium">Design New Landing Page</span>
-                            </td>
-                            <td>
-                                <span class="fw-medium">SPK - 01</span>
-                            </td>
-                            <td>
-                                02-06-2024
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
-                            <span class="fw-medium text-danger">Belum Bayar</span>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" data-bs-title="Edit"><i class="ri-edit-line"></i></button>
-                                <button class="btn btn-danger-light btn-icon ms-1 btn-sm task-delete-btn"><i
-                                        class="ri-delete-bin-5-line"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input class="form-check-input check-all" type="checkbox" id="all-tasks" value=""
+                                        aria-label="...">
+                                </th>
+                                <th scope="col">#</th>
+                                <th scope="col">Nomor Tagihan</th>
+                                <th scope="col">Jatuh Tempo</th>
+                                <th scope="col">Jumlah Tagihan</th>
+                                <th scope="col">Jumlah Denda</th>
+                                <th scope="col">Total Tagihan</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (isset($tagihanDetail) && count($tagihanDetail) > 0)
+                                @foreach ($tagihanDetail as $indexKey => $tD)
+                                    <tr class="task-list">
+                                        <td class="task-checkbox"><input class="form-check-input" type="checkbox" value=""
+                                                aria-label="..."></td>
+                                        <td>
+                                            <span class="fw-medium">{{ ++$indexKey }}/{{ count($tagihanDetail) }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="fw-medium">{{ $tD->nomorTagihan }}</span>
+                                        </td>
+                                        <td>
+                                            {{ date('d F Y', strtotime($tD->tanggalJatuhTempo)) }}
+                                        </td>
+                                        <td>
+                                            {{ $tD->jumlahTagihan }}
+                                        </td>
+                                        <td>
+                                            {{ $tD->jumlahDenda }}
+                                        </td>
+                                        <td>
+                                            {{ $tD->totalTagihan }}
+                                        </td>
+                                        <td>
+                                            @if($tD->idStatus == 9)
+                                                <span class="fw-medium text-warning">{{ $tD->namaStatus }}</span>
+                                            @elseif($tD->idStatus == 10)
+                                                <span class="fw-medium text-danger">{{ $tD->namaStatus }}</span>
+                                            @elseif($tD->idStatus == 11)
+                                                <span class="fw-medium text-success">{{ $tD->namaStatus }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($tD->idStatus == 11)
+                                                <button class="btn btn-success-light btn-icon btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-custom-class="tooltip-success" data-bs-placement="left"
+                                                    data-bs-title="Detail"><i class="ri-eye-line"></i></button>
+                                            @else
+                                                <button class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-custom-class="tooltip-primary" data-bs-placement="left"
+                                                    data-bs-title="Bayar"><i class="ri-file-check-line"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -22,13 +22,13 @@ class TagihanController extends Controller
         
     }
 
-    public function detail(Request $request, $id)
+    public function detail($id)
     {      
-        //$tagihanData = DB::select('CALL view_tagihanByIdPerjanjian('  . $id . ')');
+        $tagihanDetail = DB::select('CALL view_tagihanByIdPerjanjian('  . $id . ')');
 
         //dd($fieldEducation);
 
-        return view('admin.TagihanDanPembayaran.Tagihan.detail');
+        return view('admin.TagihanDanPembayaran.Tagihan.detail', compact('tagihanDetail'));
     }
 
 }
