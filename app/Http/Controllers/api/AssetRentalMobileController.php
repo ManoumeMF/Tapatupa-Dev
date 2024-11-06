@@ -16,6 +16,102 @@ class AssetRentalMobileController extends Controller
 
     private $parentIdPermohonan = 1;
 
+    public function cboJenisPermohonan(){
+        $jenisPermohonan = DB::select('CALL cbo_jenisPermohonanByParentId(' . $this->parentIdPermohonan . ')');
+
+        if ($jenisPermohonan) {
+            return response()->json([
+                'status' => 200,
+                'jenisPermohonan' => $jenisPermohonan
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Permohonan Sewa Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+    public function cboWajibRetribusi(){
+        $wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()');
+
+        if ($wajibRetribusi) {
+            return response()->json([
+                'status' => 200,
+                'wajibRetribusi' => $wajibRetribusi
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Wajib Retribusi Tidak Ditemukan.'
+            ]);
+        }
+    }
+    public function cboObjekRetribusi(){
+        $objekRetribusi = DB::select('CALL cbo_objekRetribusi()');
+
+        if ($objekRetribusi) {
+            return response()->json([
+                'status' => 200,
+                'objekRetribusi' => $objekRetribusi
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Objek Retribusi Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+    public function cboPeruntukanSewa(){
+        $peruntukanSewa = DB::select('CALL cbo_peruntukanSewa()');
+
+        if ($peruntukanSewa) {
+            return response()->json([
+                'status' => 200,
+                'peruntukanSewa' => $peruntukanSewa
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Peruntukan Sewa Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+    public function cboPerioditas(){
+        $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
+
+        if ($jangkaWaktu) {
+            return response()->json([
+                'status' => 200,
+                'jangkaWaktu' => $jangkaWaktu
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Perioditas Sewa Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+    public function cboSatuan(){
+        $satuan = DB::select('CALL cbo_satuan(' . 1 . ')');
+
+        if ($satuan) {
+            return response()->json([
+                'status' => 200,
+                'satuan' => $satuan
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Satuan Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+
     public function permohonanIndex($id)
     {
         $permohonanSewa = DB::select('CALL viewAll_permohonanSewaByIdWajibRetribusi(' . $id . ')'); 

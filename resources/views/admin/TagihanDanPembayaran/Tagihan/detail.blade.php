@@ -195,10 +195,10 @@
                             <div class="flex-fill">
                                 <h6 class="mb-1 fs-13">Wajib Retribusi</h6>
                                 <span class="d-block fs-13 text-muted fw-normal">
-                                NPWRD: {{ $headTagihanDetail->npwrd }}
+                               {{ $headTagihanDetail->npwrd }}
                                 </span>
                                 <span class="d-block fs-13 text-muted fw-normal">
-                                Nama Wajib Retribusi: {{ $headTagihanDetail->namaWajibRetribusi }}
+                                {{ $headTagihanDetail->namaWajibRetribusi }}
                                 </span>
                             </div>
                         </div>
@@ -208,10 +208,10 @@
                             <div class="flex-fill">
                                 <h6 class="mb-1 fs-13">Objek Retribusi</h6>
                                 <span class="d-block fs-13 text-muted fw-normal">
-                                Objek Retribusi: {{ $headTagihanDetail->kodeObjekRetribusi }} / {{ $headTagihanDetail->objekRetribusi }}
+                                {{ $headTagihanDetail->kodeObjekRetribusi }} / {{ $headTagihanDetail->objekRetribusi }}
                                 </span>
                                 <span class="d-block fs-13 text-muted fw-normal">
-                                Alamat Objek Retribusi: {{ $headTagihanDetail->alamatLengkap }}
+                                {{ $headTagihanDetail->alamatLengkap }}
                                 </span>
                             </div>
                         </div>
@@ -269,12 +269,10 @@
                                             {{ $tD->totalTagihan }}
                                         </td>
                                         <td>
-                                            @if($tD->idStatus == 9)
-                                                <span class="fw-medium text-warning">{{ $tD->namaStatus }}</span>
-                                            @elseif($tD->idStatus == 10)
-                                                <span class="fw-medium text-danger">{{ $tD->namaStatus }}</span>
-                                            @elseif($tD->idStatus == 11)
+                                            @if($tD->idStatus == 10)
                                                 <span class="fw-medium text-success">{{ $tD->namaStatus }}</span>
+                                            @elseif($tD->idStatus == 9)
+                                                <span class="fw-medium text-warning">{{ $tD->namaStatus }}</span>
                                             @endif
                                         </td>
                                         <td>

@@ -34,3 +34,12 @@ Route::get("/objek-retribusi-mobile/detail-tarif/{id}", [AssetRentalMobileContro
 // Route API untuk Perjanjian
 Route::get("/perjanjian-mobile/{id}", [AssetRentalMobileController::class, 'perjanjianSewa'])->name('AssetRentalMobile.perjanjianSewa');
 Route::get("/perjanjian-mobile/detail/{id}", [AssetRentalMobileController::class, 'perjanjianSewaDetail'])->name('AssetRentalMobile.perjanjianSewaDetail');
+
+
+// Route API untuk semua combobox
+Route::get("/combo-jenis-permohonan", [AssetRentalMobileController::class, 'cboJenisPermohonan'])->name('AssetRentalMobile.cboJenisPermohonan');
+Route::get("/combo-wajib-retribusi", [AssetRentalMobileController::class, 'cboWajibRetribusi'])->name('AssetRentalMobile.cboWajibRetribusi');
+Route::get("/combo-objek-retribusi", [AssetRentalMobileController::class, 'cboObjekRetribusi'])->name('AssetRentalMobile.cboObjekRetribusi');
+Route::get("/combo-peruntukan-sewa", [AssetRentalMobileController::class, 'cboPeruntukanSewa'])->name('AssetRentalMobile.cboPeruntukanSewa');
+Route::get("/combo-perioditas", [AssetRentalMobileController::class, 'cboPerioditas'])->name('AssetRentalMobile.cboPerioditas');
+Route::get("/combo-satuan", [AssetRentalMobileController::class, 'cboSatuan'])->name('AssetRentalMobile.cboSatuan');
