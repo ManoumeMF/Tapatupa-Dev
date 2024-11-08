@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class TagihanController extends Controller
@@ -55,6 +54,8 @@ class TagihanController extends Controller
             $tagihanDetail = DB::select('CALL view_tagihanByIdPerjanjian(' . $id . ')');
             $headTagihanDetail = $headTagihanDetailData[0];
 
+            //dd($tagihanDetail);
+
             return view('admin.TagihanDanPembayaran.Tagihan.detail', compact('tagihanDetail', 'headTagihanDetail'));
         } else {
             return redirect()->route('Tagihan.detail', $id)->with('error', 'Data Tagihan Tidak Ditemukan!');
@@ -74,9 +75,9 @@ class TagihanController extends Controller
         for ($count = 0; $count < collect($idTagihan)->count(); $count++) {
             //dd($fileFoto[$count]);
 
-            $detailTagihan[] = [
-                'IdTagihan' => $idTagihan[$count]
-            ];
+            $detailTagihan[] = 
+                intval($idTagihan[$count])
+            ;
         }
 
         $dataTagihan = json_encode([
@@ -84,14 +85,23 @@ class TagihanController extends Controller
             'DetailTagihan' => $detailTagihan
         ]);
 
+        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
 
+        
 
-        //$response = DB::statement('CALL update_tagihan(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+        //dd($checkoutDetail);
 
-        if ($response) {
-            return redirect()->route('Tagihan.detail', $idPerjanjian)->with('success', 'Tagihan Berhasil Diupdate!');
+       
+        if ($headTagihanDetailData) {
+
+            $checkoutDetail = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+            $headTagihanDetail = $headTagihanDetailData[0];
+
+            //dd($checkoutDetail);
+
+        return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail','checkoutDetail'));
         } else {
-            return redirect()->route('Tagihan.detail', $idPerjanjian)->with('error', 'Tagihan Gagal Diupdate!');
+            return redirect()->route('Tagihan.detail', $request->get('idPerjanjian'))->with('error', 'Data Tagihan Tidak Ditemukan!');
         }
     }
 }

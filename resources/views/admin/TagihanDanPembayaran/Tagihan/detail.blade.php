@@ -145,77 +145,78 @@
                 </div>
             </div>
             <div class="card-body">
-                
-            <div class="row gy-3">     
-            <form class="row g-3 needs-validation" action="{{route('Tagihan.checkout')}}" method="post">
-            {{ csrf_field() }}
-                    <div class="col-xl-6">
-                        <input type="hidden" name="idPerjanjian" value="{{ $headTagihanDetail->idPerjanjianSewa }}">
-                        <div class="d-flex gap-3">
-                            <div class="flex-fill">
-                                <h6 class="mb-1 fs-13">Nomor Perjanjian</h6>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                    {{ $headTagihanDetail->nomorSuratPerjanjian }}
-                                </span>
+
+                <div class="row gy-3">
+                    <form class="row g-3 needs-validation" action="{{route('Tagihan.checkout')}}" method="post">
+                        {{ csrf_field() }}
+                        <div class="col-xl-6">
+                            <input type="hidden" name="idPerjanjian" value="{{ $headTagihanDetail->idPerjanjianSewa }}">
+                            <div class="d-flex gap-3">
+                                <div class="flex-fill">
+                                    <h6 class="mb-1 fs-13">Nomor Perjanjian</h6>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->nomorSuratPerjanjian }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="d-flex gap-3">
-                            <div class="flex-fill">
-                                <h6 class="mb-1 fs-13">Tanggal Perjanjian</h6>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                 {{ date('d F Y', strtotime($headTagihanDetail->tanggalDisahkan )) }}
-                                </span>
+                        <div class="col-xl-6">
+                            <div class="d-flex gap-3">
+                                <div class="flex-fill">
+                                    <h6 class="mb-1 fs-13">Tanggal Perjanjian</h6>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ date('d F Y', strtotime($headTagihanDetail->tanggalDisahkan)) }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="d-flex gap-3">
-                            <div class="flex-fill">
-                                <h6 class="mb-1 fs-13">Jangka Waktu</h6>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                {{ $headTagihanDetail->durasiSewa }}
-                                </span>
+                        <div class="col-xl-6">
+                            <div class="d-flex gap-3">
+                                <div class="flex-fill">
+                                    <h6 class="mb-1 fs-13">Jangka Waktu</h6>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->durasiSewa }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="d-flex gap-3">
-                            <div class="flex-fill">
-                                <h6 class="mb-1 fs-13">Pembayaran Per Tahun</h6>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                {{ $headTagihanDetail->jumlahPembayaran }}
-                                </span>
+                        <div class="col-xl-6">
+                            <div class="d-flex gap-3">
+                                <div class="flex-fill">
+                                    <h6 class="mb-1 fs-13">Pembayaran Per Tahun</h6>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->jumlahPembayaran }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="d-flex gap-3">
-                            <div class="flex-fill">
-                                <h6 class="mb-1 fs-13">Wajib Retribusi</h6>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                               {{ $headTagihanDetail->npwrd }}
-                                </span>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                {{ $headTagihanDetail->namaWajibRetribusi }}
-                                </span>
+                        <div class="col-xl-6">
+                            <div class="d-flex gap-3">
+                                <div class="flex-fill">
+                                    <h6 class="mb-1 fs-13">Wajib Retribusi</h6>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->npwrd }}
+                                    </span>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->namaWajibRetribusi }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="d-flex gap-3">
-                            <div class="flex-fill">
-                                <h6 class="mb-1 fs-13">Objek Retribusi</h6>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                {{ $headTagihanDetail->kodeObjekRetribusi }} / {{ $headTagihanDetail->objekRetribusi }}
-                                </span>
-                                <span class="d-block fs-13 text-muted fw-normal">
-                                {{ $headTagihanDetail->alamatLengkap }}
-                                </span>
+                        <div class="col-xl-6">
+                            <div class="d-flex gap-3">
+                                <div class="flex-fill">
+                                    <h6 class="mb-1 fs-13">Objek Retribusi</h6>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->kodeObjekRetribusi }} /
+                                        {{ $headTagihanDetail->objekRetribusi }}
+                                    </span>
+                                    <span class="d-block fs-13 text-muted fw-normal">
+                                        {{ $headTagihanDetail->alamatLengkap }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
                 <br><br>
                 <div class="table-responsive border-top">
@@ -241,15 +242,16 @@
                                 @foreach ($tagihanDetail as $indexKey => $tD)
                                     <tr class="task-list">
                                         <td class="task-checkbox">
-                                        @if($tD->idStatus == 11)
-                                        <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
-                                        aria-label="..." name="idTagihan[]" disabled></td>
-                                            @else
-                                            <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
-                                            aria-label="..." name="idTagihan[]"></td>
+                                            @if($tD->idStatus == 10)
+                                                    <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
+                                                        aria-label="Pilih" name="idTagihan[]" disabled>
+                                                </td>
+                                            @elseif($tD->idStatus == 9)
+                                                <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
+                                                    aria-label="..." name="idTagihan[]"></td>
                                             @endif
                                         </td>
-                                            
+
                                         <td>
                                             <span class="fw-medium">{{ ++$indexKey }}/{{ count($tagihanDetail) }}</span>
                                         </td>
@@ -276,11 +278,11 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($tD->idStatus == 11)
+                                            @if($tD->idStatus == 10)
                                                 <button class="btn btn-success-light btn-icon btn-sm" data-bs-toggle="tooltip"
                                                     data-bs-custom-class="tooltip-success" data-bs-placement="left"
                                                     data-bs-title="Detail"><i class="ri-eye-line"></i></button>
-                                            @else
+                                            @elseif($tD->idStatus == 9)
                                                 <button class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip"
                                                     data-bs-custom-class="tooltip-primary" data-bs-placement="left"
                                                     data-bs-title="Bayar"><i class="ri-file-check-line"></i></button>
@@ -293,11 +295,11 @@
                     </table>
                 </div>
                 <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
-                        <button class="btn btn-danger m-1" type="reset">Batal<i
-                                class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
-                        <button class="btn btn-primary m-1" type="submit">Bayar <i
-                                class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
-                    </div>
+                    <button class="btn btn-danger m-1" type="reset">Batal<i
+                            class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
+                    <button class="btn btn-primary m-1" type="submit">Bayar <i
+                            class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
+                </div>
             </div>
             </form>
         </div>
