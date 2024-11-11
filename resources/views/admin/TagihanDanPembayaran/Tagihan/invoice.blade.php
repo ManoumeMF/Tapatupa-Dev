@@ -23,14 +23,6 @@
                         <li class="breadcrumb-item active" aria-current="page">Invoice Details</li>
                     </ol>
                 </div>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-white btn-wave border-0 me-0 fw-normal waves-effect waves-light">
-                        <i class="ri-filter-3-fill me-2"></i>Filter
-                    </button>
-                    <button type="button" class="btn btn-primary btn-wave waves-effect waves-light">
-                        <i class="ri-upload-2-line me-2"></i> Export report
-                    </button>
-                </div>
             </div>
             <!-- End::page-header -->
 
@@ -71,7 +63,7 @@
                                                 No. Urut
                                             </p>
                                             <p class="h6 fw-bold mb-1">
-                                            {{ $headTagihanDetail->noUrut }}
+                                                {{ $headTagihanDetail->noUrut }}
                                             </p>
 
                                         </div>
@@ -213,27 +205,41 @@
                                 <div class="col-xl-12">
                                     <div>
                                         <p>
-                                            <span class="mb-1 fw-medium">Dengan Huruf: </span><span class="text-muted">{{ Riskihajar\Terbilang\Facades\Terbilang::make($total) }}</span>
+                                            <span class="mb-1 fw-medium">Dengan Huruf: </span><span
+                                                class="text-muted text-capitalize">{{ Riskihajar\Terbilang\Facades\Terbilang::make($total) }}</span>
                                         </p>
                                     </div>
                                 </div>
                                 <div class="col-xl-12">
-                                    <div>
-                                        <label for="invoice-note" class="form-label">Note:</label>
-                                        <textarea class="form-control form-control-light" id="invoice-note"
-                                            rows="3">Once the invoice has been verified by the accounts payable team and recorded, 
-                                            the only task left is to send it for approval before releasing the payment</textarea>
+                                    <div class="card custom-card card-bg-light">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center w-100">
+                                                <div class="">
+                                                    <p class="fs-12 mb-1 fw-bold">Perhatian:</p>
+                                                    <ol class="fs-12 mb-1">
+                                                        <li>Harap penyetoran dilakukan pada Bank / Bendahara Penerima
+                                                        </li>
+                                                        <li>Dalam hal wajib retribusi tidak membayar tepat waktu atau
+                                                            kurang membayar setelah jatuh tempo pembayaran, dikeanakan
+                                                            sanksi administrasi sebesar 2% (dua persen) setiap bulan
+                                                            dari besarnya retribusi yang berutang yang tidak atau kuran
+                                                            bayar dan ditagih dengan menggunakan ....</li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="card-footer text-end">
+                                    <button class="btn btn-sm btn-light-light me-1"
+                                        onclick="javascript:window.print();">Print<i
+                                            class="ri-printer-line ms-1 align-middle d-inline-block"></i></button>
+                                    <button class="btn btn-primary">Download <i
+                                            class="ri-download-2-line ms-1 align-middle"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer text-end">
-                            <button class="btn btn-primary">Download <i
-                                    class="ri-download-2-line ms-1 align-middle"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <!--<div class="col-xl-3">
+                        <!--<div class="col-xl-3">
                         <div class="card custom-card">
                             <div class="card-header">
                                 <div class="card-title">
@@ -269,32 +275,32 @@
                             </div>
                         </div>
                     </div>-->
+                    </div>
+                    <!--End::row-1 -->
+
+                </div>
             </div>
-            <!--End::row-1 -->
+            <!-- End::app-content -->
+
+
+            <!-- include footer.html"-->
+            <!-- include responsive-search-modal.html"-->
 
         </div>
-    </div>
-    <!-- End::app-content -->
 
+        <!-- include commonjs.html"-->
 
-    <!-- include footer.html"-->
-    <!-- include responsive-search-modal.html"-->
+        <!-- include custom_switcherjs.html"-->
 
-</div>
+        <!-- Custom JS -->
+        <script src="../assets/js/custom.js"></script>
 
-<!-- include commonjs.html"-->
+        <script>
+            function PrintMe() {
+                window.print();
+            }
+        </script>
 
-<!-- include custom_switcherjs.html"-->
+        </body>
 
-<!-- Custom JS -->
-<script src="../assets/js/custom.js"></script>
-
-<script>
-    function PrintMe() {
-        window.print();
-    }
-</script>
-
-</body>
-
-@endsection
+        @endsection

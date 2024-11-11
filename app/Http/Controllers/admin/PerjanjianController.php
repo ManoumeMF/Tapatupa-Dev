@@ -180,11 +180,12 @@ class PerjanjianController extends Controller
         $id = $request->id;
 
         $perjanjianData = DB::select('CALL view_perjanjianSewaById('  . $id . ')');
-        $perjanjianSewa = $perjanjianData[0];
 
         //dd($fieldEducation);
 
-        if ($perjanjianSewa) {
+        if ($perjanjianData) {
+            
+            $perjanjianSewa = $perjanjianData[0];
             return response()->json([
                 'status'=> 200,
                 'perjanjianSewa' => $perjanjianSewa
