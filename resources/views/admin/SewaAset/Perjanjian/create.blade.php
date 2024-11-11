@@ -22,10 +22,6 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
 
-        // for product images upload
-        const MultipleElement1 = document.querySelector('.file-penilaian');
-        FilePond.create(MultipleElement1,);
-
         /* For Human Friendly dates */
         flatpickr("#tanggalDisahkan", {
             altInput: true,
@@ -50,6 +46,8 @@
 
         $('#permohonanSewa').on('change', function () {
             var id = $(this).val();
+
+            //console.log(id);
 
             if (id) {
                 var data = {

@@ -311,9 +311,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
 
-    Route::group(['middleware' => ['cek_login:Admin']], function () {
+    /*Route::group(['middleware' => ['cek_login:Admin']], function () {
 
-    });
+    });*/
 });
 
 
