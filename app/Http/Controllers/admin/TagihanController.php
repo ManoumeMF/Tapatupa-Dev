@@ -85,11 +85,13 @@ class TagihanController extends Controller
             'DetailTagihan' => $detailTagihan
         ]);
 
+        //dd($detailTagihan);
+
         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
 
         
 
-        //dd($checkoutDetail);
+        //dd($dataTagihan);
 
        
         if ($headTagihanDetailData) {
@@ -102,6 +104,48 @@ class TagihanController extends Controller
         return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail','checkoutDetail'));
         } else {
             return redirect()->route('Tagihan.detail', $request->get('idPerjanjian'))->with('error', 'Data Tagihan Tidak Ditemukan!');
+        }
+    }
+
+
+    public function singleCheckout($idP, $idT)
+    {
+        //dd($request->get('idPerjanjian'));
+
+        $idPerjanjian = $idP;
+
+        $idTagihan = $idT;
+
+            $detailTagihan[] = 
+                intval($idTagihan)
+            ;
+
+        //dd($detailTagihan);
+
+        $dataTagihan = json_encode([
+            'IdPerjanjian' => $idP,
+            'DetailTagihan' => $detailTagihan
+        ]);
+
+        //dd($dataTagihan);
+
+        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+
+        
+
+        //dd($dataTagihan);
+
+       
+        if ($headTagihanDetailData) {
+
+            $checkoutDetail = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+            $headTagihanDetail = $headTagihanDetailData[0];
+
+            //dd($checkoutDetail);
+
+        return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail','checkoutDetail'));
+        } else {
+            return redirect()->route('Tagihan.detail', $idP)->with('error', 'Data Tagihan Tidak Ditemukan!');
         }
     }
 }

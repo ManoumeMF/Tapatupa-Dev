@@ -138,9 +138,9 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="mb-0 fs-12 text-muted">
-                        <span class="text-danger fw-semibold me-1 d-inline-block"><i
+                        <!--<span class="text-danger fw-semibold me-1 d-inline-block"><i
                                 class="fe fe-arrow-down"></i>-0.1%</span>
-                        vs Last Month
+                        vs Last Month-->
                     </div>
                     <a href="javascript:void(0)"> <span class="float-end fs-12 fw-medium text-orange">View All <i
                                 class="ti ti-arrow-narrow-right"></i></span></a>

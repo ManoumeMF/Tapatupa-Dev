@@ -300,4 +300,152 @@ class AssetRentalMobileController extends Controller
         }
 
     }
+
+    public function tagihanSewa($id)
+    {
+        $tagihanSewa = DB::select('CALL view_tagihanByIdWajibRetribusi(' . $id . ')'); 
+
+        if ($tagihanSewa) {
+            return response()->json([
+                'status' => 200,
+                'tagihanSewa' => $tagihanSewa
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Tagihan Sewa Tidak Ditemukan.'
+            ]);
+        }
+
+    }
+
+    public function detailTagihanSewa($id)
+    {
+        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $id . ')');
+        $tagihanDetail = DB::select('CALL view_tagihanByIdPerjanjian(' . $id . ')');
+
+        //dd($tagihanDetail);
+        $detailTagihan = [];
+
+        for ($count = 0; $count < collect($tagihanDetail)->count(); $count++) {
+
+            if ($tagihanDetail[$count]->idStatus == 9) {
+                $detailTagihan[] = [
+                    'IdTagihan' => $tagihanDetail[$count]->idTagihanSewa
+                ];
+            }
+
+        }
+
+        $dataTagihan = json_encode([
+            'IdPerjanjian' => $id,
+            'DetailTagihan' => $detailTagihan
+        ]);
+
+        if ($headTagihanDetailData) {
+            DB::statement('CALL update_tagihan(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+
+
+            $tagihanDetail = DB::select('CALL view_tagihanByIdPerjanjian(' . $id . ')');
+            $headTagihanDetail = $headTagihanDetailData[0];
+
+            return response()->json([
+                'status' => 200,
+                'headTagihanDetail' => $headTagihanDetail,
+                'tagihanDetail' => $tagihanDetail,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Tagihan Sewa Tidak Ditemukan.'
+            ]);
+        }
+
+    }
+
+    public function checkout(Request $request)
+    {
+        $idPerjanjian = $request->get('idPerjanjian');
+
+        $idTagihan = $request->input('idTagihan');
+
+        $detailTagihan = [];
+
+        for ($count = 0; $count < collect($idTagihan)->count(); $count++) {
+            $detailTagihan[] = 
+                intval($idTagihan[$count])
+            ;
+        }
+
+        $dataTagihan = json_encode([
+            'IdPerjanjian' => $request->get('idPerjanjian'),
+            'DetailTagihan' => $detailTagihan
+        ]);
+
+        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+
+       
+        if ($headTagihanDetailData) {
+
+            $checkoutDetail = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+            $headTagihanDetail = $headTagihanDetailData[0];
+
+            return response()->json([
+                'status' => 200,
+                'headTagihanDetail' => $headTagihanDetail,
+                'checkoutDetail' => $checkoutDetail,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Tagihan Sewa Tidak Ditemukan.'
+            ]);
+        }
+    }
+
+    public function singleCheckout($idP, $idT)
+    {
+        //dd($request->get('idPerjanjian'));
+
+        $idPerjanjian = $idP;
+
+        $idTagihan = $idT;
+
+            $detailTagihan[] = 
+                intval($idTagihan)
+            ;
+
+        //dd($detailTagihan);
+
+        $dataTagihan = json_encode([
+            'IdPerjanjian' => $idP,
+            'DetailTagihan' => $detailTagihan
+        ]);
+
+        //dd($dataTagihan);
+
+        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+
+        
+
+        //dd($dataTagihan);
+
+       
+        if ($headTagihanDetailData) {
+
+            $checkoutDetail = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+            $headTagihanDetail = $headTagihanDetailData[0];
+
+            return response()->json([
+                'status' => 200,
+                'headTagihanDetail' => $headTagihanDetail,
+                'checkoutDetail' => $checkoutDetail,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Tagihan Sewa Tidak Ditemukan.'
+            ]);
+        }
+    }
 }

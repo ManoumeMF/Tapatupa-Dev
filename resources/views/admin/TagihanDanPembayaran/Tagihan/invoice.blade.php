@@ -86,13 +86,13 @@
                                                 {{ $headTagihanDetail->namaWajibRetribusi }}
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                Alamat
+                                                {{ $headTagihanDetail->alamatWajibRetribusi }}
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                Email
+                                                {{ $headTagihanDetail->email }}
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                Nomor Telepon WhatsApp
+                                                {{ $headTagihanDetail->nomorWhatsapp }}
                                             </p>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
@@ -129,6 +129,7 @@
                                     <p class="fw-medium text-muted mb-1">Total Bayar :</p>
                                     <p class="fs-16 mb-1 fw-medium"></p>
                                 </div>
+                                @php($total = 0)
                                 <div class="col-xl-12">
                                     <div class="table-responsive">
                                         <table class="table nowrap text-nowrap border mt-4">
@@ -144,10 +145,11 @@
                                             </thead>
                                             <tbody>
                                                 @if (isset($checkoutDetail) && count($checkoutDetail) > 0)
-                                                    {{ $total = 0 }}
                                                     @foreach ($checkoutDetail as $indexKey => $tD)
                                                         <tr>
                                                             <td>
+                                                                <input type="hidden" value="{{ $tD->idTagihanSewa }}"
+                                                                    name="idTagihan[]" />
                                                                 <div class="text-muted">
                                                                     {{ $tD->nomorTagihan }}
                                                                 </div>
@@ -176,7 +178,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                        {{ $total = $total + $tD->totalTagihan }}
+                                                        @php($total = $total + $tD->totalTagihan)
                                                     @endforeach
                                                 @endif
                                                 <tr>
@@ -186,7 +188,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <th scope="row">
-                                                                        <p class="mb-0 fs-14">Total :</p>
+                                                                        <p class="mb-0 fs-14">Total Bayar:</p>
                                                                     </th>
                                                                     <td width="170px">
                                                                         <p class="mb-0 fw-medium fs-16 text-primary">
@@ -206,7 +208,8 @@
                                     <div>
                                         <p>
                                             <span class="mb-1 fw-medium">Dengan Huruf: </span><span
-                                                class="text-muted text-capitalize">{{ Riskihajar\Terbilang\Facades\Terbilang::make($total) }}</span>
+                                                class="text-muted text-capitalize">{{ Riskihajar\Terbilang\Facades\Terbilang::make($total) }}
+                                                Rupiah</span>
                                         </p>
                                     </div>
                                 </div>
@@ -231,76 +234,19 @@
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <button class="btn btn-sm btn-light-light me-1"
-                                        onclick="javascript:window.print();">Print<i
-                                            class="ri-printer-line ms-1 align-middle d-inline-block"></i></button>
-                                    <button class="btn btn-primary">Download <i
-                                            class="ri-download-2-line ms-1 align-middle"></i></button>
+                                    <button class="btn btn-primary">Lanjut Bayar <i
+                                            class="ri-bank-card-line ms-1 align-middle"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="col-xl-3">
-                        <div class="card custom-card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    Mode Of Payment
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row gy-3">
-                                    <div class="col-xl-12">
-                                        <p class="fs-14 fw-medium">
-                                            Credit/Debit Card
-                                        </p>
-                                        <p>
-                                            <span class="fw-medium text-muted fs-12">Name On Card :</span> Luna Park
-                                        </p>
-                                        <p>
-                                            <span class="fw-medium text-muted fs-12">Card Number :</span> 1234 5678 9087 XXXX
-                                        </p>
-                                        <p>
-                                            <span class="fw-medium text-muted fs-12">Total Amount :</span> <span class="text-primary fw-medium fs-14">$12,260.25</span>
-                                        </p>
-                                        <p>
-                                            <span class="fw-medium text-muted fs-12">Due Date :</span> 29,Oct 2024 - <span class="text-danger fs-12 fw-medium">30 days due</span>
-                                        </p>
-                                        <p>
-                                            <span class="fw-medium text-muted fs-12">Invoice Status : <span class="badge bg-primary-transparent">Pending</span></span>
-                                        </p>
-                                        <div class="alert alert-primary" role="alert">
-                                            Please Make sure to pay the invoice bill within 30 days.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
                     </div>
                     <!--End::row-1 -->
 
                 </div>
             </div>
-            <!-- End::app-content -->
-
-
-            <!-- include footer.html"-->
-            <!-- include responsive-search-modal.html"-->
-
         </div>
+    </div>
+</div>
 
-        <!-- include commonjs.html"-->
 
-        <!-- include custom_switcherjs.html"-->
-
-        <!-- Custom JS -->
-        <script src="../assets/js/custom.js"></script>
-
-        <script>
-            function PrintMe() {
-                window.print();
-            }
-        </script>
-
-        </body>
-
-        @endsection
+@endsection

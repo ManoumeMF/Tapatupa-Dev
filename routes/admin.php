@@ -244,6 +244,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/tagihan-sewa", [TagihanController::class, 'index'])->name('Tagihan.index');
     Route::get("/tagihan-sewa/detail/{id}", [TagihanController::class, 'detail'])->name('Tagihan.detail');
     Route::post("/tagihan-sewa/checkout", [TagihanController::class, 'checkout'])->name('Tagihan.checkout');
+    Route::get("/tagihan-sewa/singleCheckout/{idP}/{idT}", [TagihanController::class, 'singleCheckout'])->name('Tagihan.singleCheckout');
 
     //Route untuk DropdownLokasi
     Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');

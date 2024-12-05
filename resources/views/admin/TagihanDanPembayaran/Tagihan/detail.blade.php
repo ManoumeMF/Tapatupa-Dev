@@ -283,9 +283,12 @@
                                                     data-bs-custom-class="tooltip-success" data-bs-placement="left"
                                                     data-bs-title="Detail"><i class="ri-eye-line"></i></button>
                                             @elseif($tD->idStatus == 9)
-                                                <button class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-custom-class="tooltip-primary" data-bs-placement="left"
-                                                    data-bs-title="Bayar"><i class="ri-file-check-line"></i></button>
+
+                                                    <a class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip"
+                                                     data-bs-custom-class="tooltip-primary" data-bs-placement="left"
+                                                    data-bs-title="Bayar" href="{{ route('Tagihan.singleCheckout', [$headTagihanDetail->idPerjanjianSewa, $tD->idTagihanSewa]) }}"><i
+                                                    class="ri-file-check-line"></i></a>
+                                                        
                                             @endif
                                         </td>
                                     </tr>
