@@ -365,35 +365,44 @@ class AssetRentalMobileController extends Controller
 
     public function checkout(Request $request)
     {
-        $idPerjanjian = $request->get('idPerjanjian');
-
+        $idDibuatOleh = $request->get('DibuatOleh');
+        $stats = $request->get('Status');
         $idTagihan = $request->input('idTagihan');
 
         $detailTagihan = [];
 
         for ($count = 0; $count < collect($idTagihan)->count(); $count++) {
+            //dd($fileFoto[$count]);
+
             $detailTagihan[] = 
                 intval($idTagihan[$count])
             ;
         }
-
+        
         $dataTagihan = json_encode([
             'IdPerjanjian' => $request->get('idPerjanjian'),
+            'DibuatOleh' => $idDibuatOleh,
+            'Status' => $stats,
             'DetailTagihan' => $detailTagihan
         ]);
 
-        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+
+        $checkout = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+        $idPembayaran = $checkout[0];
+
+
+        $headPembayaranData = DB::select('CALL view_pembayaranSewaById(' . $idPembayaran->idPembayaranSewa . ')');
 
        
-        if ($headTagihanDetailData) {
+        if ($headPembayaranData) {
 
-            $checkoutDetail = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
-            $headTagihanDetail = $headTagihanDetailData[0];
+            $headPembayaran = $headPembayaranData[0];
+            $detailPembayaran = DB::select('CALL view_detailPembayaranByIdPembayaran(' . $idPembayaran->idPembayaranSewa . ')');
 
             return response()->json([
                 'status' => 200,
-                'headTagihanDetail' => $headTagihanDetail,
-                'checkoutDetail' => $checkoutDetail,
+                'headPembayaran' => $headPembayaran,
+                'detailPembayaran' => $detailPembayaran,
             ]);
         } else {
             return response()->json([

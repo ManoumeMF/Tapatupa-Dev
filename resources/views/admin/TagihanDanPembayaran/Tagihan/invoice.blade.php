@@ -63,7 +63,7 @@
                                                 No. Urut
                                             </p>
                                             <p class="h6 fw-bold mb-1">
-                                                {{ $headTagihanDetail->noUrut }}
+                                                {{ $headPembayaran->noUrut }}
                                             </p>
 
                                         </div>
@@ -80,19 +80,19 @@
                                                 Ditagihkan Kepada:
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                #{{ $headTagihanDetail->npwrd }}
+                                                #{{ $headPembayaran->npwrd }}
                                             </p>
                                             <p class="mb-1 fw-bold">
-                                                {{ $headTagihanDetail->namaWajibRetribusi }}
+                                                {{ $headPembayaran->namaWajibRetribusi }}
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                {{ $headTagihanDetail->alamatWajibRetribusi }}
+                                                {{ $headPembayaran->alamatWajibRetribusi }}
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                {{ $headTagihanDetail->email }}
+                                                {{ $headPembayaran->email }}
                                             </p>
                                             <p class="mb-1 text-muted">
-                                                {{ $headTagihanDetail->nomorWhatsapp }}
+                                                {{ $headPembayaran->nomorWhatsapp }}
                                             </p>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
@@ -100,34 +100,34 @@
                                                 Atas Objek Retribusi :
                                             </p>
                                             <p class="text-muted mb-1">
-                                                #{{ $headTagihanDetail->kodeObjekRetribusi }}
+                                                #{{ $headPembayaran->kodeObjekRetribusi }}
                                             </p>
                                             <p class="fw-bold mb-1">
-                                                {{ $headTagihanDetail->objekRetribusi }}
+                                                {{ $headPembayaran->objekRetribusi }}
                                             </p>
                                             <p class="text-muted mb-1">
-                                                {{ $headTagihanDetail->alamatLengkap }}
+                                                {{ $headPembayaran->alamatLengkap }}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-3">
                                     <p class="fw-medium text-muted mb-1">Nomor Billing :</p>
-                                    <p class="fs-15 mb-1">#1216.2.23.1.{{ $headTagihanDetail->kodeBilling }}</p>
+                                    <p class="fs-15 mb-1">#1216.2.23.1.{{ $headPembayaran->kodeBilling }}</p>
+                                </div>
+                                <div class="col-xl-3">
+                                    <p class="fw-medium text-muted mb-1">Nomor Invoice :</p>
+                                    <p class="fs-15 mb-1">{{ $headPembayaran->noInvoice }}</p>
                                 </div>
                                 <div class="col-xl-3">
                                     <p class="fw-medium text-muted mb-1">Tanggal Cetak :</p>
-                                    <p class="fs-15 mb-1">{{ date('d F Y')}} - <span
-                                            class="text-muted fs-12">{{ date('h:i:s')}}</span>
+                                    <p class="fs-15 mb-1">{{ date('d F Y', strtotime($headPembayaran->tanggalCetak)) }}
                                     </p>
                                 </div>
                                 <div class="col-xl-3">
-                                    <p class="fw-medium text-muted mb-1">Jatuh Tempo :</p>
-                                    <p class="fs-15 mb-1">29,Oct 2024</p>
-                                </div>
-                                <div class="col-xl-3">
-                                    <p class="fw-medium text-muted mb-1">Total Bayar :</p>
-                                    <p class="fs-16 mb-1 fw-medium"></p>
+                                    <p class="fw-medium text-muted mb-1">Lakukan Pembayaran Dalam :</p>
+                                    <p class="fs-15 mb-1">{{ date('d F Y H:i:s', strtotime($headPembayaran->waktuAkhirBayar)) }}
+                                    </p>
                                 </div>
                                 @php($total = 0)
                                 <div class="col-xl-12">
@@ -137,6 +137,7 @@
                                                 <tr>
                                                     <th>NOMOR TAGIHAN</th>
                                                     <th>TAHUN</th>
+                                                    <th>JATUH TEMPO</th>
                                                     <th>BIAYA ADMINISTRASI</th>
                                                     <th>JUMLAH TAGIHAN</th>
                                                     <th>JUMLAH DENDA</th>
@@ -144,8 +145,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (isset($checkoutDetail) && count($checkoutDetail) > 0)
-                                                    @foreach ($checkoutDetail as $indexKey => $tD)
+                                                @if (isset($detailPembayaran) && count($detailPembayaran) > 0)
+                                                    @foreach ($detailPembayaran as $indexKey => $tD)
                                                         <tr>
                                                             <td>
                                                                 <input type="hidden" value="{{ $tD->idTagihanSewa }}"
@@ -157,6 +158,11 @@
                                                             <td>
                                                                 <div class="text-muted">
                                                                     {{ $tD->tahun }}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-muted">
+                                                                {{ date('d F Y', strtotime($tD->tanggalJatuhTempo)) }}
                                                                 </div>
                                                             </td>
                                                             <td class="text-muted">
@@ -182,7 +188,7 @@
                                                     @endforeach
                                                 @endif
                                                 <tr>
-                                                    <td colspan="4"></td>
+                                                    <td colspan="5"></td>
                                                     <td colspan="2">
                                                         <table class="table table-sm text-nowrap mb-0 table-borderless">
                                                             <tbody>

@@ -75,6 +75,8 @@ class PermohonanSewaController extends Controller
             'DokumenKelengkapan' => $dokumenKelengkapan
         ]);
 
+        dd($Permohonan);
+
         $response = DB::statement('CALL insert_permohonanSewa(:dataPermohonan)', ['dataPermohonan' => $Permohonan]);
 
         if ($response) {
