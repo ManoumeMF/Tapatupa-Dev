@@ -87,7 +87,6 @@ class TagihanController extends Controller
             'DetailTagihan' => $detailTagihan
         ]);
 
-        dd($dataTagihan);
 
         $checkout = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
         $idPembayaran = $checkout[0];

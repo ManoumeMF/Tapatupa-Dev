@@ -240,7 +240,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <button class="btn btn-primary">Lanjut Bayar <i
+                                    <button class="btn btn-primary">Konfirmasi Pembayaran <i
                                             class="ri-bank-card-line ms-1 align-middle"></i></button>
                                 </div>
                             </div>
