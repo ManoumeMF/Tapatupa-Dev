@@ -10,8 +10,14 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
 
-        $(".wajib-retribusi").select2({
-            placeholder: "Pilih Nama Wajib Retribusi",
+        $(".wajib-retribusi1").select2({
+            placeholder: "Pilih Nama Wajib Retribusi Pemohon",
+            allowClear: true,
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        });
+
+        $(".wajib-retribusi2").select2({
+            placeholder: "Pilih Nama Wajib Retribusi Sebelumnya",
             allowClear: true,
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         });
@@ -158,10 +164,9 @@
                                                     Nomor Permohonan Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
-                                                <label for="wajib-retribusi" class="form-label">Nama Wajib
-                                                    Retribusi</label>
-                                                <select class="wajib-retribusi form-control" name="wajibRetribusi"
+                                            <div class="col-xl-4">
+                                                <label for="wajib-retribusi1" class="form-label">Nama Wajib Retribusi Pemohon</label>
+                                                <select class="wajib-retribusi1 form-control" name="wajibRetribusi"
                                                     required>
                                                     <option></option>
                                                     @foreach ($wajibRetribusi as $wR)
@@ -171,10 +176,25 @@
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Nama Wajib Retribusi Tidak Boleh Kosong
+                                                    Nama Wajib Retribusi Pemohon Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
+                                                <label for="wajib-retribusi2" class="form-label">Nama Wajib Retribusi Sebelumnya</label>
+                                                <select class="wajib-retribusi2 form-control" name="wajibRetribusiSebelumnya"
+                                                    required>
+                                                    <option></option>
+                                                    @foreach ($wajibRetribusi as $wR)
+                                                        <option value="{{ $wR->idWajibRetribusi }}">
+                                                            {{ $wR->namaWajibRetribusi }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Nama Wajib Retribusi Sebelumnya Tidak Boleh Kosong
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
                                                 <label for="objek-retribusi" class="form-label">Objek Retribusi</label>
                                                 <select class="objek-retribusi form-control" name="objekRetribusi"
                                                     required>
