@@ -457,4 +457,33 @@ class AssetRentalMobileController extends Controller
             ]);
         }
     }
+
+    public function login(Request $request)
+    {
+        request()->validate(
+            [
+                'username' => 'required',
+                'password' => 'required',
+            ]
+        );
+
+        $kredensil = $request->only('username', 'password');
+
+        if (Auth::attempt($kredensil)) {
+            $user = Auth::user();
+            //$userRole = Auth::user()->roles->roleName;
+
+            $userData = DB::select('CALL view_userSessionById(?, ?)', [$user->id, $user->idJenisUser]);
+   
+            return response()->json([
+                'status' => 200,
+                'userData' => $userData
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Username atau Password Anda Salah!'
+            ]);
+        }
+    }
 }
