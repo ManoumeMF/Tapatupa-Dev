@@ -152,10 +152,17 @@ class AssetRentalMobileController extends Controller
             ];
         }
 
+        if (is_null($request->get('wajibRetribusiSebelumnya'))) {
+            $wajibRetribusiSebelumnya = 0;
+        } else {
+            $wajibRetribusiSebelumnya = $request->get('wajibRetribusiSebelumnya');
+        }
+
         $Permohonan = json_encode([
             'JenisPermohonan' => $request->get('jenisPermohonan'),
             'NoSuratPermohonan' => $request->get('nomorPermohonan'),
             'WajibRetribusi' => $request->get('wajibRetribusi'),
+            'WajibRetribusiSebelumnya' => $wajibRetribusiSebelumnya,
             'ObjekRetribusi' => $request->get('objekRetribusi'),
             'JenisJangkaWaktu' => $request->get('perioditas'),
             'PeruntukanSewa' => $request->get('peruntukanSewa'),
@@ -163,7 +170,7 @@ class AssetRentalMobileController extends Controller
             'Satuan' => $request->get('satuan'),
             'Status' => $this->stat,
             'Catatan' => $request->get('catatan'),
-            'DibuatOleh' => '1',
+            'DibuatOleh' => Auth::user()->id,
             'DokumenKelengkapan' => $dokumenKelengkapan
         ]);
 
@@ -365,6 +372,8 @@ class AssetRentalMobileController extends Controller
 
     public function checkout(Request $request)
     {
+        //dd($request->all());
+
         $idDibuatOleh = $request->get('DibuatOleh');
         $stats = $request->get('Status');
         $idTagihan = $request->input('idTagihan');
@@ -386,11 +395,18 @@ class AssetRentalMobileController extends Controller
             'DetailTagihan' => $detailTagihan
         ]);
 
+        //dd($dataTagihan);
 
-        $checkout = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
-        $idPembayaran = $checkout[0];
+        $existPembayaran = DB::select('CALL view_pembayaranExist(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
+        if ($existPembayaran) {
 
+            $idPembayaran = $existPembayaran[0];
+        }else{
+            $checkout = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+            $idPembayaran = $checkout[0];
+
+        }
         $headPembayaranData = DB::select('CALL view_pembayaranSewaById(' . $idPembayaran->idPembayaranSewa . ')');
 
        

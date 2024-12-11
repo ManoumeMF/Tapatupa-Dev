@@ -60,10 +60,17 @@ class PermohonanSewaController extends Controller
             ];
         }
 
+        if (is_null($request->get('wajibRetribusiSebelumnya'))) {
+            $wajibRetribusiSebelumnya = 0;
+        } else {
+            $wajibRetribusiSebelumnya = $request->get('wajibRetribusiSebelumnya');
+        }
+
         $Permohonan = json_encode([
             'JenisPermohonan' => $request->get('jenisPermohonan'),
             'NoSuratPermohonan' => $request->get('nomorPermohonan'),
             'WajibRetribusi' => $request->get('wajibRetribusi'),
+            'WajibRetribusiSebelumnya' => $wajibRetribusiSebelumnya,
             'ObjekRetribusi' => $request->get('objekRetribusi'),
             'JenisJangkaWaktu' => $request->get('perioditas'),
             'PeruntukanSewa' => $request->get('peruntukanSewa'),
@@ -75,7 +82,7 @@ class PermohonanSewaController extends Controller
             'DokumenKelengkapan' => $dokumenKelengkapan
         ]);
 
-        dd($Permohonan);
+        //dd($Permohonan);
 
         $response = DB::statement('CALL insert_permohonanSewa(:dataPermohonan)', ['dataPermohonan' => $Permohonan]);
 
