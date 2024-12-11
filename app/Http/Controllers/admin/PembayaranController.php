@@ -21,6 +21,14 @@ class PembayaranController extends Controller
 
     }
 
+    public function uploadBukti(){
+        return view('admin.TagihanDanPembayaran.Pembayaran.uploadBukti');
+    }
+
+    public function storeBukti(){
+        return view('admin.TagihanDanPembayaran.Pembayaran.uploadBukti');
+    }
+
     public function detail($id)
     {
         
