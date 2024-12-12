@@ -474,6 +474,59 @@ class AssetRentalMobileController extends Controller
         }
     }
 
+    public function storeBukti(Request $request)
+    {
+        //dd($request->all());
+
+        if ($request->hasFile('fileBukti')) {
+            //dd($request->file('fileSuratPerjanjian'));
+            $uploadedFile = $request->file('fileBukti');
+            $filePenilaian = $request->get('idPembayaranSewa') . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+            $filePath = Storage::disk('biznet')->putFileAs("images/BuktiBayar", $uploadedFile, $filePenilaian);
+        }else{
+            $filePath="";
+        }
+
+        $idTagihan = $request->input('idTagihan');
+
+        $detailTagihan = [];
+
+        for ($count = 0; $count < collect($idTagihan)->count(); $count++) {
+
+            $detailTagihan[] = [
+                'idTagihan' => $idTagihan[$count]
+            ];
+        }
+
+        $dataPembayaran = json_encode([
+            'IdPembayaran' => $request->get('idPembayaranSewa'), 
+            'NamaBank' => $request->get('namaBank'), 
+            'NamaPemilikRek' => $request->get('namaPemilikRek'), 
+            'JumlahDana' => $request->get('jumlahDana'), 
+            'Keterangan' => $request->get('keterangan'), 
+            'FileBuktiBayar' => $filePath, 
+            'DetailTagihan' =>  $detailTagihan
+        ]);
+
+        //dd($dataPembayaran);
+
+        $response = DB::statement('CALL insert_BuktiPembayaran(:dataPembayaran)', ['dataPembayaran' => $dataPembayaran]);
+
+        if ($response) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Bukti Bayar Berhasil Disimpan!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Bukti Bayar Gagal Disimpan!'
+            ]);
+        }
+
+        //return view('admin.TagihanDanPembayaran.Pembayaran.uploadBukti');
+    }
+
     public function login(Request $request)
     {
         request()->validate(

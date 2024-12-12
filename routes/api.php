@@ -41,6 +41,8 @@ Route::get("/tagihan-mobile/detail/{id}", [AssetRentalMobileController::class, '
 Route::post("/tagihan-mobile/checkout", [AssetRentalMobileController::class, 'checkout'])->name('AssetRentalMobile.checkout');
 Route::get("/tagihan-mobile/singleCheckout/{idP}/{idT}", [AssetRentalMobileController::class, 'singleCheckout'])->name('AssetRentalMobile.singleCheckout');
 
+// Route API Untuk Pembayaran
+Route::post("/pembayaran-mobile/upload-bukti", [AssetRentalMobileController::class, 'storeBukti'])->name('AssetRentalMobile.storeBukti');
 
 // Route API untuk semua combobox
 Route::get("/combo-jenis-permohonan", [AssetRentalMobileController::class, 'cboJenisPermohonan'])->name('AssetRentalMobile.cboJenisPermohonan');

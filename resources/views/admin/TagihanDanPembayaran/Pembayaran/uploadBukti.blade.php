@@ -22,7 +22,8 @@
 <!-- Start:: row-1 -->
 <div class="row">
     <div class="col-xl-12">
-        <form class="row g-3 needs-validation" action="{{ route('Pembayaran.storeBukti') }}" method="post" enctype="multipart/form-data" novalidate>
+        <form class="row g-3 needs-validation" action="{{ route('Pembayaran.storeBukti') }}" method="post"
+            enctype="multipart/form-data" novalidate>
             {{ csrf_field() }}
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
@@ -30,6 +31,12 @@
                         Upload Bukti Pembayaran
                     </div>
                 </div>
+                <input type="hidden" value="{{ $dataTagihan->idPembayaran }}" name="idPembayaranSewa">
+                @if (isset($dataTagihan->detailPembayaran) && count($dataTagihan->detailPembayaran) > 0)
+                    @foreach ($dataTagihan->detailPembayaran as $indexKey => $dP)
+                        <input type="hidden" value="{{ $dP->idTagihan }}" name="idTagihan[]" />
+                    @endforeach
+                @endif
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="jangkaWaktu" class="form-label">Nama Bank Asal</label>
