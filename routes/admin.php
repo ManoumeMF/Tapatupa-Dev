@@ -250,8 +250,10 @@ Route::group(['middleware' => ['auth']], function () {
     //Route untuk Pembayaran Sewa
     Route::get("/pembayaran-sewa", [PembayaranController::class, 'index'])->name('Pembayaran.index');
     Route::get("/pembayaran-sewa/detail/{id}", [PembayaranController::class, 'detail'])->name('Pembayaran.detail');
+    Route::get("/pembayaran-sewa/verifikasi/{id}", [PembayaranController::class, 'verifikasi'])->name('Pembayaran.verifikasi');
     Route::post("/pembayaran-sewa/upload-bukti", [PembayaranController::class, 'uploadBukti'])->name('Pembayaran.uploadBukti');
     Route::post("/pembayaran-sewa/simpan-bukti", [PembayaranController::class, 'storeBukti'])->name('Pembayaran.storeBukti');
+    Route::post("/pembayaran-sewa/verifikasi-pembayaran", [PembayaranController::class, 'storeVerifikasi'])->name('Pembayaran.storeVerifikasi');
 
     //Route untuk DropdownLokasi
     Route::get("/kota", [DropdownLokasiContoller::class, 'kota'])->name('DropdownLokasi.kota');

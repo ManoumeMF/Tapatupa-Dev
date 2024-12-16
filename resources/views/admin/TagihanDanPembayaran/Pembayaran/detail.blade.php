@@ -12,16 +12,12 @@
             <!-- Start::page-header -->
             <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div>
-                    <h1 class="page-title fw-medium fs-18 mb-2">Invoice Details</h1>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">
-                                Pages
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="javascript:void(0);">Invoice</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Invoice Details</li>
-                    </ol>
+                    <h1 class="page-title fw-medium fs-18 mb-2">Detail Pembayaran Sewa</h1>
+                    <ol class="breadcrumb breadcrumb-example1 mb-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Tagihan Dan Pembayaran</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pembayaran Sewa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detail Pembayaran Sewa</li>
+                </ol>
                 </div>
             </div>
             <!-- End::page-header -->
@@ -73,7 +69,8 @@
                         </div>
                         <div class="card-body">
                             <div class="row gy-3">
-                                <form class="row g-3 needs-validation" action="{{ route('Pembayaran.uploadBukti') }}" method="post" novalidate>
+                                <form class="row g-3 needs-validation" action="{{ route('Pembayaran.uploadBukti') }}"
+                                    method="post" novalidate>
                                     {{ csrf_field() }}
                                     <div class="col-xl-12">
                                         <input type="hidden" value="{{ $headPembayaran->idPembayaranSewa }}"
@@ -115,24 +112,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <p class="fw-medium text-muted mb-1">Nomor Billing :</p>
                                         <p class="fs-15 mb-1">#1216.2.23.1.{{ $headPembayaran->kodeBilling }}</p>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <p class="fw-medium text-muted mb-1">Nomor Invoice :</p>
                                         <p class="fs-15 mb-1">{{ $headPembayaran->noInvoice }}</p>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <p class="fw-medium text-muted mb-1">Tanggal Cetak :</p>
                                         <p class="fs-15 mb-1">
                                             {{ date('d F Y', strtotime($headPembayaran->tanggalCetak)) }}
                                         </p>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <p class="fw-medium text-muted mb-1">Lakukan Pembayaran Dalam :</p>
                                         <p class="fs-15 mb-1">
                                             {{ date('d F Y H:i:s', strtotime($headPembayaran->waktuAkhirBayar)) }}
+                                        </p>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <p class="fw-medium text-muted mb-1">Status Pembayaran :</p>
+                                        <p class="fs-15 mb-1">
+                                            @if($headPembayaran->idStatus == 13)
+                                                <span class="badge bg-primary">{{ $headPembayaran->namaStatus }}</span>
+                                            @elseif($headPembayaran->idStatus == 14)
+                                                <span class="badge bg-success">{{ $headPembayaran->namaStatus }}</span>
+                                            @elseif($headPembayaran->idStatus == 15)
+                                                <span class="badge bg-danger">{{ $headPembayaran->namaStatus }}</span>
+                                            @endif
                                         </p>
                                     </div>
                                     @php($total = 0)

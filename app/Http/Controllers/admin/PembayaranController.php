@@ -95,6 +95,41 @@ class PembayaranController extends Controller
 
     public function detail($id)
     {
+        $headPembayaranData = DB::select('CALL view_pembayaranSewaById(' . $id . ')');
 
+        if ($headPembayaranData) {
+
+            $headPembayaran = $headPembayaranData[0];
+            $detailPembayaran = DB::select('CALL view_detailPembayaranByIdPembayaran(' . $id . ')');
+
+            //dd($checkoutDetail);
+
+            return view('admin.TagihanDanPembayaran.Pembayaran.detail', compact('headPembayaran', 'detailPembayaran'));
+        } else {
+            return redirect()->route('Pembayaran.index')->with('error', 'Data Pembayaran Tidak Ditemukan!');
+        }
+    }
+
+
+    public function verifikasi($id)
+    {
+        $headPembayaranData = DB::select('CALL view_detailVerifikasiPembayaran(' . $id . ')');
+
+        if ($headPembayaranData) {
+
+            $headPembayaran = $headPembayaranData[0];
+            //$detailPembayaran = DB::select('CALL view_detailPembayaranByIdPembayaran(' . $id . ')');
+
+            //dd($checkoutDetail);
+
+            return view('admin.TagihanDanPembayaran.Pembayaran.verifikasi', compact('headPembayaran'));
+        } else {
+            return redirect()->route('Pembayaran.index')->with('error', 'Data Pembayaran Tidak Ditemukan!');
+        }
+    }
+
+    public function storeVerifikasi(Request $request)
+    {
+        dd($request->all());
     }
 }

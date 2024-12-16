@@ -111,6 +111,22 @@ class AssetRentalMobileController extends Controller
         }
     }
 
+    public function cboDokumenKelengkapan(){
+        $dokumen = DB::select('CALL cbo_dokumenKelengkapan(' . 1 . ')');
+
+        if ($dokumen) {
+            return response()->json([
+                'status' => 200,
+                'dokumen' => $dokumen
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Dokumen Tidak Ditemukan.'
+            ]);
+        }
+    }
+
 
     public function permohonanIndex($id)
     {

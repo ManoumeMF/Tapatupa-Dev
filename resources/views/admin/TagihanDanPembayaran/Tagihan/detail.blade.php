@@ -234,7 +234,7 @@
                                 <th scope="col">Jumlah Denda</th>
                                 <th scope="col">Total Tagihan</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Aksi</th>
+                                <!--<th scope="col">Aksi</th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -277,7 +277,7 @@
                                                 <span class="fw-medium text-warning">{{ $tD->namaStatus }}</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <!--<td>
                                             @if($tD->idStatus == 10)
                                                 <button class="btn btn-success-light btn-icon btn-sm" data-bs-toggle="tooltip"
                                                     data-bs-custom-class="tooltip-success" data-bs-placement="left"
@@ -290,7 +290,7 @@
                                                     class="ri-file-check-line"></i></a>
                                                         
                                             @endif
-                                        </td>
+                                        </td>-->
                                     </tr>
                                 @endforeach
                             @endif

@@ -296,7 +296,7 @@
 
         <!-- Start::slide -->
     <li class="slide">
-        <a href="{{ route('Perjanjian.index') }}" class="side-menu__item">
+        <a href="{{ route('Pembayaran.index') }}" class="side-menu__item">
             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24"
                 height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
                 <g>

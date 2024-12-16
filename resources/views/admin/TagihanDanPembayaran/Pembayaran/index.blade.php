@@ -196,16 +196,39 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                                 <li>
+                                                    @if($pS->idStatus == 13)
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            <i
+                                                                class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Detail
+                                                            Pembayaran Sewa
+                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            <i
+                                                                class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Upload
+                                                            Bukti Bayar
+                                                        </a>
+                                                    @elseif($pS->idStatus == 14)
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            <i
+                                                                class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Detail
+                                                            Pembayaran Sewa
+                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Pembayaran.verifikasi', $pS->idPembayaranSewa) }}">
+                                                            <i
+                                                                class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Verifikasi Pembayaran
+                                                        </a>
+                                                    @elseif($pS->idStatus == 15)
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
-                                                        <i class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Upload Bukti
-                                                        Bayar
-                                                    </a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
-                                                        <i class="ri-check-line me-1 align-middle d-inline-block"></i>Konfirmasi
-                                                        Pembayaran
-                                                    </a>
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            <i
+                                                                class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Detail
+                                                            Pembayaran Sewa
+                                                        </a>
+                                                    @endif
                                                 </li>
                                             </ul>
                                         </div>
