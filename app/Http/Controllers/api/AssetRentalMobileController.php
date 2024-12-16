@@ -187,7 +187,7 @@ class AssetRentalMobileController extends Controller
             'Satuan' => $request->get('satuan'),
             'Status' => $stts,
             'Catatan' => $request->get('catatan'),
-            'DibuatOleh' => Auth::user()->id,
+            'DibuatOleh' => $request->get('dibuatOleh'),
             'DokumenKelengkapan' => $dokumenKelengkapan
         ]);
 
