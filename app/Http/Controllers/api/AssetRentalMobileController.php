@@ -149,6 +149,7 @@ class AssetRentalMobileController extends Controller
     public function permohonanStore(Request $request)
     {
         //dd($request->all());
+        $stts = 1;
 
         $jenisDokumen = $request->input('jenisDokumen');
         $fileDokumen = $request->file('fileDokumen');
@@ -184,7 +185,7 @@ class AssetRentalMobileController extends Controller
             'PeruntukanSewa' => $request->get('peruntukanSewa'),
             'LamaSewa' => $request->get('lamaSewa'),
             'Satuan' => $request->get('satuan'),
-            'Status' => $this->stat,
+            'Status' => $stts,
             'Catatan' => $request->get('catatan'),
             'DibuatOleh' => Auth::user()->id,
             'DokumenKelengkapan' => $dokumenKelengkapan
