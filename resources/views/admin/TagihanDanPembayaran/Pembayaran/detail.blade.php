@@ -138,9 +138,9 @@
                                             @if($headPembayaran->idStatus == 13)
                                                 <span class="badge bg-primary">{{ $headPembayaran->namaStatus }}</span>
                                             @elseif($headPembayaran->idStatus == 14)
-                                                <span class="badge bg-success">{{ $headPembayaran->namaStatus }}</span>
+                                                <span class="badge bg-info">{{ $headPembayaran->namaStatus }}</span>
                                             @elseif($headPembayaran->idStatus == 15)
-                                                <span class="badge bg-danger">{{ $headPembayaran->namaStatus }}</span>
+                                                <span class="badge bg-success">{{ $headPembayaran->namaStatus }}</span>
                                             @endif
                                         </p>
                                     </div>

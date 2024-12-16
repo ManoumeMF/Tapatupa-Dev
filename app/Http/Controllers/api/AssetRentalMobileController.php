@@ -490,6 +490,24 @@ class AssetRentalMobileController extends Controller
         }
     }
 
+    public function pembayaranSewa($id)
+    {
+        $pembayaranSewa = DB::select('CALL view_pembayaranSewaByIdWajib('  . $id . ')');
+
+        if ($pembayaranSewa) {
+            return response()->json([
+                'status' => 200,
+                'pembayaranSewa' => $pembayaranSewa
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Pembayaran Sewa Tidak Ditemukan.'
+            ]);
+        }
+
+    }
+
     public function storeBukti(Request $request)
     {
         //dd($request->all());

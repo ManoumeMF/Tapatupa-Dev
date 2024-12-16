@@ -130,6 +130,20 @@ class PembayaranController extends Controller
 
     public function storeVerifikasi(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
+
+        $dataVerifikasi= json_encode([
+            'IdPembayaran' => $request->get('idPembayaran'), 
+            'Keterangan' =>  $request->get('keterangan')
+        ]);
+
+        $response = DB::statement('CALL update_verifikasiPembayaran(:dataVerifikasi)', ['dataVerifikasi' => $dataVerifikasi]);
+
+        if ($response) {
+            return redirect()->route('Pembayaran.index')->with('success', 'Pembayaran Sewa Berhasil Diverifikasi!');
+        } else {
+            return redirect()->route('Pembayaran.index')->with('error', 'Pembayaran Sewa Gagal Diverifikasi!');
+        }
+
     }
 }

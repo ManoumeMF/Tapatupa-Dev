@@ -183,9 +183,9 @@
                                         @if($pS->idStatus == 13)
                                             <span class="badge bg-primary">{{ $pS->namaStatus }}</span>
                                         @elseif($pS->idStatus == 14)
-                                            <span class="badge bg-success">{{ $pS->namaStatus }}</span>
+                                            <span class="badge bg-info">{{ $pS->namaStatus }}</span>
                                         @elseif($pS->idStatus == 15)
-                                            <span class="badge bg-danger">{{ $pS->namaStatus }}</span>
+                                            <span class="badge bg-success">{{ $pS->namaStatus }}</span>
                                         @endif
                                     </td>
                                     <td>

@@ -212,11 +212,11 @@
                         </div>
                         <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-center">
                             <button class="btn btn-primary m-1 verifikasi_data" type="button"
-                                value="{{ $headPembayaran->idBuktiBayar }}">Verifikasi <i
+                                value="{{ $headPembayaran->idPembayaranSewa }}">Verifikasi <i
                                     class="bi bi-check-square ms-2 ms-1 align-middle d-inline-block"></i></button>
-                            <button class="btn btn-danger m-1" type="button"
+                            <!--<button class="btn btn-danger m-1" type="button"
                                 value="{{ $headPembayaran->idBuktiBayar }}">Tolak<i
-                                    class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
+                                    class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>-->
                         </div>
                     </div>
                 </div>
