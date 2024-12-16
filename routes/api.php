@@ -51,6 +51,7 @@ Route::get("/combo-objek-retribusi", [AssetRentalMobileController::class, 'cboOb
 Route::get("/combo-peruntukan-sewa", [AssetRentalMobileController::class, 'cboPeruntukanSewa'])->name('AssetRentalMobile.cboPeruntukanSewa');
 Route::get("/combo-perioditas", [AssetRentalMobileController::class, 'cboPerioditas'])->name('AssetRentalMobile.cboPerioditas');
 Route::get("/combo-satuan", [AssetRentalMobileController::class, 'cboSatuan'])->name('AssetRentalMobile.cboSatuan');
+Route::get("/combo-dokumen-kelengkapan", [AssetRentalMobileController::class, 'cboDokumenKelengkapan'])->name('AssetRentalMobile.cboDokumenKelengkapan');
 
 // Route API untuk user
 Route::post("/login", [AssetRentalMobileController::class, 'login'])->name('AssetRentalMobile.login');
