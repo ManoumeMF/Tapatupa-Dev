@@ -147,10 +147,7 @@
             <div class="card-body">
 
                 <div class="row gy-3">
-                    <form class="row g-3 needs-validation" action="{{route('Tagihan.checkout')}}" method="post">
-                        {{ csrf_field() }}
                         <div class="col-xl-6">
-                            <input type="hidden" name="idPerjanjian" value="{{ $headTagihanDetail->idPerjanjianSewa }}">
                             <div class="d-flex gap-3">
                                 <div class="flex-fill">
                                     <h6 class="mb-1 fs-13">Nomor Perjanjian</h6>
@@ -223,10 +220,10 @@
                     <table class="table text-nowrap table-hover">
                         <thead>
                             <tr>
-                                <th>
-                                    <!--<input class="form-check-input check-all" type="checkbox" id="all-tasks" value=""
-                                        aria-label="...">--> Pilih
-                                </th>
+                                <!--<th>
+                                    <input class="form-check-input check-all" type="checkbox" id="all-tasks" value=""
+                                        aria-label="..."> Pilih
+                                </th>-->
                                 <th scope="col">#</th>
                                 <th scope="col">Nomor Tagihan</th>
                                 <th scope="col">Jatuh Tempo</th>
@@ -234,14 +231,14 @@
                                 <th scope="col">Jumlah Denda</th>
                                 <th scope="col">Total Tagihan</th>
                                 <th scope="col">Status</th>
-                                <!--<th scope="col">Aksi</th>-->
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (isset($tagihanDetail) && count($tagihanDetail) > 0)
                                 @foreach ($tagihanDetail as $indexKey => $tD)
                                     <tr class="task-list">
-                                        <td class="task-checkbox">
+                                        <!--<td class="task-checkbox">
                                             @if($tD->idStatus == 10)
                                                     <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
                                                         aria-label="Pilih" name="idTagihan[]" disabled>
@@ -250,7 +247,7 @@
                                                 <input class="form-check-input" type="checkbox" value="{{ $tD->idTagihanSewa }}"
                                                     aria-label="..." name="idTagihan[]"></td>
                                             @endif
-                                        </td>
+                                        </td>-->
 
                                         <td>
                                             <span class="fw-medium">{{ ++$indexKey }}/{{ count($tagihanDetail) }}</span>
@@ -277,34 +274,32 @@
                                                 <span class="fw-medium text-warning">{{ $tD->namaStatus }}</span>
                                             @endif
                                         </td>
-                                        <!--<td>
+                                        <td>
                                             @if($tD->idStatus == 10)
-                                                <button class="btn btn-success-light btn-icon btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-custom-class="tooltip-success" data-bs-placement="left"
-                                                    data-bs-title="Detail"><i class="ri-eye-line"></i></button>
+                                                <button class="btn btn-success btn-sm m-1">Detail<i class="ri-eye-line ms-1 ms-1 align-middle d-inline-block"></i></button>
                                             @elseif($tD->idStatus == 9)
-
-                                                    <a class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip"
-                                                     data-bs-custom-class="tooltip-primary" data-bs-placement="left"
-                                                    data-bs-title="Bayar" href="{{ route('Tagihan.singleCheckout', [$headTagihanDetail->idPerjanjianSewa, $tD->idTagihanSewa]) }}"><i
-                                                    class="ri-file-check-line"></i></a>
-                                                        
+                                            <form method="POST" action="{{ route('Tagihan.singleCheckout') }}">
+                                            {{ csrf_field() }}
+                                                    <input type="hidden" name="idPerjanjian" value="{{ $headTagihanDetail->idPerjanjianSewa }}">
+                                                    <input type="hidden" name="idTagihan" value="{{ $tD->idTagihanSewa }}">
+                                                    <button class="btn btn-primary btn-sm m-1" type="submit">Bayar<i
+                                                    class="ri-file-check-line ms-2 ms-1 align-middle d-inline-block"></i></button>                         
+                                            </form>
                                             @endif
-                                        </td>-->
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
                         </tbody>
                     </table>
                 </div>
-                <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
+               <!-- <div class="px-4 py-3 border-top border-block-start-dashed d-sm-flex justify-content-end">
                     <button class="btn btn-danger m-1" type="reset">Batal<i
                             class="bi bi-x-square ms-2 align-middle d-inline-block"></i></button>
                     <button class="btn btn-primary m-1" type="submit">Bayar <i
                             class="bi bi-floppy ms-2 ms-1 align-middle d-inline-block"></i></button>
-                </div>
+                </div>-->
             </div>
-            </form>
         </div>
     </div>
 </div>

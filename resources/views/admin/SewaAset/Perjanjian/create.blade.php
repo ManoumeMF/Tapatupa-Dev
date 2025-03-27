@@ -69,9 +69,11 @@
                             $("#kodeObjek").val(response.permohonanSewa.kodeObjekRetribusi);
                             $("#noBangunan").val(response.permohonanSewa.noBangunan);
                             $("#alamatObjek").val(response.permohonanSewa.alamatObjekRetribusi);
+                            $("#npwrd").val(response.permohonanSewa.npwrd);
                             $("#wajibRetribusi").val(response.permohonanSewa.namaWajibRetribusi);
                             $("#alamatWajib").val(response.permohonanSewa.alamatWajibRetribusi);
                             $("#jenisPermohonan").val(response.permohonanSewa.jenisPermohonan);
+                            $("#idJenisPermohonan").val(response.permohonanSewa.idJenisPermohonan);
                             $("#peruntukanSewa").val(response.permohonanSewa.peruntukanSewa);
                             $("#perioditasSewa").val(response.permohonanSewa.jenisJangkaWaktu);
                             $("#lamaSewa").val(response.permohonanSewa.lamaSewa);
@@ -188,7 +190,11 @@
                                                 <textarea class="form-control" id="alamatObjek" rows="2"
                                                     name="alamatObjekRetribusi" disabled></textarea>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
+                                                <label for="npwrd" class="form-label">NPWRD</label>
+                                                <input type="text" class="form-control" id="npwrd" name="npwrd" readonly>
+                                            </div>
+                                            <div class="col-xl-8">
                                                 <label for="nik" class="form-label">Nama Wajib Retribusi</label>
                                                 <input type="text" class="form-control" id="wajibRetribusi" disabled>
                                             </div>
@@ -214,6 +220,7 @@
                                             <div class="col-xl-6">
                                                 <label for="jangka-waktu-sewa" class="form-label">Jenis
                                                     Permohonan</label>
+                                                <input type="hidden" class="form-control" id="idJenisPermohonan" name="idJenisPermohonan">
                                                 <input type="text" class="form-control" id="jenisPermohonan" disabled>
                                             </div>
                                             <div class="col-xl-6">

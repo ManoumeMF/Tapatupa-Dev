@@ -80,6 +80,8 @@ class PerjanjianController extends Controller
             ];
         }
 
+        $kodeBilling = env('BILLING_CODE');
+
         $PerjanjianSewa = json_encode([
             'IdPermohonan' => $request->get('permohonanSewa'),
             'NoSuratPerjanjian' => $request->get('noSuratPerjanjian'),
@@ -94,10 +96,13 @@ class PerjanjianController extends Controller
             'LuasTanah' => $request->get('luasTanah'),
             'LuasBangunan' => $request->get('luasBangunan'),
             'LamaSewa' => $request->get('lamaSewa'),
+            'KodeBilling' =>  $kodeBilling,
+            'NPWRD' =>  $request->get('npwrd'),
+            'IdJenisPermohonanSewa' =>  $request->get('idJenisPermohonan'),
             'SaksiPerjanjianSewa' => $saksiPerjanjianSewa
         ]);
 
-        //dd($PerjanjianSewa);
+        dd($PerjanjianSewa);
     
             $response = DB::statement('CALL insert_perjanjianSewa(:dataPerjanjianSewa)', ['dataPerjanjianSewa' => $PerjanjianSewa]);
 

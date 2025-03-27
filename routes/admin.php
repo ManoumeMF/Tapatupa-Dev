@@ -245,7 +245,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/tagihan-sewa", [TagihanController::class, 'index'])->name('Tagihan.index');
     Route::get("/tagihan-sewa/detail/{id}", [TagihanController::class, 'detail'])->name('Tagihan.detail');
     Route::post("/tagihan-sewa/checkout", [TagihanController::class, 'checkout'])->name('Tagihan.checkout');
-    Route::get("/tagihan-sewa/singleCheckout/{idP}/{idT}", [TagihanController::class, 'singleCheckout'])->name('Tagihan.singleCheckout');
+    Route::post("/tagihan-sewa/singleCheckout", [TagihanController::class, 'singleCheckout'])->name('Tagihan.singleCheckout');
 
     //Route untuk Pembayaran Sewa
     Route::get("/pembayaran-sewa", [PembayaranController::class, 'index'])->name('Pembayaran.index');

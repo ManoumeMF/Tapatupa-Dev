@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AssetRentalMobileController;
+use App\Http\Controllers\api\OnlinePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,15 @@ Route::get("/combo-dokumen-kelengkapan", [AssetRentalMobileController::class, 'c
 
 // Route API untuk user
 Route::post("/login", [AssetRentalMobileController::class, 'login'])->name('AssetRentalMobile.login');
+
+// Route API untuk inquiry pajak
+Route::post("/inquiry-pajak", [OnlinePaymentController::class, 'inquiryPajak'])->name('OnlinePayment.inquiryPajak');
+Route::post("/payment-pajak", [OnlinePaymentController::class, 'paymentPajak'])->name('OnlinePayment.paymentPajak');
+
+//Route API untuk VA
+Route::get("/get-access-token", [OnlinePaymentController::class, 'getAccessToken'])->name('OnlinePayment.getAccessToken');
+Route::post("/get-service-signature", [OnlinePaymentController::class, 'getServiceSignature'])->name('OnlinePayment.getServiceSignature');
+Route::post("/access-token", [OnlinePaymentController::class, 'accessToken'])->name('OnlinePayment.accessToken');
+Route::post("/create-VA", [OnlinePaymentController::class, 'createVA'])->name('OnlinePayment.createVA');
+Route::post("/update-VA", [OnlinePaymentController::class, 'updateVA'])->name('OnlinePayment.updateVA');
+Route::post("/inquiry-VA", [OnlinePaymentController::class, 'inquiryVA'])->name('OnlinePayment.inquiryVA');
