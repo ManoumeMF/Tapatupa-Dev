@@ -9,12 +9,48 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use App\Services\XSignatureService;
+use Carbon\Carbon;
 
 class AssetRentalMobileController extends Controller
 {
+    protected $signatureService;
+    protected $clientId;
+    protected $xSignature;
+    protected $paymentBaseURL;
+    protected $deviceId;
+    protected $channelId;
+    protected $externalId;
+    protected $b2bToken;
+    protected $prefixVA;
+    protected $previxReal;
+    protected $clientIdGov;
+    protected $partnerServiceId;
+    protected $mataAnggaran;
+    protected $xTimeStamp;
+    protected $dateNow;
+
     private  $stat = 1;
 
     private $parentIdPermohonan = 1;
+
+    public function __construct(XSignatureService $signatureService)
+    {
+        $this->signatureService = $signatureService;
+        $this->xSignature = $this->signatureService->getXSignatureAccessToken();
+        $this->clientId = env('CLIENT_ID');
+        $this->deviceId = env('DEVICE_ID');
+        $this->channelId = env('CHANNEL_ID');
+        $this->externalId = env('EXTERNAL_ID');
+        $this->prefixVA = env('PREVIX_VA');
+        $this->previxReal = env('PREVIX_REAL');
+        $this->partnerServiceId = env('PARTNER_SERVICE_ID');
+        $this->clientIdGov = env('CLIENT_ID_GOV');
+        $this->mataAnggaran = env('MATA_ANGGARAN');
+        $this->paymentBaseURL = env('PAYMENT_BASE_URL');
+        $this->dateNow = Carbon::now();
+        $this->xTimeStamp = $this->dateNow->addMinutes(2)->setTimezone('Asia/Bangkok')->format('Y-m-d\TH:i:sP');
+    }
 
     public function cboJenisPermohonan(){
         $jenisPermohonan = DB::select('CALL cbo_jenisPermohonanByParentId(' . $this->parentIdPermohonan . ')');
@@ -391,57 +427,180 @@ class AssetRentalMobileController extends Controller
     {
         //dd($request->all());
 
-        $idDibuatOleh = $request->get('DibuatOleh');
-        $stats = $request->get('Status');
+        $idPerjanjian = $request->get('idPerjanjian');
         $idTagihan = $request->input('idTagihan');
 
-        $detailTagihan = [];
-
-        for ($count = 0; $count < collect($idTagihan)->count(); $count++) {
-            //dd($fileFoto[$count]);
-
-            $detailTagihan[] = 
-                intval($idTagihan[$count])
-            ;
-        }
-        
         $dataTagihan = json_encode([
-            'IdPerjanjian' => $request->get('idPerjanjian'),
-            'DibuatOleh' => $idDibuatOleh,
-            'Status' => $stats,
-            'DetailTagihan' => $detailTagihan
+            'IdPerjanjian' => $idPerjanjian,
+            'IdTagihan' => $idTagihan
         ]);
 
-        //dd($dataTagihan);
+        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+        $headTagihanDetail = $headTagihanDetailData[0];
+        $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
-        $existPembayaran = DB::select('CALL view_pembayaranExist(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+        //dd($detailTagihan);
+        if ($detailTagihan[0]->trxId == "" && $detailTagihan[0]->noVirtualAccount == "") {
+            $httpMethod = $request->method();
 
-        if ($existPembayaran) {
+            $dataRaw = [
+                'partnerServiceId' => $this->partnerServiceId,
+                'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
+                'virtualAccountEmail' => $headTagihanDetailData[0]->email,
+                'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
+                'billDetails' => [
+                    [
+                        'billAmount' => [
+                            'value' => number_format((float) $detailTagihan[0]->jumlahTagihan, 2, '.', ''),
+                            'currency' => "IDR"
+                        ]
+                    ]
+                ],
+                'virtualAccountTrxType' => "C",
+                'expiredDate' => "2025-12-20T23:59:59+07:00",
+                'additionalInfo' => [
+                    'clientid' => $this->clientIdGov,
+                    'prefix_real' => $this->previxReal,
+                    'masa_bayar' => $detailTagihan[0]->masaBayar,
+                    'nik' => $headTagihanDetail->nik,
+                    'mata_anggaran' => $this->mataAnggaran,
+                    'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
+                    'customer_address' => $headTagihanDetail->alamatWajibRetribusi,
+                    'keterangan' => "Retribusi Sewa Tanah"
+                ]
+            ];
 
-            $idPembayaran = $existPembayaran[0];
+            // Convert data to JSON format for the raw body
+            $bodyRaw = json_encode($dataRaw);
+            $endPointUrl = "/api/v1.0.0/transfer-va/create-vagov";
+            $this->b2bToken = $this->signatureService->accessToken($this->xSignature)['accessToken'];
+
+            $xsignaturService = $this->signatureService->getXSignatureService($httpMethod, $bodyRaw, $endPointUrl, $this->b2bToken);
+
+            $response = Http::withHeaders([
+                'X-TIMESTAMP' => $this->xTimeStamp,
+                'X-PARTNER-ID' => $this->clientId,
+                'X-DEVICE-ID' => $this->deviceId,
+                'X-SIGNATURE' => $xsignaturService,
+                'CHANNEL-ID' => $this->channelId,
+                'X-EXTERNAL-ID' => $this->externalId,
+                'Authorization' => "Bearer " . $this->b2bToken,
+            ])->withBody($bodyRaw, 'application/json')
+                ->post($this->paymentBaseURL . $endPointUrl);
+
+            //dd($response->successful());
+            if ($response->successful()) {
+                $result = $response->json();
+
+                $date = Carbon::parse(str_replace(' ', '+', $result['virtualAccountData']['expiredDate']));
+                $formattedTime = $date->format('m/d/Y H:i:s');
+
+                if ($result) {
+                    $dataUpdateTagihan = json_encode([
+                        'IdTagihan' => $idTagihan,
+                        'IdTrx' => $result['virtualAccountData']['trxId'],
+                        'NoVirtualAccount' => $result['virtualAccountData']['virtualAccountNo'],
+                        'ExpiredDatePembayaran' => $formattedTime,
+                    ]);
+
+                    DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
+
+                    $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+                    $headTagihanDetail = $headTagihanDetailData[0];
+                    $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+
+                    return $response->json();
+
+                } else {
+                    return response()->json([
+                        'error' => 'API request failed',
+                        'message' => $response->body()
+                    ], $response->status());
+
+                    //return redirect()->route('Tagihan.detail', $$detailTagihan[0]->idPerjanjianSewa)->with('Error: API request failed', '$response->body()');
+                }
+            } else {
+                return $response->json();
+            }
         }else{
-            $checkout = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
-            $idPembayaran = $checkout[0];
+            $httpMethod = $request->method();
 
-        }
-        $headPembayaranData = DB::select('CALL view_pembayaranSewaById(' . $idPembayaran->idPembayaranSewa . ')');
+            $dataRaw = [
+                'partnerServiceId' => $this->partnerServiceId,
+                'trxId' => $detailTagihan[0]->trxId,
+                'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
+                'virtualAccountEmail' => $headTagihanDetailData[0]->email,
+                'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
+                'billDetails' => [
+                    [
+                        'billAmount' => [
+                            'value' => number_format((float) $detailTagihan[0]->jumlahTagihan, 2, '.', ''),
+                            'currency' => "IDR"
+                        ]
+                    ]
+                ],
+                'virtualAccountTrxType' => "C",
+                'expiredDate' => "2025-12-20T23:59:59+07:00",
+                'additionalInfo' => [
+                    'clientid' => $this->clientIdGov,
+                    'masa_bayar' => $detailTagihan[0]->masaBayar,
+                    'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
+                    'customer_address' => $headTagihanDetail->alamatWajibRetribusi,
+                    'keterangan' => "Retribusi Sewa Tanah"
+                ]
+            ];
 
-       
-        if ($headPembayaranData) {
+            $bodyRaw = json_encode($dataRaw);
+            $endPointUrlUpdate = "/api/v1.0.0/transfer-va/update-vagov";
+            $this->b2bToken = $this->signatureService->accessToken($this->xSignature)['accessToken'];
 
-            $headPembayaran = $headPembayaranData[0];
-            $detailPembayaran = DB::select('CALL view_detailPembayaranByIdPembayaran(' . $idPembayaran->idPembayaranSewa . ')');
-
-            return response()->json([
-                'status' => 200,
-                'headPembayaran' => $headPembayaran,
-                'detailPembayaran' => $detailPembayaran,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data Tagihan Sewa Tidak Ditemukan.'
-            ]);
+            $xsignaturService = $this->signatureService->getXSignatureService($httpMethod, $bodyRaw, $endPointUrlUpdate, $this->b2bToken);
+            
+            $response = Http::withHeaders([
+                'X-TIMESTAMP' => $this->xTimeStamp,
+                'X-PARTNER-ID' => $this->clientId,
+                'X-DEVICE-ID' => $this->deviceId,
+                'X-SIGNATURE' => $xsignaturService,
+                'CHANNEL-ID' => $this->channelId,
+                'X-EXTERNAL-ID' => $this->externalId,
+                'Authorization' => "Bearer " . $this->b2bToken,
+            ])->withBody($bodyRaw, 'application/json')
+                ->post($this->paymentBaseURL . $endPointUrlUpdate);
+            
+                if ($response->successful()) {
+                    $result = $response->json();
+    
+                    $date = Carbon::parse(str_replace(' ', '+', $result['virtualAccountData']['expiredDate']));
+                    $formattedTime = $date->format('m/d/Y H:i:s');
+    
+                    if ($result) {
+                        $dataUpdateTagihan = json_encode([
+                            'IdTagihan' => $idTagihan,
+                            'IdTrx' => $result['virtualAccountData']['trxId'],
+                            'NoVirtualAccount' => "",
+                            'ExpiredDatePembayaran' => $formattedTime,
+                        ]);
+    
+                        DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
+    
+                        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+                        $headTagihanDetail = $headTagihanDetailData[0];
+                        $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+    
+                        return $response->json();
+    
+                    } else {
+                        return response()->json([
+                            'error' => 'API request failed',
+                            'message' => $response->body()
+                        ], $response->status());
+    
+                        //return redirect()->route('Tagihan.detail', $$detailTagihan[0]->idPerjanjianSewa)->with('Error: API request failed', '$response->body()');
+                    }
+                } else {
+                    return $response->json();
+                }
+        
         }
     }
 
@@ -452,6 +611,33 @@ class AssetRentalMobileController extends Controller
         $idPerjanjian = $idP;
 
         $idTagihan = $idT;
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             $detailTagihan[] = 
                 intval($idTagihan)
