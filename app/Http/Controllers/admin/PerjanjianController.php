@@ -102,7 +102,7 @@ class PerjanjianController extends Controller
             'SaksiPerjanjianSewa' => $saksiPerjanjianSewa
         ]);
 
-        dd($PerjanjianSewa);
+        //dd($PerjanjianSewa);
     
             $response = DB::statement('CALL insert_perjanjianSewa(:dataPerjanjianSewa)', ['dataPerjanjianSewa' => $PerjanjianSewa]);
 
