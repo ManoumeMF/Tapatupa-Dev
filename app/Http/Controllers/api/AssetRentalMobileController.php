@@ -428,7 +428,7 @@ class AssetRentalMobileController extends Controller
         //dd($request->all());
 
         $idPerjanjian = $request->get('idPerjanjian');
-        $idTagihan = $request->input('idTagihan');
+        $idTagihan = $request->get('idTagihan');
 
         $dataTagihan = json_encode([
             'IdPerjanjian' => $idPerjanjian,
