@@ -586,8 +586,15 @@ class AssetRentalMobileController extends Controller
                         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
                         $headTagihanDetail = $headTagihanDetailData[0];
                         $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
-    
-                        return $response->json();
+                        
+                        //dd($detailTagihan);
+
+                        return response()->json([
+                            'status' => 200,
+                            'headTagihanDetail' => $headTagihanDetail,
+                            'tagihanDetail' => $detailTagihan,
+                        ]);
+                        //return $response->json();
     
                     } else {
                         return response()->json([
