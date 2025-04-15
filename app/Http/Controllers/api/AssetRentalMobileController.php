@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Services\XSignatureService;
 use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AssetRentalMobileController extends Controller
 {
@@ -30,7 +31,7 @@ class AssetRentalMobileController extends Controller
     protected $xTimeStamp;
     protected $dateNow;
 
-    private  $stat = 1;
+    private $stat = 1;
 
     private $parentIdPermohonan = 1;
 
@@ -52,7 +53,8 @@ class AssetRentalMobileController extends Controller
         $this->xTimeStamp = $this->dateNow->addMinutes(2)->setTimezone('Asia/Bangkok')->format('Y-m-d\TH:i:sP');
     }
 
-    public function cboJenisPermohonan(){
+    public function cboJenisPermohonan()
+    {
         $jenisPermohonan = DB::select('CALL cbo_jenisPermohonanByParentId(' . $this->parentIdPermohonan . ')');
 
         if ($jenisPermohonan) {
@@ -68,7 +70,8 @@ class AssetRentalMobileController extends Controller
         }
     }
 
-    public function cboWajibRetribusi(){
+    public function cboWajibRetribusi()
+    {
         $wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()');
 
         if ($wajibRetribusi) {
@@ -83,7 +86,8 @@ class AssetRentalMobileController extends Controller
             ]);
         }
     }
-    public function cboObjekRetribusi(){
+    public function cboObjekRetribusi()
+    {
         $objekRetribusi = DB::select('CALL cbo_objekRetribusi()');
 
         if ($objekRetribusi) {
@@ -99,7 +103,8 @@ class AssetRentalMobileController extends Controller
         }
     }
 
-    public function cboPeruntukanSewa(){
+    public function cboPeruntukanSewa()
+    {
         $peruntukanSewa = DB::select('CALL cbo_peruntukanSewa()');
 
         if ($peruntukanSewa) {
@@ -115,7 +120,8 @@ class AssetRentalMobileController extends Controller
         }
     }
 
-    public function cboPerioditas(){
+    public function cboPerioditas()
+    {
         $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
 
         if ($jangkaWaktu) {
@@ -131,7 +137,8 @@ class AssetRentalMobileController extends Controller
         }
     }
 
-    public function cboSatuan(){
+    public function cboSatuan()
+    {
         $satuan = DB::select('CALL cbo_satuan(' . 1 . ')');
 
         if ($satuan) {
@@ -147,7 +154,8 @@ class AssetRentalMobileController extends Controller
         }
     }
 
-    public function cboDokumenKelengkapan(){
+    public function cboDokumenKelengkapan()
+    {
         $dokumen = DB::select('CALL cbo_dokumenKelengkapan(' . 1 . ')');
 
         if ($dokumen) {
@@ -166,7 +174,7 @@ class AssetRentalMobileController extends Controller
 
     public function permohonanIndex($id)
     {
-        $permohonanSewa = DB::select('CALL viewAll_permohonanSewaByIdWajibRetribusi(' . $id . ')'); 
+        $permohonanSewa = DB::select('CALL viewAll_permohonanSewaByIdWajibRetribusi(' . $id . ')');
 
         if ($permohonanSewa) {
             return response()->json([
@@ -179,7 +187,7 @@ class AssetRentalMobileController extends Controller
                 'message' => 'Data Permohonan Sewa Tidak Ditemukan.'
             ]);
         }
-        
+
     }
 
     public function permohonanStore(Request $request)
@@ -228,20 +236,20 @@ class AssetRentalMobileController extends Controller
         ]);
 
         //dd($Permohonan);
-    
-            $response = DB::statement('CALL insert_permohonanSewa(:dataPermohonan)', ['dataPermohonan' => $Permohonan]);
 
-            if ($response) {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Permohonan Sewa Berhasil Disimpan!'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'Permohonan Sewa Gagal Disimpan!'
-                ]);
-            }
+        $response = DB::statement('CALL insert_permohonanSewa(:dataPermohonan)', ['dataPermohonan' => $Permohonan]);
+
+        if ($response) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Permohonan Sewa Berhasil Disimpan!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Permohonan Sewa Gagal Disimpan!'
+            ]);
+        }
     }
 
     public function objekRetribusi()
@@ -305,7 +313,7 @@ class AssetRentalMobileController extends Controller
     public function detailTarifObjekRetribusi($id)
     {
         $objekData = DB::select('CALL view_TarifObjekRetribusiById(' . $id . ')');
-        
+
         //dd($objekData);
         if ($objekData) {
             $tarifObjekRetribusi = $objekData[0];
@@ -325,7 +333,7 @@ class AssetRentalMobileController extends Controller
 
     public function perjanjianSewa($id)
     {
-        $perjanjianSewa = DB::select('CALL viewAll_perjanjianSewaByIdWajibRetribusi(' . $id . ')'); 
+        $perjanjianSewa = DB::select('CALL viewAll_perjanjianSewaByIdWajibRetribusi(' . $id . ')');
 
         if ($perjanjianSewa) {
             return response()->json([
@@ -343,7 +351,7 @@ class AssetRentalMobileController extends Controller
 
     public function perjanjianSewaDetail($id)
     {
-        $perjanjianData = DB::select('CALL view_perjanjianSewaById('  . $id . ')');
+        $perjanjianData = DB::select('CALL view_perjanjianSewaById(' . $id . ')');
 
         if ($perjanjianData) {
             $perjanjianSewa = $perjanjianData[0];
@@ -363,7 +371,7 @@ class AssetRentalMobileController extends Controller
 
     public function tagihanSewa($id)
     {
-        $tagihanSewa = DB::select('CALL view_tagihanByIdWajibRetribusi(' . $id . ')'); 
+        $tagihanSewa = DB::select('CALL view_tagihanByIdWajibRetribusi(' . $id . ')');
 
         if ($tagihanSewa) {
             return response()->json([
@@ -522,7 +530,7 @@ class AssetRentalMobileController extends Controller
             } else {
                 return $response->json();
             }
-        }else{
+        } else {
             $httpMethod = $request->method();
 
             $dataRaw = [
@@ -555,7 +563,7 @@ class AssetRentalMobileController extends Controller
             $this->b2bToken = $this->signatureService->accessToken($this->xSignature)['accessToken'];
 
             $xsignaturService = $this->signatureService->getXSignatureService($httpMethod, $bodyRaw, $endPointUrlUpdate, $this->b2bToken);
-            
+
             $response = Http::withHeaders([
                 'X-TIMESTAMP' => $this->xTimeStamp,
                 'X-PARTNER-ID' => $this->clientId,
@@ -566,48 +574,48 @@ class AssetRentalMobileController extends Controller
                 'Authorization' => "Bearer " . $this->b2bToken,
             ])->withBody($bodyRaw, 'application/json')
                 ->post($this->paymentBaseURL . $endPointUrlUpdate);
-            
-                if ($response->successful()) {
-                    $result = $response->json();
-    
-                    $date = Carbon::parse(str_replace(' ', '+', $result['virtualAccountData']['expiredDate']));
-                    $formattedTime = $date->format('m/d/Y H:i:s');
-    
-                    if ($result) {
-                        $dataUpdateTagihan = json_encode([
-                            'IdTagihan' => $idTagihan,
-                            'IdTrx' => $result['virtualAccountData']['trxId'],
-                            'NoVirtualAccount' => "",
-                            'ExpiredDatePembayaran' => $formattedTime,
-                        ]);
-    
-                        DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
-    
-                        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
-                        $headTagihanDetail = $headTagihanDetailData[0];
-                        $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
-                        
-                        //dd($detailTagihan);
 
-                        return response()->json([
-                            'status' => 200,
-                            'headTagihanDetail' => $headTagihanDetail,
-                            'tagihanDetail' => $detailTagihan,
-                        ]);
-                        //return $response->json();
-    
-                    } else {
-                        return response()->json([
-                            'error' => 'API request failed',
-                            'message' => $response->body()
-                        ], $response->status());
-    
-                        //return redirect()->route('Tagihan.detail', $$detailTagihan[0]->idPerjanjianSewa)->with('Error: API request failed', '$response->body()');
-                    }
+            if ($response->successful()) {
+                $result = $response->json();
+
+                $date = Carbon::parse(str_replace(' ', '+', $result['virtualAccountData']['expiredDate']));
+                $formattedTime = $date->format('m/d/Y H:i:s');
+
+                if ($result) {
+                    $dataUpdateTagihan = json_encode([
+                        'IdTagihan' => $idTagihan,
+                        'IdTrx' => $result['virtualAccountData']['trxId'],
+                        'NoVirtualAccount' => "",
+                        'ExpiredDatePembayaran' => $formattedTime,
+                    ]);
+
+                    DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
+
+                    $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+                    $headTagihanDetail = $headTagihanDetailData[0];
+                    $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+
+                    //dd($detailTagihan);
+
+                    return response()->json([
+                        'status' => 200,
+                        'headTagihanDetail' => $headTagihanDetail,
+                        'tagihanDetail' => $detailTagihan,
+                    ]);
+                    //return $response->json();
+
                 } else {
-                    return $response->json();
+                    return response()->json([
+                        'error' => 'API request failed',
+                        'message' => $response->body()
+                    ], $response->status());
+
+                    //return redirect()->route('Tagihan.detail', $$detailTagihan[0]->idPerjanjianSewa)->with('Error: API request failed', '$response->body()');
                 }
-        
+            } else {
+                return $response->json();
+            }
+
         }
     }
 
@@ -619,36 +627,9 @@ class AssetRentalMobileController extends Controller
 
         $idTagihan = $idT;
 
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            $detailTagihan[] = 
-                intval($idTagihan)
-            ;
+        $detailTagihan[] =
+            intval($idTagihan)
+        ;
 
         //dd($detailTagihan);
 
@@ -661,11 +642,11 @@ class AssetRentalMobileController extends Controller
 
         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
 
-        
+
 
         //dd($dataTagihan);
 
-       
+
         if ($headTagihanDetailData) {
 
             $checkoutDetail = DB::select('CALL view_checkoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
@@ -686,7 +667,7 @@ class AssetRentalMobileController extends Controller
 
     public function pembayaranSewa($id)
     {
-        $pembayaranSewa = DB::select('CALL view_pembayaranSewaByIdWajib('  . $id . ')');
+        $pembayaranSewa = DB::select('CALL view_pembayaranSewaByIdWajib(' . $id . ')');
 
         if ($pembayaranSewa) {
             return response()->json([
@@ -711,8 +692,8 @@ class AssetRentalMobileController extends Controller
             $uploadedFile = $request->file('fileBukti');
             $filePenilaian = $request->get('idPembayaranSewa') . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
             $filePath = Storage::disk('biznet')->putFileAs("images/BuktiBayar", $uploadedFile, $filePenilaian);
-        }else{
-            $filePath="";
+        } else {
+            $filePath = "";
         }
 
         $idTagihan = $request->input('idTagihan');
@@ -727,13 +708,13 @@ class AssetRentalMobileController extends Controller
         }
 
         $dataPembayaran = json_encode([
-            'IdPembayaran' => $request->get('idPembayaranSewa'), 
-            'NamaBank' => $request->get('namaBank'), 
-            'NamaPemilikRek' => $request->get('namaPemilikRek'), 
-            'JumlahDana' => $request->get('jumlahDana'), 
-            'Keterangan' => $request->get('keterangan'), 
-            'FileBuktiBayar' => $filePath, 
-            'DetailTagihan' =>  $detailTagihan
+            'IdPembayaran' => $request->get('idPembayaranSewa'),
+            'NamaBank' => $request->get('namaBank'),
+            'NamaPemilikRek' => $request->get('namaPemilikRek'),
+            'JumlahDana' => $request->get('jumlahDana'),
+            'Keterangan' => $request->get('keterangan'),
+            'FileBuktiBayar' => $filePath,
+            'DetailTagihan' => $detailTagihan
         ]);
 
         //dd($dataPembayaran);
@@ -764,23 +745,26 @@ class AssetRentalMobileController extends Controller
             ]
         );
 
-        $kredensil = $request->only('username', 'password');
+        $credentials = $request->only('username', 'password');
 
-        if (Auth::attempt($kredensil)) {
-            $user = Auth::user();
-            //$userRole = Auth::user()->roles->roleName;
-
-            $userData = DB::select('CALL view_userSessionById(?, ?)', [$user->id, $user->idJenisUser]);
-   
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
-                'status' => 200,
-                'userData' => $userData
-            ]);
-        } else {
-            return response()->json([
-                'status' => 404,
+                'status' => 401,
                 'message' => 'Username atau Password Anda Salah!'
             ]);
         }
+
+        $user = Auth::user();
+        //$userRole = Auth::user()->roles->roleName;
+
+        $userData = DB::select('CALL view_userSessionById(?, ?)', [$user->id, $user->idJenisUser]);
+
+        return response()->json([
+            'status' => 200,
+            'userData' => $userData,
+            'access_token' => $token,
+            'token_type' => 'bearer'
+        ]);
+
     }
 }
