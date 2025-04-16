@@ -17,7 +17,7 @@ use App\Http\Controllers\api\AuthenticateController;
 |
 */
 
-Route::post('/login-api', [AuthenticateController::class, 'login']);
+Route::post('/access-token-tapatupa', [AuthenticateController::class, 'login']);
 
 // Route API untuk user
 Route::post("/login-mobile", [AssetRentalMobileController::class, 'login'])->name('AssetRentalMobile.login');
