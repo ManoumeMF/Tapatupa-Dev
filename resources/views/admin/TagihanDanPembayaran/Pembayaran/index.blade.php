@@ -124,10 +124,12 @@
                     <thead>
                         <tr>
                             <th>Nomor Invoice</th>
+                            <th>Kode Bayar/Id Transaksi</th>
                             <th>Nama Wajib Retribusi/Pemohon</th>
                             <th>Objek Retribusi</th>
                             <th>Jangka Waktu</th>
                             <th>Total Pembayaran</th>
+                            <th>Channel</th>
                             <th>Status</th>
                             <th class="text-center" style="width: 10px;">Aksi</th>
                         </tr>
@@ -143,7 +145,19 @@
                                                     {{ $pS->noInvoice }}
                                                 </p>
                                                 <p class="fs-12 text-muted mb-0">
-                                                    Tanggal Perjanjian: {{ date('d F Y', strtotime($pS->tanggalCetak)) }}
+                                                    Tanggal Pembayaran: {{ date('d F Y', strtotime($pS->tanggalPembayaran)) }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <div class="ms-2">
+                                                <p class="fw-semibold mb-0 d-flex align-items-center">
+                                                    {{ $pS->noVirtualAccount }}
+                                                </p>
+                                                <p class="fs-12 text-muted mb-0">
+                                                    Id Transaksi: {{ $pS->trxId }}
                                                 </p>
                                             </div>
                                         </div>
@@ -179,6 +193,7 @@
                                     </td>
                                     <td>{{ $pS->durasiSewa }}</td>
                                     <td>Rp. {{ $pS->totalBayar  }}</td>
+                                    <td>{{ $pS->namaChannel  }}</td>
                                     <td>
                                         @if($pS->idStatus == 13)
                                             <span class="badge bg-primary">{{ $pS->namaStatus }}</span>
@@ -198,32 +213,32 @@
                                                 <li>
                                                     @if($pS->idStatus == 13)
                                                         <a class="dropdown-item"
-                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranRetribusi) }}">
                                                             <i
                                                                 class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Detail
                                                             Pembayaran Sewa
                                                         </a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranRetribusi) }}">
                                                             <i
                                                                 class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Upload
                                                             Bukti Bayar
                                                         </a>
                                                     @elseif($pS->idStatus == 14)
                                                         <a class="dropdown-item"
-                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranRetribusi) }}">
                                                             <i
                                                                 class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Detail
                                                             Pembayaran Sewa
                                                         </a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('Pembayaran.verifikasi', $pS->idPembayaranSewa) }}">
+                                                            href="{{ route('Pembayaran.verifikasi', $pS->idPembayaranRetribusi) }}">
                                                             <i
                                                                 class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Verifikasi Pembayaran
                                                         </a>
                                                     @elseif($pS->idStatus == 15)
                                                     <a class="dropdown-item"
-                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranSewa) }}">
+                                                            href="{{ route('Pembayaran.detail', $pS->idPembayaranRetribusi) }}">
                                                             <i
                                                                 class="ri-file-upload-line me-1 align-middle d-inline-block"></i>Detail
                                                             Pembayaran Sewa
