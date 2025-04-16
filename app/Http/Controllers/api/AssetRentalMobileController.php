@@ -764,7 +764,7 @@ class AssetRentalMobileController extends Controller
             'userData' => $userData,
             'accessToken' => $token,
             'tokenType' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 15
         ]);
 
     }
