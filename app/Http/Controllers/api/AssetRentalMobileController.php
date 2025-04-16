@@ -762,8 +762,8 @@ class AssetRentalMobileController extends Controller
         return response()->json([
             'status' => 200,
             'userData' => $userData,
-            'access_token' => $token,
-            'token_type' => 'bearer'
+            'accessToken' => $token,
+            'tokenType' => 'bearer'
         ]);
 
     }

@@ -19,9 +19,9 @@ class CheckJwtAndClientId
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $clientId = $request->header('Client-ID');
+        $vendorId = $request->header('Vendor-ID');
 
-        if (!$clientId || !in_array($clientId, $this->validClientIds)) {
+        if (!$vendorId || !in_array($vendorId, $this->validClientIds)) {
             return response()->json(['error' => 'Forbidden: Invalid Client ID'], 403);
         }
 
