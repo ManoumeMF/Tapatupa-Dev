@@ -105,7 +105,7 @@ class OnlinePaymentController extends Controller
                 'code' => "14",
                 'message' => 'Data Denda Retribusi TTidak Ditemukan.'
             ]);
-        } else if (is_null($request->get('tanggal_pembayaran')) || empty($request->get('tanggal_pembayaran'))) {
+        } else if (is_null($request->get('tgl_pembayaran')) || empty($request->get('tgl_pembayaran'))) {
             return response()->json([
                 'code' => "14",
                 'message' => 'Data Tanggal Pembayaran Tidak Ditemukan.'
