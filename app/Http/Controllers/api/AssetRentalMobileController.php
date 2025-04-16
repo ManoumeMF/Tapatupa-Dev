@@ -760,7 +760,8 @@ class AssetRentalMobileController extends Controller
         $userData = DB::select('CALL view_userSessionById(?, ?)', [$user->id, $user->idJenisUser]);
 
         return response()->json([
-            'status' => 200,
+            'responseCode' => 200,
+            'responseMessage' => "Successful",
             'userData' => $userData,
             'accessToken' => $token,
             'tokenType' => 'bearer',

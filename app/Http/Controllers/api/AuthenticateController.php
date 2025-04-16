@@ -20,8 +20,10 @@ class AuthenticateController extends Controller
         }
 
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
+            'responseCode' => 200,
+            'responseMessage' => "Successful",
+            'accessToken' => $token,
+            'tokenType' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 15
         ]);
     }
