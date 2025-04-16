@@ -14,10 +14,10 @@
                 <div>
                     <h1 class="page-title fw-medium fs-18 mb-2">Detail Pembayaran Sewa</h1>
                     <ol class="breadcrumb breadcrumb-example1 mb-0">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Tagihan Dan Pembayaran</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pembayaran Sewa</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detail Pembayaran Sewa</li>
-                </ol>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Tagihan Dan Pembayaran</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Pembayaran Sewa</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Detail Pembayaran Sewa</li>
+                    </ol>
                 </div>
             </div>
             <!-- End::page-header -->
@@ -73,7 +73,7 @@
                                     method="post" novalidate>
                                     {{ csrf_field() }}
                                     <div class="col-xl-12">
-                                        <input type="hidden" value="{{ $headPembayaran->idPembayaranSewa }}"
+                                        <input type="hidden" value="{{ $headPembayaran->idPembayaranRetribusi }}"
                                             name="idPembayaranSewa">
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
@@ -123,13 +123,13 @@
                                     <div class="col-xl-4">
                                         <p class="fw-medium text-muted mb-1">Tanggal Cetak :</p>
                                         <p class="fs-15 mb-1">
-                                            {{ date('d F Y', strtotime($headPembayaran->tanggalCetak)) }}
+                                            {{ date('d F Y', strtotime($headPembayaran->tanggalPembayaran)) }}
                                         </p>
                                     </div>
                                     <div class="col-xl-4">
-                                        <p class="fw-medium text-muted mb-1">Lakukan Pembayaran Dalam :</p>
+                                        <p class="fw-medium text-muted mb-1">Kode Pembayaran</p>
                                         <p class="fs-15 mb-1">
-                                            {{ date('d F Y H:i:s', strtotime($headPembayaran->waktuAkhirBayar)) }}
+                                            {{ $headPembayaran->noVirtualAccount }}
                                         </p>
                                     </div>
                                     <div class="col-xl-4">
@@ -152,56 +152,43 @@
                                                     <tr>
                                                         <th>NOMOR TAGIHAN</th>
                                                         <th>TAHUN</th>
-                                                        <th>JATUH TEMPO</th>
-                                                        <th>BIAYA ADMINISTRASI</th>
-                                                        <th>JUMLAH TAGIHAN</th>
+                                                        <th>JUMLAH POKOK</th>
                                                         <th>JUMLAH DENDA</th>
+                                                        <th>JUMLAH SISA</th>
                                                         <th>TOTAL</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (isset($detailPembayaran) && count($detailPembayaran) > 0)
-                                                    @foreach ($detailPembayaran as $indexKey => $tD)
                                                     <tr>
                                                         <td>
-                                                            <input type="hidden" value="{{ $tD->idTagihanSewa }}"
-                                                                name="idTagihan[]" />
                                                             <div class="text-muted">
-                                                                {{ $tD->nomorTagihan }}
+                                                                {{ $headPembayaran->nomorTagihan }}
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="text-muted">
-                                                                {{ $tD->tahun }}
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="text-muted">
-                                                                {{ date('d F Y', strtotime($tD->tanggalJatuhTempo)) }}
+                                                                {{ $headPembayaran->durasiSewa }}
                                                             </div>
                                                         </td>
                                                         <td class="text-muted">
-                                                            0
+                                                            @currency($headPembayaran->pokok)
                                                         </td>
                                                         <td>
                                                             <div class="text-muted">
-                                                                @currency($tD->jumlahTagihan)
+                                                                @currency($headPembayaran->denda)
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="text-muted">
-                                                                @currency($tD->jumlahDenda)
+                                                                @currency($headPembayaran->sisaBayar)
                                                             </div>
                                                         </td>
                                                         <td width="200px">
                                                             <div class="product-quantity-container">
-                                                                @currency($tD->totalTagihan)
+                                                                @currency($headPembayaran->totalBayar)
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    @php($total = $total + $tD->totalTagihan)
-                                                    @endforeach
-                                                    @endif
                                                     <tr>
                                                         <td colspan="5"></td>
                                                         <td colspan="2">
@@ -212,10 +199,10 @@
                                                                         <th scope="row">
                                                                             <p class="mb-0 fs-14">Total Bayar:</p>
                                                                         </th>
-                                                                        <td width="170px">
+                                                                        <td width="270px">
                                                                             <p
                                                                                 class="mb-0 fw-medium fs-16 text-primary">
-                                                                                @currency($total)
+                                                                                @currency($headPembayaran->totalBayar)
                                                                             </p>
                                                                         </td>
                                                                     </tr>
@@ -231,7 +218,7 @@
                                         <div>
                                             <p>
                                                 <span class="mb-1 fw-medium">Dengan Huruf: </span><span
-                                                    class="text-muted text-capitalize">{{ Riskihajar\Terbilang\Facades\Terbilang::make($total) }}
+                                                    class="text-muted text-capitalize">{{ Riskihajar\Terbilang\Facades\Terbilang::make($headPembayaran->totalBayar) }}
                                                     Rupiah</span>
                                             </p>
                                         </div>

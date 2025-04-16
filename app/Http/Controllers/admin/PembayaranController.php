@@ -100,11 +100,11 @@ class PembayaranController extends Controller
         if ($headPembayaranData) {
 
             $headPembayaran = $headPembayaranData[0];
-            $detailPembayaran = DB::select('CALL view_detailPembayaranByIdPembayaran(' . $id . ')');
+            //$detailPembayaran = DB::select('CALL view_detailPembayaranByIdPembayaran(' . $id . ')');
 
             //dd($checkoutDetail);
 
-            return view('admin.TagihanDanPembayaran.Pembayaran.detail', compact('headPembayaran', 'detailPembayaran'));
+            return view('admin.TagihanDanPembayaran.Pembayaran.detail', compact('headPembayaran'));
         } else {
             return redirect()->route('Pembayaran.index')->with('error', 'Data Pembayaran Tidak Ditemukan!');
         }
