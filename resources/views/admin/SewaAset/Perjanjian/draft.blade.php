@@ -44,6 +44,10 @@
             font-size: 12px;
         }
 
+        .page-break {
+            page-break-before: always;
+        }
+
         .logo {
             float: left;
             width: 80px;

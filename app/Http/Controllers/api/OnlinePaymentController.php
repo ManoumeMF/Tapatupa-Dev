@@ -85,7 +85,7 @@ class OnlinePaymentController extends Controller
 
     public function paymentPajak(Request $request)
     {
-        if (is_null($request->get('kode_bayar')) || empty($request->get('kode_bayar'))) {
+        /*if (is_null($request->get('kode_bayar')) || empty($request->get('kode_bayar'))) {
             return response()->json([
                 'code' => "14",
                 'message' => 'Data Kode Bayar Tidak Ditemukan.'
@@ -103,7 +103,7 @@ class OnlinePaymentController extends Controller
         } else if (is_null($request->get('denda')) || empty($request->get('denda'))) {
             return response()->json([
                 'code' => "14",
-                'message' => 'Data Denda Retribusi TTidak Ditemukan.'
+                'message' => 'Data Denda Retribusi Tidak Ditemukan.'
             ]);
         } else if (is_null($request->get('tgl_pembayaran')) || empty($request->get('tgl_pembayaran'))) {
             return response()->json([
@@ -130,7 +130,7 @@ class OnlinePaymentController extends Controller
                 'code' => "14",
                 'message' => 'Data Kode Channel Tidak Ditemukan.'
             ]);
-        } else {
+        } else {*/
             $varPaymentPajak = json_encode([
                 'KodeBayar' => $request->get('kode_bayar'),
                 'TransaksiId' => $request->get('trx_id')
@@ -173,7 +173,7 @@ class OnlinePaymentController extends Controller
                 }
 
             }
-        }
+        //}
 
     }
 
