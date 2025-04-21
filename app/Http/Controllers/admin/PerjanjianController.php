@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PerjanjianController extends Controller
 {
@@ -227,6 +228,16 @@ class PerjanjianController extends Controller
                     'message'=> 'Jenis Status Gagal Ditambahkan.'
                 ]);
             }
+    }
+
+    public function generateAndSaveDraftPerjanjianPdf($id){
+        $perjanjianData = DB::select('CALL view_perjanjianSewaById(?)', [$id]);
+        $perjanjianSewa = $perjanjianData[0];
+
+        $pdf = Pdf::loadView('admin.SewaAset.Perjanjian.draft', ['draftPerjanjian' => $perjanjianSewa])
+              ->setPaper('A4', 'portrait');
+
+        return $pdf->stream('perjanjian.pdf');
     }
 
     public function getComboJenisStatus(){

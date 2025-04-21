@@ -240,6 +240,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete("/perjanjian-sewa/hapus", [PerjanjianController::class, 'delete'])->name('Perjanjian.delete');
     Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
     Route::get("/perjanjian-sewa/detail-permohonan/", [PerjanjianController::class, 'detailPermohonanToPerjanjian'])->name('Perjanjian.detailPermohonanToPerjanjian');
+    Route::get("/perjanjian-sewa/draft/{id}", [PerjanjianController::class, 'generateAndSaveDraftPerjanjianPdf'])->name('Perjanjian.generateAndSaveDraftPerjanjianPdf');
 
     // Route untuk Tagihan Sewa
     Route::get("/tagihan-sewa", [TagihanController::class, 'index'])->name('Tagihan.index');
