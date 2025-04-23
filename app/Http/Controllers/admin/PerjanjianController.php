@@ -231,7 +231,7 @@ class PerjanjianController extends Controller
         }
     }
 
-    public function generateAndSaveDraftPerjanjianPdf($id)
+    public function generateDraftPerjanjianPdf($id)
     {
         $perjanjianData = DB::select('CALL view_perjanjianSewaById(?)', [$id]);
         $draftPerjanjian = $perjanjianData[0];

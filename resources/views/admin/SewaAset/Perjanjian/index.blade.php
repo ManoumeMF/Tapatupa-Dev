@@ -192,6 +192,10 @@
                                                         <i
                                                             class="ri-delete-bin-line me-1 align-middle d-inline-block"></i>Hapus</a>
                                                 </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ route('Perjanjian.generateDraftPerjanjianPdf', $pS->idPerjanjianSewa) }}"><i
+                                                            class="ri-file-pdf-2-line me-1 align-middle d-inline-block"></i>Draft Surat Perjanjian</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
