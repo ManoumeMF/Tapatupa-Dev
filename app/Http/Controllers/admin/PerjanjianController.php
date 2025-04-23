@@ -234,25 +234,21 @@ class PerjanjianController extends Controller
     public function generateDraftPerjanjianPdf($id)
     {
         $perjanjianData = DB::select('CALL view_perjanjianSewaById(?)', [$id]);
-        $draftPerjanjian = $perjanjianData[0];
-        $saksiPerjanjian = DB::select('CALL view_saksiPerjanjianById(?)', [$id]);
 
+        if ($perjanjianData) {
+            $draftPerjanjian = $perjanjianData[0];
+            $saksiPerjanjian = DB::select('CALL view_saksiPerjanjianById(?)', [$id]);
 
-        //$firstPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.first-page', compact('draftPerjanjian'))->render();
-        //$otherPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.other-pages', compact('draftPerjanjian'))->render();
+            //$firstPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.first-page', compact('draftPerjanjian'))->render();
+            //$otherPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.other-pages', compact('draftPerjanjian'))->render();
 
-
-        $pdf = Pdf::view('admin.SewaAset.Perjanjian.draft', compact('draftPerjanjian', 'saksiPerjanjian'))
-            ->paperSize(210, 297) 
+            $pdf = Pdf::view('admin.SewaAset.Perjanjian.draft', compact('draftPerjanjian', 'saksiPerjanjian'))
+            ->paperSize(210, 297)
             ->margins(0, 0, 0, 0)
             ->inline('invoice.pdf');
 
         return $pdf->inline('laporan.pdf');
-
-        /*$pdf = Pdf::loadView('admin.SewaAset.Perjanjian.draft', compact('firstPageContent', 'otherPageContent'))
-              ->setPaper('A4', 'portrait');
-
-        return $pdf->stream('perjanjian.pdf');*/
+        }
     }
 
     public function getComboJenisStatus()
