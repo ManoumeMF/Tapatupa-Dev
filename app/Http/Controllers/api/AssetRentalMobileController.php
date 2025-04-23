@@ -825,7 +825,7 @@ class AssetRentalMobileController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Data Wajib Retribusi Tidak Ditemukan.'
+                'message' => 'NIK Data Wajib Retribusi Tidak Ditemukan.'
             ]);
         }
     }
