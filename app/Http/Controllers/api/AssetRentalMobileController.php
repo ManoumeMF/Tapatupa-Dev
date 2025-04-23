@@ -819,8 +819,7 @@ class AssetRentalMobileController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Data User Berhasil Disimpan!',
-                    'registerData' => $dataUser
+                    'message' => 'Data User Berhasil Disimpan!'
                 ]);
             }
         } else {
