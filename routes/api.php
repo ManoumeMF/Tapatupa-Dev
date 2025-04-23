@@ -21,6 +21,7 @@ Route::post('/access-token-tapatupa', [AuthenticateController::class, 'login']);
 
 // Route API untuk user
 Route::post("/login-mobile", [AssetRentalMobileController::class, 'login'])->name('AssetRentalMobile.login');
+Route::post("/register-mobile", [AssetRentalMobileController::class, 'register'])->name('AssetRentalMobile.register');
 
 /*Route::middleware(['jwt.client'])->get('/secret-data', function () {
     return response()->json(['message' => 'Ini data rahasia!']);

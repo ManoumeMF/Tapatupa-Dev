@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Services\XSignatureService;
 use Carbon\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Hash;
 
 class AssetRentalMobileController extends Controller
 {
@@ -768,5 +769,65 @@ class AssetRentalMobileController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 15
         ]);
 
+    }
+
+    public function register(Request $request)
+    {
+        $nik = $request->get('nik');
+
+        $WajibRetribusi = DB::select('CALL viewWajibRetribusiByNIK(' . $nik . ')');
+
+        if ($WajibRetribusi) {
+            
+            $wajibRetribusiData = $WajibRetribusi[0];
+
+            $dataUser = json_encode([
+                'Username' => $request->get('username'),
+                'Email' => $request->get('email'),
+            ]);
+
+            $users = DB::select('CALL check_usernameOrEmail(:dataUser)', ['dataUser' => $dataUser]);
+            
+            if($users){
+                $userData = $users[0];
+
+                if(strtoupper($userData->username) == strtoupper($request->get('username')))
+                {
+                    return response()->json([
+                        'status' => 409,
+                        'message' => 'Data username ' . $userData->username . ' sudah terdaftar, gunakan username lain!'
+                    ]);
+                }else if($userData->email == $request->get('email'))
+                {
+                    return response()->json([
+                        'status' => 409,
+                        'message' => 'Email ' . $userData->email . ' sudah terdaftar, gunakan email lain!'
+                    ]);
+                }
+
+            }else{
+                $dataUser = json_encode([
+                    'IdJenisUser' => 2,
+                    'IdPersonal' => $wajibRetribusiData->idWajibRetribusi,
+                    'UserRole' => 3,
+                    'Username' => $request->get('username'),
+                    'Password' => Hash::make($request->get('password')),
+                    'Email' => $request->get('email'),
+                ]);
+
+                $response = DB::statement('CALL insert_user(:dataUser)', ['dataUser' => $dataUser]);
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data User Berhasil Disimpan!',
+                    'registerData' => $dataUser
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Wajib Retribusi Tidak Ditemukan.'
+            ]);
+        }
     }
 }

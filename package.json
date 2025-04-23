@@ -12,5 +12,8 @@
     },
     "files": [
         "app/Helpers/TerbilangAngka.php"
-    ]
+    ],
+    "dependencies": {
+        "puppeteer": "^24.6.1"
+    }
 }

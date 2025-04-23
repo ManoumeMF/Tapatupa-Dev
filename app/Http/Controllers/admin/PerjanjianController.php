@@ -9,24 +9,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class PerjanjianController extends Controller
 {
-    private  $stat = 6;
+    private $stat = 6;
 
     public function index()
     {
-        $perjanjianSewa = DB::select('CALL viewAll_perjanjianSewa()'); 
+        $perjanjianSewa = DB::select('CALL viewAll_perjanjianSewa()');
 
         return view('admin.SewaAset.Perjanjian.index', compact('perjanjianSewa'));
-        
+
     }
 
     public function create()
     {
-        $permohonanSewa = DB::select('CALL cbo_permohonanPerjanjianSewa()'); 
-        $pegawai = DB::select('CALL cbo_pegawai()'); 
+        $permohonanSewa = DB::select('CALL cbo_permohonanPerjanjianSewa()');
+        $pegawai = DB::select('CALL cbo_pegawai()');
 
         //return view('admin.SewaAset.Permohonan.create', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa'));
 
@@ -34,7 +34,8 @@ class PerjanjianController extends Controller
 
     }
 
-    public function detailPermohonanToPerjanjian(Request $request){
+    public function detailPermohonanToPerjanjian(Request $request)
+    {
         $id = $request->idPermohonan;
 
         //dd($id);
@@ -63,13 +64,13 @@ class PerjanjianController extends Controller
             $uploadedFile = $request->file('fileSuratPerjanjian');
             $filePenilaian = "SuratPerjanjian-" . $request->get('noSuratPerjanjian') . time() . "." . $uploadedFile->getClientOriginalExtension();
             $filePath = Storage::disk('biznet')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePenilaian);
-        }else{
-            $filePath="";
+        } else {
+            $filePath = "";
         }
 
         $nik = $request->input('nik');
         $namaSaksi = $request->input('namaSaksi');
-        $keteranganSaksi = $request->input('keteranganSaksi'); 
+        $keteranganSaksi = $request->input('keteranganSaksi');
 
         $saksiPerjanjianSewa = [];
 
@@ -89,7 +90,7 @@ class PerjanjianController extends Controller
             'TanggalDisahkan' => date("m/d/Y", strtotime($request->get('tanggalDisahkan'))),
             'TanggalAwal' => date("m/d/Y", strtotime($request->get('tanggalAwal'))),
             'TanggalAkhir' => date("m/d/Y", strtotime($request->get('tanggalAkhir'))),
-            'Keterangan'  => $request->get('keterangan'),
+            'Keterangan' => $request->get('keterangan'),
             'DisahkanOleh' => $request->get('disahkanOleh'),
             'FileSuratPerjanjian' => $filePath,
             'Status' => $this->stat,
@@ -97,26 +98,26 @@ class PerjanjianController extends Controller
             'LuasTanah' => $request->get('luasTanah'),
             'LuasBangunan' => $request->get('luasBangunan'),
             'LamaSewa' => $request->get('lamaSewa'),
-            'KodeBilling' =>  $kodeBilling,
-            'NPWRD' =>  $request->get('npwrd'),
-            'IdJenisPermohonanSewa' =>  $request->get('idJenisPermohonan'),
+            'KodeBilling' => $kodeBilling,
+            'NPWRD' => $request->get('npwrd'),
+            'IdJenisPermohonanSewa' => $request->get('idJenisPermohonan'),
             'SaksiPerjanjianSewa' => $saksiPerjanjianSewa
         ]);
 
         //dd($PerjanjianSewa);
-    
-            $response = DB::statement('CALL insert_perjanjianSewa(:dataPerjanjianSewa)', ['dataPerjanjianSewa' => $PerjanjianSewa]);
 
-            if ($response) {
-                return redirect()->route('Perjanjian.index')->with('success', 'Perjanjian Sewa Berhasil Ditambahkan!');
-            } else {
-                return redirect()->route('Perjanjian.create')->with('error', 'Perjanjian Sewa Gagal Disimpan!');
-            }
+        $response = DB::statement('CALL insert_perjanjianSewa(:dataPerjanjianSewa)', ['dataPerjanjianSewa' => $PerjanjianSewa]);
+
+        if ($response) {
+            return redirect()->route('Perjanjian.index')->with('success', 'Perjanjian Sewa Berhasil Ditambahkan!');
+        } else {
+            return redirect()->route('Perjanjian.create')->with('error', 'Perjanjian Sewa Gagal Disimpan!');
+        }
     }
 
     public function edit($id)
-    {      
-        $perkerjaan = DB::select('CALL cbo_pekerjaan()'); 
+    {
+        $perkerjaan = DB::select('CALL cbo_pekerjaan()');
 
         //$statusData = DB::select('CALL view_statusById(' . $id . ')');
         //$status = $statusData[0];
@@ -127,7 +128,7 @@ class PerjanjianController extends Controller
              return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
          }*/
 
-         return view('admin.Master.WajibRetribusi.edit', compact('perkerjaan'));
+        return view('admin.Master.WajibRetribusi.edit', compact('perkerjaan'));
     }
 
 
@@ -135,16 +136,16 @@ class PerjanjianController extends Controller
     {
         $Status = json_encode([
             'IdStatus' => $id,
-            'IdJenisStatus' => $request -> get('jenisStatus'),
+            'IdJenisStatus' => $request->get('jenisStatus'),
             'Status' => $request->get('namaStatus'),
-            'Keterangan'  => $request->get('keterangan')
+            'Keterangan' => $request->get('keterangan')
         ]);
 
         //dd($Status);
 
-            $statusData = DB::select('CALL view_statusById(' . $id . ')');
-            $statusTemp = $statusData[0];
-            
+        $statusData = DB::select('CALL view_statusById(' . $id . ')');
+        $statusTemp = $statusData[0];
+
         if ($statusTemp) {
             $response = DB::statement('CALL update_status(:dataStatus)', ['dataStatus' => $Status]);
 
@@ -154,35 +155,35 @@ class PerjanjianController extends Controller
                 return redirect()->route('Status.edit', $id)->with('error', 'Status Gagal Diubah!');
             }
 
-         } else {
-             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
-         }     
+        } else {
+            return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
+        }
     }
 
     public function delete(Request $request)
     {
-        $statusData = DB::select('CALL view_statusById(' . $request -> get('idStatus') . ')');
+        $statusData = DB::select('CALL view_statusById(' . $request->get('idStatus') . ')');
         $statusTemp = $statusData[0];
 
-            if ($statusTemp) {
-                $id = $request -> get('idStatus');
+        if ($statusTemp) {
+            $id = $request->get('idStatus');
 
-                $response = DB::statement('CALL delete_status(?)', [$id]);
-                
-                return response()->json([
-                    'status' => 200,
-                    'message'=> 'Status Berhasil Dihapus!'
-                ]);
-            }else{
-                return response()->json([
-                    'status'=> 404,
-                    'message' => 'Data Status Tidak Ditemukan.'
-                ]);
-            }
+            $response = DB::statement('CALL delete_status(?)', [$id]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Status Berhasil Dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Status Tidak Ditemukan.'
+            ]);
+        }
     }
 
     public function detail(Request $request)
-    {      
+    {
         $id = $request->id;
 
         $perjanjianData = DB::select('CALL view_perjanjianSewaById(?)', [$id]);
@@ -190,16 +191,16 @@ class PerjanjianController extends Controller
         dd($perjanjianData);
 
         if ($perjanjianData) {
-            
+
             $perjanjianSewa = $perjanjianData[0];
-            
+
             return response()->json([
-                'status'=> 200,
+                'status' => 200,
                 'perjanjianSewa' => $perjanjianSewa
             ]);
-        }else{
+        } else {
             return response()->json([
-                'status'=> 404,
+                'status' => 404,
                 'message' => 'Data Perjanjian Sewa Tidak Ditemukan.'
             ]);
         }
@@ -207,40 +208,55 @@ class PerjanjianController extends Controller
 
     public function storeStatusType(Request $request)
     {
-        
-            $JenisStatus = json_encode([
-                'JenisStatus' => $request->get('jenisStatusModal'),
-                'Keterangan'  => $request->get('jenisKeteranganModal')
-            ]);
 
-            //dd($JenisStatus);
-    
-            $response = DB::statement('CALL insert_jenisStatus(:dataJenisStatus)', ['dataJenisStatus' => $JenisStatus]);
-        
-            if ($response) {
-                return response()->json([
-                    'status' => 200,
-                    'message'=> 'Jenis Status Berhasil Ditambahkan.'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 400,
-                    'message'=> 'Jenis Status Gagal Ditambahkan.'
-                ]);
-            }
+        $JenisStatus = json_encode([
+            'JenisStatus' => $request->get('jenisStatusModal'),
+            'Keterangan' => $request->get('jenisKeteranganModal')
+        ]);
+
+        //dd($JenisStatus);
+
+        $response = DB::statement('CALL insert_jenisStatus(:dataJenisStatus)', ['dataJenisStatus' => $JenisStatus]);
+
+        if ($response) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Jenis Status Berhasil Ditambahkan.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Jenis Status Gagal Ditambahkan.'
+            ]);
+        }
     }
 
-    public function generateAndSaveDraftPerjanjianPdf($id){
+    public function generateAndSaveDraftPerjanjianPdf($id)
+    {
         $perjanjianData = DB::select('CALL view_perjanjianSewaById(?)', [$id]);
-        $perjanjianSewa = $perjanjianData[0];
+        $draftPerjanjian = $perjanjianData[0];
+        $saksiPerjanjian = DB::select('CALL view_saksiPerjanjianById(?)', [$id]);
 
-        $pdf = Pdf::loadView('admin.SewaAset.Perjanjian.draft', ['draftPerjanjian' => $perjanjianSewa])
+
+        //$firstPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.first-page', compact('draftPerjanjian'))->render();
+        //$otherPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.other-pages', compact('draftPerjanjian'))->render();
+
+
+        $pdf = Pdf::view('admin.SewaAset.Perjanjian.draft', compact('draftPerjanjian', 'saksiPerjanjian'))
+            ->paperSize(210, 297) 
+            ->margins(0, 0, 0, 0)
+            ->inline('invoice.pdf');
+
+        return $pdf->inline('laporan.pdf');
+
+        /*$pdf = Pdf::loadView('admin.SewaAset.Perjanjian.draft', compact('firstPageContent', 'otherPageContent'))
               ->setPaper('A4', 'portrait');
 
-        return $pdf->stream('perjanjian.pdf');
+        return $pdf->stream('perjanjian.pdf');*/
     }
 
-    public function getComboJenisStatus(){
+    public function getComboJenisStatus()
+    {
         $statusTypeCombo = DB::select('CALL cbo_JenisStatus()');
 
         return response()->json($statusTypeCombo);
