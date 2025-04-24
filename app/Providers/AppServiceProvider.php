@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Carbon\Carbon;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('Terbilang', function ($angka) {
             return "<?php echo App\Helpers\TerbilangAngka::Terbilang( $angka ); ?>";
         });
+
     }
 }
