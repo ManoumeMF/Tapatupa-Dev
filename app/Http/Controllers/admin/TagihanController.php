@@ -243,10 +243,6 @@ class TagihanController extends Controller
                 'Authorization' => "Bearer " . $this->b2bToken,
             ])->withBody($bodyRaw, 'application/json')
                 ->post($this->paymentBaseURL . $endPointUrl);
-
-                $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
-                $headTagihanDetail = $headTagihanDetailData[0];
-                $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
                 
             //dd($response->successful());
             if ($response->successful()) {
@@ -264,6 +260,10 @@ class TagihanController extends Controller
                     ]);
 
                     DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
+
+                    $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+                    $headTagihanDetail = $headTagihanDetailData[0];
+                    $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
                     return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail', 'detailTagihan'));
 
