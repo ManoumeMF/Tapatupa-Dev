@@ -472,7 +472,7 @@ class AssetRentalMobileController extends Controller
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
                     'nik' => $headTagihanDetailData[0]->nik,
                     'mata_anggaran' => $this->mataAnggaran,
-                    'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
+                    'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 2, '.', ''),
                     'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
@@ -552,7 +552,7 @@ class AssetRentalMobileController extends Controller
                 'additionalInfo' => [
                     'clientid' => $this->clientIdGov,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
-                    'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
+                    'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 2, '.', ''),
                     'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
