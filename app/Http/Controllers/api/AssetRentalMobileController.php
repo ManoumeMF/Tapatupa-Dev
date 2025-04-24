@@ -453,7 +453,6 @@ class AssetRentalMobileController extends Controller
 
             $dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
-                'trxId' => $detailTagihan[0]->trxId,
                 'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
                 'virtualAccountEmail' => $headTagihanDetailData[0]->email,
                 'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
@@ -469,7 +468,10 @@ class AssetRentalMobileController extends Controller
                 'expiredDate' => "2025-12-20T23:59:59+07:00",
                 'additionalInfo' => [
                     'clientid' => $this->clientIdGov,
+                    'prefix_real' => $this->previxReal,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
+                    'nik' => $headTagihanDetailData[0]->nik,
+                    'mata_anggaran' => $this->mataAnggaran,
                     'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
                     'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"

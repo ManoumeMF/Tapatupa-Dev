@@ -174,7 +174,6 @@ class TagihanController extends Controller
         ]);
 
         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
-        $headTagihanDetail = $headTagihanDetailData[0];
         $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
         //dd($headTagihanDetail);
@@ -183,9 +182,9 @@ class TagihanController extends Controller
 
             $dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
-                'virtualAccountName' => $headTagihanDetail->namaWajibRetribusi,
-                'virtualAccountEmail' => $headTagihanDetail->email,
-                'virtualAccountPhone' => $headTagihanDetail->nomorPonsel,
+                'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
+                'virtualAccountEmail' => $headTagihanDetailData[0]->email,
+                'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
                 'billDetails' => [
                     [
                         'billAmount' => [
@@ -200,10 +199,10 @@ class TagihanController extends Controller
                     'clientid' => $this->clientIdGov,
                     'prefix_real' => $this->previxReal,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
-                    'nik' => $headTagihanDetail->nik,
+                    'nik' => $headTagihanDetailData[0]->nik,
                     'mata_anggaran' => $this->mataAnggaran,
                     'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
-                    'customer_address' => $headTagihanDetail->alamatWajibRetribusi,
+                    'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
             ];
@@ -310,7 +309,7 @@ class TagihanController extends Controller
                     'clientid' => $this->clientIdGov,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
                     'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
-                    'customer_address' => $headTagihanDetail->alamatWajibRetribusi,
+                    'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
             ];
