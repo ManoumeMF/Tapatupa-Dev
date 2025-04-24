@@ -207,7 +207,7 @@ class TagihanController extends Controller
                 ]
             ];
 
-            //dd($dataRaw);
+            dd($dataRaw);
 
             /*$dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
@@ -252,6 +252,10 @@ class TagihanController extends Controller
             ])->withBody($bodyRaw, 'application/json')
                 ->post($this->paymentBaseURL . $endPointUrl);
 
+                $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+                $headTagihanDetail = $headTagihanDetailData[0];
+                $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+                
             //dd($response->successful());
             if ($response->successful()) {
                 $result = $response->json();
@@ -268,10 +272,6 @@ class TagihanController extends Controller
                     ]);
 
                     DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
-
-                    $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
-                    $headTagihanDetail = $headTagihanDetailData[0];
-                    $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
                     return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail', 'detailTagihan'));
 
