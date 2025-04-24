@@ -445,7 +445,6 @@ class AssetRentalMobileController extends Controller
         ]);
 
         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
-        $headTagihanDetail = $headTagihanDetailData[0];
         $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
         //dd($detailTagihan);
@@ -454,9 +453,10 @@ class AssetRentalMobileController extends Controller
 
             $dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
-                'virtualAccountName' => $headTagihanDetail->namaWajibRetribusi,
-                'virtualAccountEmail' => $headTagihanDetail->email,
-                'virtualAccountPhone' => $headTagihanDetail->nomorPonsel,
+                'trxId' => $detailTagihan[0]->trxId,
+                'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
+                'virtualAccountEmail' => $headTagihanDetailData[0]->email,
+                'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
                 'billDetails' => [
                     [
                         'billAmount' => [
@@ -469,12 +469,9 @@ class AssetRentalMobileController extends Controller
                 'expiredDate' => "2025-12-20T23:59:59+07:00",
                 'additionalInfo' => [
                     'clientid' => $this->clientIdGov,
-                    'prefix_real' => $this->previxReal,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
-                    'nik' => $headTagihanDetail->nik,
-                    'mata_anggaran' => $this->mataAnggaran,
                     'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
-                    'customer_address' => $headTagihanDetail->alamatWajibRetribusi,
+                    'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
             ];
@@ -554,7 +551,7 @@ class AssetRentalMobileController extends Controller
                     'clientid' => $this->clientIdGov,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
                     'denda' => number_format((float) $detailTagihan[0]->jumlahDenda, 0, '.', ''),
-                    'customer_address' => $headTagihanDetail->alamatWajibRetribusi,
+                    'customer_address' => $headTagihanDetailData[0]->alamatWajibRetribusi,
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
             ];
