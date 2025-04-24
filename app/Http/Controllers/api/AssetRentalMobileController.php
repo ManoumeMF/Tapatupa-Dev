@@ -454,9 +454,9 @@ class AssetRentalMobileController extends Controller
 
             $dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
-                'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
-                'virtualAccountEmail' => $headTagihanDetailData[0]->email,
-                'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
+                'virtualAccountName' => $headTagihanDetail->namaWajibRetribusi,
+                'virtualAccountEmail' => $headTagihanDetail->email,
+                'virtualAccountPhone' => $headTagihanDetail->nomorPonsel,
                 'billDetails' => [
                     [
                         'billAmount' => [
