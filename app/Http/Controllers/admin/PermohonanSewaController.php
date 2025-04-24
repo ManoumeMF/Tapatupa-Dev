@@ -23,7 +23,6 @@ class PermohonanSewaController extends Controller
         return view('admin.SewaAset.Permohonan.index', compact('permohonanSewa'));
 
         //return view('admin.SewaAset.Permohonan.index');
-
     }
 
     public function create()

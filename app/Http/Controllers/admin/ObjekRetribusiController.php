@@ -77,6 +77,7 @@ class ObjekRetribusiController extends Controller
         $objekRetribusi = json_encode([
             'KodeObjekRetribusi' => $request->get('kodeObjekRetribusi'),
             'NoBangunan' => $request->get('nomorBangunan'),
+            'NPWRD' => $request->get('npwrd'),
             'ObjekRetribusi' => $request->get('namaObjekRetribusi'),
             'IdLokasiObjekRetribusi' => $request->get('lokasiObjekRetribusi'),
             'IdJenisObjekRetribusi' => $request->get('jenisObjekRetribusi'),
@@ -138,6 +139,7 @@ class ObjekRetribusiController extends Controller
             'IdObjekRetribusi' => $request->get('idObjekRetribusi'),
             'KodeObjekRetribusi' => $request->get('kodeObjekRetribusi'),
             'NoBangunan' => $request->get('nomorBangunan'),
+            'NPWRD' => $request->get('npwrd'),
             'ObjekRetribusi' => $request->get('namaObjekRetribusi'),
             'IdLokasiObjekRetribusi' => $request->get('lokasiObjekRetribusi'),
             'IdJenisObjekRetribusi' => $request->get('jenisObjekRetribusi'),

@@ -130,7 +130,7 @@
                     <thead>
                         <tr>
                             <th>Objek Retribusi</th>
-                            <th>Alamat</th>
+                            <th>Nama Objek Retribusi</th>
                             <th>Jenis Objek Retribusi</th>
                             <th>No. Bangunan</th>
                             <th>Lokasi Objek Retribusi</th>
@@ -149,11 +149,19 @@
                                             <div class="ms-2">
                                                 <p class="fw-semibold mb-0 d-flex align-items-center"><a
                                                         href="javascript:void(0);">{{ $oR->kodeObjekRetribusi }}</a></p>
-                                                <p class="fs-12 text-muted mb-0">{{ $oR->objekRetribusi }}</p>
+                                                <p class="fs-12 text-muted mb-0">NPWRD: {{ $oR->npwrd }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $oR->alamatLengkap }}</td>
+                                    <td>
+                                    <div class="d-flex">
+                                            <div class="ms-2">
+                                                <p class="fw-semibold mb-0 d-flex align-items-center"><a
+                                                        href="javascript:void(0);">{{ $oR->objekRetribusi }}</a></p>
+                                                <p class="fs-12 text-muted mb-0">{{ $oR->alamatLengkap }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>{{ $oR->jenisObjekRetribusi }}</td>
                                     <td>{{ $oR->noBangunan }}</td>
                                     <td>{{ $oR->lokasiObjekRetribusi }}</td>

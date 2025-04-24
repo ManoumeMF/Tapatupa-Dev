@@ -304,10 +304,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <label for="nomor-bangunan" class="form-label">Nomor bangunan</label>
-                                                <input type="text" class="form-control" id="nomorBangunan"
-                                                    value="{{ $objekRetribusi->noBangunan }}" name="nomorBangunan"
-                                                    placeholder="Masukkan Nomor Bangunan">
+                                                <label for="nomor-bangunan" class="form-label">NPWRD</label>
+                                                <input type="text" class="form-control" id="npwrd"
+                                                    value="{{ $objekRetribusi->npwrd }}" name="npwrd"
+                                                    placeholder="Masukkan NPWRD">
                                             </div>
                                             <div class="col-xl-8">
                                                 <label for="nama-objek-retribusi" class="form-label">Nama Objek
@@ -320,7 +320,13 @@
                                                     Nama Objek Retribusi Tidak Boleh Kosong
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
+                                                <label for="nomor-bangunan" class="form-label">Nomor bangunan</label>
+                                                <input type="text" class="form-control" id="nomorBangunan"
+                                                    value="{{ $objekRetribusi->noBangunan }}" name="nomorBangunan"
+                                                    placeholder="Masukkan Nomor Bangunan">
+                                            </div>
+                                            <div class="col-xl-8">
                                                 <label for="lokasi-objek-retribusi" class="form-label">Lokasi Objek
                                                     Retribusi</label>
                                                 <select class="lokasi-objek-retribusi form-control"

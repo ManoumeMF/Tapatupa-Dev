@@ -83,9 +83,9 @@
                                         <div class="col-xl-9">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
-                                                    <h6 class="mb-1 fs-13">Jenis Objek Retribusi</h6>
+                                                    <h6 class="mb-1 fs-13">NPWRD</h6>
                                                     <span
-                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->jenisObjekRetribusi }}</span>
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->npwrd }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +98,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-9">
+                                        <div class="col-xl-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="flex-fill">
+                                                    <h6 class="mb-1 fs-13">Jenis Objek Retribusi</h6>
+                                                    <span
+                                                        class="d-block fs-13 text-muted fw-normal">{{ $objekRetribusi->jenisObjekRetribusi }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
                                             <div class="d-flex gap-3">
                                                 <div class="flex-fill">
                                                     <h6 class="mb-1 fs-13">Nama Objek Retribusi</h6>
