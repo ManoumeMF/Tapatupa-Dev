@@ -177,15 +177,15 @@ class TagihanController extends Controller
         $headTagihanDetail = $headTagihanDetailData[0];
         $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
-        //dd($detailTagihan);
+        //dd($headTagihanDetail);
         if ($detailTagihan[0]->trxId == "" && $detailTagihan[0]->noVirtualAccount == "") {
             $httpMethod = $request->method();
 
             $dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
-                'virtualAccountName' => $headTagihanDetailData[0]->namaWajibRetribusi,
-                'virtualAccountEmail' => $headTagihanDetailData[0]->email,
-                'virtualAccountPhone' => $headTagihanDetailData[0]->nomorPonsel,
+                'virtualAccountName' => $headTagihanDetail->namaWajibRetribusi,
+                'virtualAccountEmail' => $headTagihanDetail->email,
+                'virtualAccountPhone' => $headTagihanDetail->nomorPonsel,
                 'billDetails' => [
                     [
                         'billAmount' => [
@@ -207,6 +207,8 @@ class TagihanController extends Controller
                     'keterangan' => "Retribusi Sewa Tanah"
                 ]
             ];
+
+            //dd($dataRaw);
 
             /*$dataRaw = [
                 'partnerServiceId' => $this->partnerServiceId,
