@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use Spatie\LaravelPdf\Facades\Pdf;
+//use Spatie\LaravelPdf\Facades\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PerjanjianController extends Controller
 {
@@ -242,12 +243,17 @@ class PerjanjianController extends Controller
             //$firstPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.first-page', compact('draftPerjanjian'))->render();
             //$otherPageContent = view('admin.SewaAset.Perjanjian.partialsDraft.other-pages', compact('draftPerjanjian'))->render();
 
-            $pdf = Pdf::view('admin.SewaAset.Perjanjian.draft', compact('draftPerjanjian', 'saksiPerjanjian'))
+            /*$pdf = Pdf::view('admin.SewaAset.Perjanjian.draft', compact('draftPerjanjian', 'saksiPerjanjian'))
             ->paperSize(210, 297)
             ->margins(0, 0, 0, 0)
             ->inline('invoice.pdf');
 
-        return $pdf->inline('laporan.pdf');
+        return $pdf->inline('laporan.pdf');*/
+
+            $pdf = Pdf::loadView('admin.SewaAset.Perjanjian.draft', compact('draftPerjanjian', 'saksiPerjanjian'))
+                ->setPaper('a4', 'portrait'); // a4 = ukuran, portrait/landscape = orientasi
+
+            return $pdf->stream('dokumen.pdf');
         }
     }
 

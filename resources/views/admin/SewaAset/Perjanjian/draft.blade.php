@@ -16,14 +16,14 @@
         }
 
         .header {
-            left: 0;
-            right: 0;
-            height: 70px;
+            left: 00;
+            right: 00;
+            height: 80px;
             text-align: center;
         }
 
         .page-content {
-            padding-top: 60px;
+            padding-top: 20px;
             font-family: 'Times New Roman';
             font-size: 12px;
         }
@@ -41,18 +41,11 @@
 
             @page {
                 size: A4;
-                margin: 70px 80px 70px 80px;
+                margin: 25mm 20mm 25mm 20mm;
 
                 @top-center {
                     content: element(header);
                 }
-                
-                @bottom-right {
-                content: "Hal. " counter(page) " dari " counter(pages);
-                font-size: 12px;
-                color: #666;
-            }
-
             }
 
             .page-content::before {
@@ -123,7 +116,7 @@
         <img src="{{ public_path('admin_resources/assets/images/user-general/logo_kab_taput.jpg') }}" class="logo"
             alt="Logo" height="80px" width="80px">
         <div class="header-text">
-            <table style="text-align:center; width:100%;>
+            <table style="text-align:center; width:100%;">
                 <tr style="height: 0px; padding: 0px;">
                     <td><strong style="font-size:16px;">PEMERINTAH KABUPATEN TAPANULI UTARA</strong></td>
                 </tr>
@@ -131,10 +124,12 @@
                     <td><strong style="font-size:20px;">SEKRETARIAT DAERAH</strong></td>
                 </tr>
                 <tr>
-                    <td style="height: 0px; padding: 0px;"><small>Jalan Let. Jend. Suprapto No.1 Telp. (0633) 21371 Tarutung</small></td>
+                    <td style="height: 0px; padding: 0px;"><small>Jalan Let. Jend. Suprapto No.1 Telp. (0633) 21371
+                            Tarutung</small></td>
                 </tr>
                 <tr style="height: 0px; padding: 0px;">
-                    <td style="height: 0px; padding: 0px;"><small>Web site: http://www.taputkab.go.id;E-mail:Sekda@taputkab.go.id</small></td>
+                    <td style="height: 0px; padding: 0px;"><small>Web site:
+                            http://www.taputkab.go.id;E-mail:Sekda@taputkab.go.id</small></td>
                 </tr>
             </table>
         </div>
@@ -211,7 +206,7 @@
                 Objek Sewa Menyewa
                 Pasal 1
             </div>
-            <div style="text-align: justify; margin-top:0px;">
+            <div style="text-align: justify; margin-top:-20px;">
                 <ol class="custom-list">
                     <li>
                         PIHAK KESATU menyewakan tanah milik Pemerintah Kabupaten Tapanuli Utara kepada PIHAK KEDUA
@@ -258,13 +253,13 @@
             </div>
         </div>
 
-        <div style=" margin-bottom:0px;">
+        <div style=" margin-top:-5px;">
             <div style="white-space: pre; text-align: center;">
                 Bagian Kedua
                 Jangka Waktu dan Berakhirnya Perjanjian Sewa Menyewa
                 Pasal 2
             </div>
-            <ol class="custom-list" style=" margin-top:0px;">
+            <ol class="custom-list" style=" margin-top:-7px;">
                 <li>
                     Jangka waktu Perjanjian Sewa-Menyewa pemakaian tanah milik Pemerintah Kabupaten Tapanuli Utara
                     ini berlaku selama {{ $draftPerjanjian->lamaSewa }}
@@ -287,7 +282,7 @@
             </ol>
         </div>
 
-        <div style="text-align: justify;margin-top:0px;">
+        <div style="text-align: justify;margin-top:-5px;">
             <div style="white-space: pre; text-align: center;">
                 BAB II
                 HAK DAN KEWAJIBAN PARA PIHAK
@@ -319,7 +314,7 @@
                 Hak dan Kewajiban Pihak KEDUA
                 Pasal 4
             </div>
-            <ol class="custom-list" style=" margin-top:0px;">
+            <ol class="custom-list" style=" margin-top:-5px;">
                 <li>
                     PIHAK KEDUA wajib membayar biaya sewa tanah kepada PIHAK KESATU sesuai dengan besaran yang
                     ditetapkan oleh Pemerintah Kabupaten Tapanuli Utara yang didasarkan pada nilai wajar hasil penilaian
@@ -368,7 +363,7 @@
                 PEMBATASAN HAK SEWA
                 Pasal 5
             </div>
-            <ol class="custom-list" style=" margin-top:0px;">
+            <ol class="custom-list" style=" margin-top:-7px;">
                 <li>
                     PIHAK KEDUA tidak diperkenankan mendirikan bangunan permanen maupun non permanen melebihi ukuran
                     luas tanah yang diberikan Hak Sewa oleh PIHAK KESATU.
@@ -392,7 +387,7 @@
                 PEMBATALAN SEWA MENYEWA
                 Pasal 6
             </div>
-            <div style="text-align: justify; margin-top:0px;">
+            <div style="text-align: justify; margin-top:-5px;">
                 <ol class="custom-list" style=" margin-top:0px;">
                     <li>
                         Perjanjian Sewa Menyewa ini dapat dibatalkan apabila:
@@ -441,11 +436,11 @@
             </div>
         </div>
 
-        <div style=" margin-top:10px;">
+        <div style=" margin-top:-10px;">
             <div style="white-space: pre; text-align: center;">
                 Pasal 7
             </div>
-            <ol class="custom-list" style=" margin-top:0px;">
+            <ol class="custom-list" style=" margin-top:-5px;">
                 <li>
                     Dalam hal terjadinya pembatalan perjanjian sebagaimana dimaksud dalam Pasal 6, maka PIHAK KEDUA
                     wajib mengosongkan dan menyerahkan seluruh objek sewa menyewa kepadaPIHAK KESATU dalam jangka waktu
@@ -483,7 +478,7 @@
                 KETENTUAN SANKSI
                 Pasal 8
             </div>
-            <ol class="custom-list" style=" margin-top:0px;">
+            <ol class="custom-list" style=" margin-top:-5px;">
                 <li>
                     Dalam rangka perjanjian sewa menyewa ini, PIHAK KESATU dan PIHAK KEDUA sepakat untuk
                     mengesampingkan ketentuan Pasal 1266 dan Pasal 1267 Kitab Undang-Undang Hukum Perdata.
@@ -503,7 +498,7 @@
                 PENYELESAIAN PERSELISIHAN
                 Pasal 9
             </div>
-            <ol class="custom-list" style=" margin-top:0px;">
+            <ol class="custom-list" style=" margin-top:-7px;">
                 <li>
                     Apabila terjadi perselisihan pendapat antara PIHAK KESATU dengan PIHAK KEDUA mengenai penafsiran dan
                     pelaksanaan syarat-syarat dan ketentuan dalam Surat Perjanjian ini, maka kedua belah pihak sepakat
@@ -523,27 +518,30 @@
                 KETENTUAN LAIN-LAIN
                 Pasal 10
             </div>
-            Biaya yang berhubungan dengan pelaksanaan Surat Perjanjian Sewa Menyewa ini dibebankan kepada PIHAK KEDUA.
+            <div style="margin-top:-7px;">
+                Biaya yang berhubungan dengan pelaksanaan Surat Perjanjian Sewa Menyewa ini dibebankan kepada PIHAK
+                KEDUA.
+            </div>
         </div>
 
-        <div style=" margin-top:10px;">
+        <div style="margin-top:5px;">
             <div style="white-space: pre; text-align: center;">
                 Pasal 11
             </div>
-            <div style="text-align: justify;">
+            <div style="text-align: justify; margin-top:-5px;">
                 Apabila terjadi perubahan dalam ketentuan peraturan perundang-undangan di bidang pertanahan yang
                 mempengaruhi perjanjian sewa menyewa ini, Para Pibak sepakat untuk mengadakan perubahan- perubahan dan
                 penyesuaian atas Surat Perjanjian Sewa Menyewa ini.
             </div>
         </div>
 
-        <div style=" margin-bottom:0px;">
+        <div style=" margin-top:15px;">
             <div style="white-space: pre; text-align: center;">
                 BAB VIII
                 PENUTUP
                 Pasal 12
             </div>
-            <div style="text-align: justify;">
+            <div style="text-align: justify; margin-top:-5px;">
                 Demikian Perjanjian Sewa-Menyewa tanah ini ditandatangani oleh kedua belah pihak, pada hari dan tanggal
                 tersebut di atas dan diperbuat dengan sesungguhnya dalam rangkap 2 (dua) masing-masing dibubuhi Materai
                 cukup dan mempunyai kekuatan hukum yang sama, I (satu) rangkap untuk PIHAK KESATU dan 1 (satu) rangkap
