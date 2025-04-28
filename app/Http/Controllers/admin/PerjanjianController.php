@@ -60,14 +60,14 @@ class PerjanjianController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->hasFile('fileSuratPerjanjian')) {
+        /*if ($request->hasFile('fileSuratPerjanjian')) {
             //dd($request->file('fileSuratPerjanjian'));
             $uploadedFile = $request->file('fileSuratPerjanjian');
             $filePenilaian = "SuratPerjanjian-" . $request->get('noSuratPerjanjian') . time() . "." . $uploadedFile->getClientOriginalExtension();
             $filePath = Storage::disk('biznet')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePenilaian);
         } else {
             $filePath = "";
-        }
+        }*/
 
         $nik = $request->input('nik');
         $namaSaksi = $request->input('namaSaksi');
@@ -93,7 +93,7 @@ class PerjanjianController extends Controller
             'TanggalAkhir' => date("m/d/Y", strtotime($request->get('tanggalAkhir'))),
             'Keterangan' => $request->get('keterangan'),
             'DisahkanOleh' => $request->get('disahkanOleh'),
-            'FileSuratPerjanjian' => $filePath,
+            //'FileSuratPerjanjian' => $filePath,
             'Status' => $this->stat,
             'CreateBy' => Auth::user()->id,
             'LuasTanah' => $request->get('luasTanah'),
@@ -118,8 +118,12 @@ class PerjanjianController extends Controller
 
     public function edit($id)
     {
-        $perkerjaan = DB::select('CALL cbo_pekerjaan()');
+        $pegawai = DB::select('CALL cbo_pegawai()');
+        $perjanjianData = DB::select('CALL view_detailPerjanjianSewa(' . $id . ')');
+        $perjanjianSewa = $perjanjianData[0];
 
+        $saksiPerjanjian = DB::select('CALL view_saksiPerjanjianById(' . $id . ')');
+        //dd($permohonanData);
         //$statusData = DB::select('CALL view_statusById(' . $id . ')');
         //$status = $statusData[0];
 
@@ -129,7 +133,7 @@ class PerjanjianController extends Controller
              return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
          }*/
 
-        return view('admin.Master.WajibRetribusi.edit', compact('perkerjaan'));
+        return view('admin.SewaAset.Perjanjian.edit', compact('perjanjianSewa', 'pegawai', 'saksiPerjanjian'));
     }
 
 

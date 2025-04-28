@@ -220,7 +220,7 @@ class ObjekRetribusiController extends Controller
         $objekRetribusiData = DB::select('CALL view_objekRetribusiById(' . $request->get('idFileDenah') . ')');
         $objekRetribusi = $objekRetribusiData[0];
 
-        //dd($objekRetribusi->kodeObjekRetribusi);
+        //dd($objekRetribusi);
 
         $file = Storage::disk('biznet')->get($objekRetribusi->gambarDenahTanah);
 
@@ -254,7 +254,32 @@ class ObjekRetribusiController extends Controller
 
             }
         } else {
-            return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'File/Gambar Denah Tanah Tidak Ditemukan!');
+            //return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'File/Gambar Denah Tanah Tidak Ditemukan!');
+
+            if ($request->hasFile('fileDenahTanah')) {
+                $uploadedFile = $request->file('fileDenahTanah');
+                $photo = $objekRetribusi->kodeObjekRetribusi . "-Denah Tanah-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $photoPath = Storage::disk('biznet')->putFileAs("images/objekRetribusi", $uploadedFile, $photo);
+            } else {
+                $photoPath = "";
+            }
+
+            $dataDenahTanah = json_encode([
+                'IdObjekReribusi' => $request->get('idFileDenah'),
+                'FileDenahTanah' => $photoPath
+            ]);
+
+
+            if ($objekRetribusi) {
+                $response = DB::statement('CALL update_fileDenahTanah(:dataDenahTanah)', ['dataDenahTanah' => $dataDenahTanah]);
+
+                if ($response) {
+                    return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('success', 'File/Gambar Denah Tanah Berhasil Diubah!');
+                } else {
+                    return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'File/Gambar Denah Tanah Gagal Diubah!');
+                }
+
+            }
         }
     }
 
@@ -395,8 +420,6 @@ class ObjekRetribusiController extends Controller
         $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
 
         return view('admin.Master.ObjekRetribusi.tambahTarif', compact('objekRetribusi', 'jangkaWaktu'));
-
-        //return view('admin.PengaturanDanKonfigurasi.Status.create');
     }
 
     public function detailObjekToTarif(Request $request)

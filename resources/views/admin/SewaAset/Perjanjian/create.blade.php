@@ -262,7 +262,7 @@
                                             <div class="col-xl-6">
                                                 <label for="nomor-whatsapp" class="form-label">Tanggal Disahkan</label>
                                                 <div class="form-group">
-                                                    <div class="input-group">
+                                                    <div class="input-groupa">
                                                         <div class="input-group-text text-muted"> <i
                                                                 class="ri-calendar-line"></i> </div>
                                                         <input type="text" class="form-control" id="tanggalDisahkan"
@@ -294,11 +294,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12 product-documents-container">
+                                            <!--<div class="col-xl-12 product-documents-container">
                                             <label for="nomor-whatsapp" class="form-label">Upload Surat Perjanjian</label>
                                                 <input type="file" class="form-control" name="fileSuratPerjanjian"
                                                     data-max-file-size="5MB">
-                                            </div>
+                                            </div>-->
                                             <div class="col-xl-12">
                                                 <label for="alamat-wajib-retribusi" class="form-label">Disahkan Oleh:</label>
                                                 <select class="form-control disahkan-oleh" id="disahkanOleh"  name="disahkanOleh"

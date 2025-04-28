@@ -536,7 +536,13 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>{{ $objekRetribusi->fileName }}</td>
+                                                            <td class="text-primary">
+                                                                @if($objekRetribusi->fileName)
+                                                                    {{ $objekRetribusi->fileName }}
+                                                                @else
+                                                                    File/Gambar Denah Tanah tidak tersedia!
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 <button type="button"
                                                                     value="{{ $objekRetribusi->idObjekRetribusi }}"
