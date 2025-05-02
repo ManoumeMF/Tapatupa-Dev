@@ -119,7 +119,7 @@ class PerjanjianController extends Controller
     public function edit($id)
     {
         $pegawai = DB::select('CALL cbo_pegawai()');
-        $perjanjianData = DB::select('CALL view_detailPerjanjianSewa(' . $id . ')');
+        $perjanjianData = DB::select('CALL view_perjanjianSewaById(' . $id . ')');
         $perjanjianSewa = $perjanjianData[0];
 
         $saksiPerjanjian = DB::select('CALL view_saksiPerjanjianById(' . $id . ')');
@@ -162,6 +162,78 @@ class PerjanjianController extends Controller
 
         } else {
             return redirect()->route('Status.index')->with('error', 'Status Tidak Ditemukan!');
+        }
+    }
+
+    public function updateFilePerjanjianSewa(Request $request)
+    {
+        $perjanjianSewaData = DB::select('CALL view_perjanjianSewaById(' . $request->get('idFilePerjanjian') . ')');
+        $perjanjianSewa = $perjanjianSewaData[0];
+
+        //dd($perjanjianSewa);
+
+        $file = Storage::disk('biznet')->get($perjanjianSewa->fileSuratPerjanjian);
+
+        //dd($file);
+
+        if ($file) {
+            Storage::disk('biznet')->delete($perjanjianSewa->fileSuratPerjanjian);
+
+            if ($request->hasFile('filePerjanjianSewa')) {
+                $uploadedFile = $request->file('filePerjanjianSewa');
+                $filePerjanjian = "SuratPerjanjian-" . $perjanjianSewa->npwrd . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $filePath = Storage::disk('biznet')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePerjanjian);
+            } else {
+                $filePath = "";
+            }
+
+            $dataSuratPerjanjian = json_encode([
+                'IdPerjanjianSewa' => $request->get('idFilePerjanjian'),
+                'FileSuratPerjanjian' => $filePath
+            ]);
+
+            //dd($dataSuratPerjanjian);
+
+
+            if ($perjanjianSewa) {
+                $response = DB::statement('CALL update_fileSuratPerjanjian(:dataSuratPerjanjian)', ['dataSuratPerjanjian' => $dataSuratPerjanjian]);
+
+                if ($response) {
+                    return redirect()->route('Perjanjian.edit', $perjanjianSewa->idPerjanjianSewa)->with('success', 'File Surat Perjanjian Berhasil Diubah!');
+                } else {
+                    return redirect()->route('Perjanjian.edit', $perjanjianSewa->idPerjanjianSewa)->with('error', 'File Surat Perjanjian Gagal Diubah!');
+                }
+
+            }
+        } else {
+            //return redirect()->route('ObjekRetribusi.edit', $objekRetribusi->idObjekRetribusi)->with('error', 'File/Gambar Denah Tanah Tidak Ditemukan!');
+
+            if ($request->hasFile('filePerjanjianSewa')) {
+                $uploadedFile = $request->file('filePerjanjianSewa');
+                $filePerjanjian = "SuratPerjanjian-" . $perjanjianSewa->npwrd . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+                $filePath = Storage::disk('biznet')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePerjanjian);
+            } else {
+                $filePath = "";
+            }
+
+            $dataSuratPerjanjian = json_encode([
+                'IdPerjanjianSewa' => $request->get('idFilePerjanjian'),
+                'FileSuratPerjanjian' => $filePath
+            ]);
+
+            //dd($dataSuratPerjanjian);
+
+
+            if ($perjanjianSewa) {
+                $response = DB::statement('CALL update_fileSuratPerjanjian(:dataSuratPerjanjian)', ['dataSuratPerjanjian' => $dataSuratPerjanjian]);
+
+                if ($response) {
+                    return redirect()->route('Perjanjian.edit', $perjanjianSewa->idPerjanjianSewa)->with('success', 'File Surat Perjanjian Berhasil Diubah!');
+                } else {
+                    return redirect()->route('Perjanjian.edit', $perjanjianSewa->idPerjanjianSewa)->with('error', 'File Surat Perjanjian Gagal Diubah!');
+                }
+
+            }
         }
     }
 

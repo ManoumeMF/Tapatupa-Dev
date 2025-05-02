@@ -44,13 +44,20 @@
                 disableMobile: true
             });
 
-            $(document).on('click', '.tambahSaksiBtn', function (e) {
+        $(document).on('click', '.editFilePerjanjianBtn', function (e) {
+            var sp_id = $(this).val();
+
+            $('#ubahSuratPerjanjianModal').modal('show');
+            $('#idFilePerjanjian').val(sp_id);
+        });
+
+        $(document).on('click', '.tambahSaksiBtn', function (e) {
             var fo_id = $(this).val();
 
             $('#tambahSaksiModal').modal('show');
             $('#idSaksiPerjanjianAdd').val(fo_id);
         });
-
+        
             $(document).on('click', '.editSaksiBtn', function (e) {
                 e.preventDefault();
 
@@ -222,7 +229,7 @@
                                                     <label for="jangka-waktu-sewa" class="form-label">Perioditas
                                                         Sewa</label>
                                                     <input type="text" class="form-control" id="perioditasSewa"
-                                                        value="{{ $perjanjianSewa->jangkaWaktu }}" disabled>
+                                                        value="{{ $perjanjianSewa->jenisJangkaWaktu }}" disabled>
                                                 </div>
                                                 <div class="col-xl-4">
                                                     <label for="jangka-waktu-sewa" class="form-label">Lama Sewa</label>
@@ -313,13 +320,13 @@
                                                                     @if($perjanjianSewa->fileName)
                                                                         {{ $perjanjianSewa->fileName }}
                                                                     @else
-                                                                        File/Gambar Denah Tanah tidak tersedia!
+                                                                        File Surat Perjanjian tidak tersedia!
                                                                     @endif
                                                                 </td>
                                                                 <td>
                                                                     <button type="button"
                                                                         value="{{ $perjanjianSewa->idPerjanjianSewa }}"
-                                                                        class="btn btn-icon btn-outline-teal btn-wave btn-sm editSaksiBtn">
+                                                                        class="btn btn-icon btn-outline-teal btn-wave btn-sm editFilePerjanjianBtn">
                                                                         <i class="ri-edit-box-line"></i>
                                                                     </button>
                                                                 </td>
@@ -393,15 +400,15 @@
         </div>
     </div>
     
-    <!-- Start:: Edit Saksi Perjanjian-->
-<div class="modal fade" id="ubahSaksiModal" tabindex="-1" aria-hidden="true">
+    <!-- Start:: Edit File Surat Perjanjian-->
+<div class="modal fade" id="ubahSuratPerjanjianModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">Tambah/Ubah File Surat Perjanjian Sewa</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="row g-3 needs-validation" action="{{route('ObjekRetribusi.updateDenahTanah')}}" method="post"
+            <form class="row g-3 needs-validation" action="{{route('Perjanjian.updateFilePerjanjianSewa')}}" method="post"
                 enctype="multipart/form-data" novalidate>
                 {{ csrf_field() }}
                 <input type="hidden" id="idFilePerjanjian" name="idFilePerjanjian">
@@ -421,7 +428,7 @@
         </div>
     </div>
 </div>
-<!-- End:: Edit Foto Denah Tanah -->
+<!-- End:: Edit File Surat Perjanjian -->
 
 
     <!-- Start:: Edit Saksi-saksi Perjanjian-->
