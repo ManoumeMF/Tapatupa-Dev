@@ -60,14 +60,18 @@ class PerjanjianController extends Controller
 
     public function store(Request $request)
     {
-        /*if ($request->hasFile('fileSuratPerjanjian')) {
+        $npwrd = str_replace(['.', '-'], '', $request->get('npwrd'));
+
+        //dd($npwrd);
+
+        if ($request->hasFile('fileSuratPerjanjian')) {
             //dd($request->file('fileSuratPerjanjian'));
             $uploadedFile = $request->file('fileSuratPerjanjian');
-            $filePenilaian = "SuratPerjanjian-" . $request->get('noSuratPerjanjian') . time() . "." . $uploadedFile->getClientOriginalExtension();
-            $filePath = Storage::disk('biznet')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePenilaian);
+            $filePerjanjian = "SuratPerjanjian-" . $npwrd . time() . "-" . "." . $uploadedFile->getClientOriginalExtension();
+            $filePath = Storage::disk('biznet')->putFileAs("documents/perjanjianSewa", $uploadedFile, $filePerjanjian);
         } else {
             $filePath = "";
-        }*/
+        }
 
         $nik = $request->input('nik');
         $namaSaksi = $request->input('namaSaksi');
