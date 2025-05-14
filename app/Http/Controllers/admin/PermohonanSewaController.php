@@ -94,9 +94,38 @@ class PermohonanSewaController extends Controller
 
     public function edit($id)
     {
-        $perkerjaan = DB::select('CALL cbo_pekerjaan()');
+        $jenisPermohonan = DB::select('CALL cbo_jenisPermohonanByParentId(' . $this->parentIdPermohonan . ')');
+        $wajibRetribusi = DB::select('CALL cbo_wajibRetribusi()');
+        $objekRetribusi = DB::select('CALL cbo_objekRetribusi()');
+        $jangkaWaktu = DB::select('CALL cbo_jenisJangkaWaktu()');
+        $peruntukanSewa = DB::select('CALL cbo_peruntukanSewa()');
+        $dokumenKelengkapan = DB::select('CALL cbo_dokumenKelengkapan(' . 2 . ')');
+        $satuan = DB::select('CALL cbo_satuan(' . 1 . ')');
+        $dokumenPermohonan = DB::select('CALL view_dokumenPermohonanById(' . $id . ')');
 
-        return view('admin.Master.WajibRetribusi.edit', compact('perkerjaan'));
+        $permohonanData = DB::select('CALL view_permohonanById(' . $id . ')');
+        $permohonanSewa = $permohonanData[0];
+
+
+        return view('admin.SewaAset.Permohonan.edit', compact('jenisPermohonan', 'wajibRetribusi', 'objekRetribusi', 'jangkaWaktu', 'peruntukanSewa', 'dokumenKelengkapan', 'satuan', 'permohonanSewa', 'dokumenPermohonan'));
+    }
+
+    public function editDokumenPermohonan(Request $request){
+        //$dokumenKelengkapan = DB::select('CALL cbo_dokumenKelengkapan(' . 2 . ')');
+        $dokumenPermohonanData = DB::select('CALL view_dokumenPermohonanByIdDokumen(:idDokumen)', ['idDokumen' => $request->id]);
+        $dokumenPermohonan = $dokumenPermohonanData[0];
+
+        if ($dokumenPermohonan) {
+            return response()->json([
+                'status' => 200,
+                'dokumenPermohonan' => $dokumenPermohonan
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Dokumen Permohonan Sewa Tidak Ditemukan.'
+            ]);
+        }
     }
 
 

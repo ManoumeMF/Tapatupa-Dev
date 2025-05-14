@@ -246,7 +246,7 @@
                 <ol class="breadcrumb breadcrumb-example1 mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Master</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Objek Retribusi</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tambah Objek Retribusi</li>
+                    <li class="breadcrumb-item active" aria-current="page">Ubah Objek Retribusi</li>
                 </ol>
             </nav>
         </div>
@@ -264,7 +264,7 @@
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Tambah Objek Retribusi
+                        Ubah Objek Retribusi
                     </div>
                 </div>
                 <div class="card-body tambah-objek-retribusi p-0">
