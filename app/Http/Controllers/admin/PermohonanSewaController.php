@@ -49,7 +49,7 @@ class PermohonanSewaController extends Controller
 
         for ($count = 0; $count < collect($jenisDokumen)->count(); $count++) {
             $uploadedFileDokumen = $fileDokumen[$count];
-            $dokumenPermohonan = $count . "-" . $request->get('nomorPermohonan') . time() . "." . $uploadedFileDokumen->getClientOriginalExtension();
+            $dokumenPermohonan = $count . "-" . time() . "." . $uploadedFileDokumen->getClientOriginalExtension();
             $dokumenPermohonanPath = Storage::disk('biznet')->putFileAs("documents/permohonanSewa", $uploadedFileDokumen, $dokumenPermohonan);
 
             $dokumenKelengkapan[] = [
@@ -128,6 +128,54 @@ class PermohonanSewaController extends Controller
         }
     }
 
+    public function updateDokumenPermohonan(Request $request)
+    {
+        $dokumenPermohonanData = DB::select('CALL view_dokumenPermohonanByIdDokumen(:idDokumen)', ['idDokumen' => $request->idDokumenPermohonan]);
+        $dokumenPermohonan = $dokumenPermohonanData[0];
+
+        //dd($dokumenPermohonan );
+        //var_dump($dokumenPermohonan);
+
+        $strAwalDokumen = substr($dokumenPermohonan->fileName, 0, strpos($dokumenPermohonan->fileName, '-'));
+        $file = Storage::disk('biznet')->get($dokumenPermohonan->namaFileDokumen);
+
+        if ($dokumenPermohonan) {
+            if ($request->hasFile('fileDokumen')) {
+                if ($file) {
+                    Storage::disk('biznet')->delete($dokumenPermohonan->namaFileDokumen);
+                }
+
+                $uploadedFileDokumen = $request->file('fileDokumen');
+                $dokumenPermohonan = $strAwalDokumen . "-" . time() . "." . $uploadedFileDokumen->getClientOriginalExtension();
+                $dokumenPermohonanPath = Storage::disk('biznet')->putFileAs("documents/permohonanSewa", $uploadedFileDokumen, $dokumenPermohonan);
+            } else {
+                $dokumenPermohonanPath = "";
+            }
+
+            $dataDokumenPermohonan = json_encode([
+                'IdDokumenPermohonanSewa' => $request->get('idDokumenPermohonan'),
+                'IdDokumenKelengkapan' => $request->get('jenisDokumen'),
+                'Keterangan' => $request->get('keteranganDokumen'),
+                'FileDokumen' => $dokumenPermohonanPath,
+            ]);
+
+            //dd($dataDokumenPermohonan);
+
+            $response = DB::statement('CALL update_dokumenPermohonan(:dataDokumenPermohonan)', ['dataDokumenPermohonan' => $dataDokumenPermohonan]);
+
+            //$dokumenPermohonan = json_decode($dokumenPermohonan, true);
+
+            if ($response) {
+                return redirect()->route('PermohonanSewa.edit', $dokumenPermohonan->idPermohonanSewa)->with('success', 'Dokumen Permohonan Sewa Berhasil Diubah!');
+            } else {
+                return redirect()->route('PermohonanSewa.edit', $dokumenPermohonan->idPermohonanSewa)->with('error', 'Dokumen Permohonan Sewa Gagal Diubah!');
+            }
+
+        } else {
+            return redirect()->route('PermohonanSewa.edit', $dokumenPermohonan->idPermohonanSewa)->with('error', 'Dokumen Permohonan Sewa Tidak Ditemukan!');
+        }
+    }
+
 
     public function update(Request $request, $id)
     {
@@ -183,12 +231,16 @@ class PermohonanSewaController extends Controller
     {
         $idStatus = "0";
 
+        
+        $dokumenKelengkapan = DB::select('CALL cbo_dokumenKelengkapan(' . 2 . ')');
+        $dokumenPermohonan = DB::select('CALL view_dokumenPermohonanById(' . $id . ')');
+
         $permohonanData = DB::select('CALL view_PermohonanSewaByIdAndStatus(?, ?)', [$id, $idStatus]);
         $permohonanSewa = $permohonanData[0];
 
         //dd($fieldEducation);
 
-        return view('admin.SewaAset.Permohonan.detail', compact('permohonanSewa'));
+        return view('admin.SewaAset.Permohonan.detail', compact('permohonanSewa', 'dokumenKelengkapan', 'dokumenPermohonan'));
     }
 
     public function storeStatusType(Request $request)

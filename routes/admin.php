@@ -226,6 +226,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/permohonan-sewa/ubah/{id}", [PermohonanSewaController::class, 'edit'])->name('PermohonanSewa.edit');
     Route::post("/permohonan-sewa/update/{id}", [PermohonanSewaController::class, 'update'])->name('PermohonanSewa.update');
     Route::get("/permohonan-sewa/ubah-dokumen-permohonan", [PermohonanSewaController::class, 'editDokumenPermohonan'])->name('PermohonanSewa.editDokumenPermohonan');
+    Route::post("/permohonan-sewa/update-dokumen-permohonan", [PermohonanSewaController::class, 'updateDokumenPermohonan'])->name('PermohonanSewa.updateDokumenPermohonan');
     Route::delete("/permohonan-sewa/hapus", [PermohonanSewaController::class, 'delete'])->name('PermohonanSewa.delete');
     Route::get("/permohonan-sewa/detail/{id}", [PermohonanSewaController::class, 'detail'])->name('PermohonanSewa.detail');
     Route::get("/permohonan-sewa/persetujuan-permohonan/", [PermohonanSewaController::class, 'approvePermohonanList'])->name('PermohonanSewa.approvePermohonanList');
