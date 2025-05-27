@@ -18,6 +18,7 @@ class XSignatureService
     protected $externalId;
     protected $xTimeStamp;
     protected $dateNow;
+    protected $paymentBaseURL;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class XSignatureService
         $this->clientId = env('CLIENT_ID');
         $this->privateKeyPem = env('PRIVATE_KEY_PEM');
         $this->clientSecret = env('CLIENT_SECRET');
+        $this->paymentBaseURL = env('PAYMENT_BASE_URL');
         $this->deviceId = env('DEVICE_ID');
         $this->channelId = env('CHANNEL_ID');
         $this->externalId = env('EXTERNAL_ID');
@@ -87,6 +89,8 @@ class XSignatureService
             'grantType' => 'client_credentials',
             'additionalInfo' => (object)[]
         ];
+
+        $endPointUrl = "/api/v1.0.0/access-token/b2b";
     
         // Convert data to JSON format for the raw body
         $jsonData = json_encode($rawData);
@@ -96,7 +100,7 @@ class XSignatureService
             'X-CLIENT-KEY' => $this->clientId,
             'X-SIGNATURE' => $xSignature,
         ])->withBody($jsonData, 'application/json')
-        ->post('https://snap.banksumut.co.id/snapgov/api/v1.0.0/access-token/b2b');
+        ->post($this->paymentBaseURL . $endPointUrl);
 
         if ($response->successful()) {
             return $response->json();

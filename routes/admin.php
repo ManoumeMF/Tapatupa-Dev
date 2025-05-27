@@ -240,7 +240,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/perjanjian-sewa/ubah/{id}", [PerjanjianController::class, 'edit'])->name('Perjanjian.edit');
     Route::post("/perjanjian-sewa/update/{id}", [PerjanjianController::class, 'update'])->name('Perjanjian.update');
     Route::delete("/perjanjian-sewa/hapus", [PerjanjianController::class, 'delete'])->name('Perjanjian.delete');
-    Route::get("/perjanjian-sewa/detail", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
+    Route::get("/perjanjian-sewa/detail/{id}", [PerjanjianController::class, 'detail'])->name('Perjanjian.detail');
     Route::get("/perjanjian-sewa/detail-permohonan/", [PerjanjianController::class, 'detailPermohonanToPerjanjian'])->name('Perjanjian.detailPermohonanToPerjanjian');
     Route::get("/perjanjian-sewa/draft/{id}", [PerjanjianController::class, 'generateDraftPerjanjianPdf'])->name('Perjanjian.generateDraftPerjanjianPdf');
     Route::post("/perjanjian-sewa/update-file-perjanjian", [PerjanjianController::class, 'updateFilePerjanjianSewa'])->name('Perjanjian.updateFilePerjanjianSewa');

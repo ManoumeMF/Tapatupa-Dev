@@ -13,6 +13,7 @@ use App\Services\XSignatureService;
 use Carbon\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AssetRentalMobileController extends Controller
 {
@@ -483,6 +484,10 @@ class AssetRentalMobileController extends Controller
             $endPointUrl = "/api/v1.0.0/transfer-va/create-vagov";
             $this->b2bToken = $this->signatureService->accessToken($this->xSignature)['accessToken'];
 
+
+            Log::info("xSignatureService: " . $this->b2bToken);
+            //dd($this->b2bToken);
+
             $xsignaturService = $this->signatureService->getXSignatureService($httpMethod, $bodyRaw, $endPointUrl, $this->b2bToken);
 
             $response = Http::withHeaders([
@@ -777,7 +782,7 @@ class AssetRentalMobileController extends Controller
         $WajibRetribusi = DB::select('CALL viewWajibRetribusiByNIK(' . $nik . ')');
 
         if ($WajibRetribusi) {
-            
+
             $wajibRetribusiData = $WajibRetribusi[0];
 
             $dataUser = json_encode([
@@ -786,25 +791,23 @@ class AssetRentalMobileController extends Controller
             ]);
 
             $users = DB::select('CALL check_usernameOrEmail(:dataUser)', ['dataUser' => $dataUser]);
-            
-            if($users){
+
+            if ($users) {
                 $userData = $users[0];
 
-                if(strtoupper($userData->username) == strtoupper($request->get('username')))
-                {
+                if (strtoupper($userData->username) == strtoupper($request->get('username'))) {
                     return response()->json([
                         'status' => 409,
                         'message' => 'Data username ' . $userData->username . ' sudah terdaftar, gunakan username lain!'
                     ]);
-                }else if($userData->email == $request->get('email'))
-                {
+                } else if ($userData->email == $request->get('email')) {
                     return response()->json([
                         'status' => 409,
                         'message' => 'Email ' . $userData->email . ' sudah terdaftar, gunakan email lain!'
                     ]);
                 }
 
-            }else{
+            } else {
                 $dataUser = json_encode([
                     'IdJenisUser' => 2,
                     'IdPersonal' => $wajibRetribusiData->idWajibRetribusi,

@@ -157,7 +157,6 @@ class TagihanController extends Controller
     public function singleCheckout(Request $request)
     {
         $idPerjanjian = $request->get('idPerjanjian');
-
         $idTagihan = $request->get('idTagihan');
 
         $dataTagihan = json_encode([

@@ -263,12 +263,9 @@ class PerjanjianController extends Controller
         }
     }
 
-    public function detail(Request $request)
-    {
-        $id = $request->id;
-
-        $perjanjianData = DB::select('CALL view_perjanjianSewaById(?)', [$id]);
-
+    public function detail($id)
+    {        
+        $perjanjianData = DB::select('CALL view_perjanjianSewaById(' . $id . ')');
         dd($perjanjianData);
 
         if ($perjanjianData) {
