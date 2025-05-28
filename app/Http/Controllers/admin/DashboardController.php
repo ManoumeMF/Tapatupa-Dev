@@ -18,7 +18,37 @@ class DashboardController extends Controller
         $permohonanDisetujuiTemp = DB::select('CALL view_permohonanDisetujui()');
         $permohonanDisetujui = $permohonanDisetujuiTemp[0];
 
-        return view('admin.Dashboard.index', compact('permohonanBaru', 'permohonanDisetujui'));
+        $tagihanJatuhTempoTemp = DB::select('CALL view_jumlahDataTagihanJatuhTempo()');
+        $tagihanJatuhTempo = $tagihanJatuhTempoTemp[0];
+
+        $tagihanMenunggakTemp = DB::select('CALL view_jumlahDataTagihanMenunggak()');
+        $tagihanMenunggak = $tagihanMenunggakTemp[0];
+
+        return view('admin.Dashboard.index', compact('permohonanBaru', 'permohonanDisetujui', 'tagihanJatuhTempo', 'tagihanMenunggak'));
         //return view('admin.PengaturanDanKonfigurasi.Bidang.index', ['bidang' => $bidang]);
+    }
+
+    public function permohonanBaru()
+    {
+        $permohonanBaru = DB::select('CALL viewAll_PermohonanBaru()');
+
+        return view('admin.Dashboard.permohonanBaru', compact('permohonanBaru'));
+
+    }
+
+    public function permohonanDisetujui()
+    {
+        $permohonanDisetujui = DB::select('CALL viewAll_permohonanDisetujui()');
+
+        return view('admin.Dashboard.permohonanDisetujui', compact('permohonanDisetujui'));
+
+    }
+
+    public function tagihanJatuhTempo()
+    {
+        $tagihanJatuhTempo = DB::select('CALL viewAll_tagihanJatuhTempo()');
+
+        return view('admin.Dashboard.tagihanJatuhTempo', compact('tagihanJatuhTempo'));
+
     }
 }

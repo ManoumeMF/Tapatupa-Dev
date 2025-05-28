@@ -44,7 +44,7 @@
                                 class="fe fe-arrow-up"></i>+0.5%</span>
                         vs Last Month-->
                     </div>
-                    <a href="javascript:void(0)"> <span class="float-end fs-12 fw-medium text-primary">View All <i
+                    <a href="{{ route('Dashboard.permohonanBaru') }}"> <span class="float-end fs-12 fw-medium text-primary">View All <i
                                 class="ti ti-arrow-narrow-right"></i></span></a>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                         <span class="text-primary fw-semibold me-1 d-inline-block">1</span>
                         Bulan Terakhir
                     </div>
-                    <a href="javascript:void(0)"> <span class="float-end fs-12 fw-medium text-success">View All <i
+                    <a href="{{ route('Dashboard.permohonanDisetujui') }}"> <span class="float-end fs-12 fw-medium text-success">View All <i
                                 class="ti ti-arrow-narrow-right"></i></span></a>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     <div>
                         <p class="mb-2 fs-15 fw-medium">Tagihan Jatuh Tempo
                         </p>
-                        <h4 class="mb-4  fw-semibold">41</h4>
+                        <h4 class="mb-4  fw-semibold">{{ $tagihanJatuhTempo->jumlahTagihanJatuhTempo }}</h4>
                     </div>
                     <div>
                         <span class="avatar avatar-md bg-primary-transparent svg-primary text-primary">
@@ -109,7 +109,7 @@
                                 class="fe fe-arrow-up"></i>+1.3%</span>
                         vs Last Month -->
                     </div>
-                    <a href="javascript:void(0)"> <span class="float-end fs-12 fw-medium text-secondary">View All <i
+                    <a href="{{ route('Dashboard.tagihanJatuhTempo') }}"> <span class="float-end fs-12 fw-medium text-secondary">View All <i
                                 class="ti ti-arrow-narrow-right"></i></span></a>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                     <div>
                         <p class="mb-2 fs-15 fw-medium">Tunggakan Pembayaran
                         </p>
-                        <h4 class="mb-4  fw-semibold">34</h4>
+                        <h4 class="mb-4  fw-semibold">{{ $tagihanMenunggak->jumlahTagihanMenunggak }}</h4>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -142,7 +142,7 @@
                                 class="fe fe-arrow-down"></i>-0.1%</span>
                         vs Last Month-->
                     </div>
-                    <a href="javascript:void(0)"> <span class="float-end fs-12 fw-medium text-orange">View All <i
+                    <a href="javascript:void(0)"> <span class="float-end fs-12 fw-medium text-danger">View All <i
                                 class="ti ti-arrow-narrow-right"></i></span></a>
                 </div>
             </div>
