@@ -484,8 +484,7 @@ class AssetRentalMobileController extends Controller
             $endPointUrl = "/api/v1.0.0/transfer-va/create-vagov";
             $this->b2bToken = $this->signatureService->accessToken($this->xSignature)['accessToken'];
 
-
-            Log::info("xSignatureService: " . $this->b2bToken);
+            Log::info("b2bToken: " . $this->b2bToken);
             //dd($this->b2bToken);
 
             $xsignaturService = $this->signatureService->getXSignatureService($httpMethod, $bodyRaw, $endPointUrl, $this->b2bToken);

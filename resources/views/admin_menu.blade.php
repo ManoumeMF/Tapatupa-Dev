@@ -5,7 +5,7 @@
 
     <!-- Start::slide -->
     <li class="slide">
-        <a href="javascript:void(0);" class="side-menu__item">
+        <a href="{{ route('Dashboard.index') }}" class="side-menu__item">
             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" height="24px" viewBox="0 0 24 24"
                 width="24px" fill="#5f6368">
                 <path d="M0 0h24v24H0V0z" fill="none" />

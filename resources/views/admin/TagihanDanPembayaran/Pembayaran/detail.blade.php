@@ -77,13 +77,13 @@
                                             name="idPembayaranSewa">
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                                <p class="text-muted mb-2">
+                                                <p class="fw-bold mb-2">
                                                     Ditagihkan Kepada:
                                                 </p>
                                                 <p class="mb-1 text-muted">
-                                                    #{{ $headPembayaran->npwrd }}
+                                                    NPWRD: {{ $headPembayaran->npwrd }}
                                                 </p>
-                                                <p class="mb-1 fw-bold">
+                                                <p class="mb-1 text-muted">
                                                     {{ $headPembayaran->namaWajibRetribusi }}
                                                 </p>
                                                 <p class="mb-1 text-muted">
@@ -97,13 +97,13 @@
                                                 </p>
                                             </div>
                                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
-                                                <p class="text-muted mb-2">
+                                                <p class="fw-bold mb-2">
                                                     Atas Objek Retribusi :
                                                 </p>
                                                 <p class="text-muted mb-1">
                                                     #{{ $headPembayaran->kodeObjekRetribusi }}
                                                 </p>
-                                                <p class="fw-bold mb-1">
+                                                <p class="text-muted mb-1">
                                                     {{ $headPembayaran->objekRetribusi }}
                                                 </p>
                                                 <p class="text-muted mb-1">
@@ -123,7 +123,7 @@
                                     <div class="col-xl-4">
                                         <p class="fw-medium text-muted mb-1">Tanggal Cetak :</p>
                                         <p class="fs-15 mb-1">
-                                            {{ date('d F Y', strtotime($headPembayaran->tanggalPembayaran)) }}
+                                            {{ \Carbon\Carbon::parse($headPembayaran->tanggalPembayaran)->translatedFormat('d F Y') }}
                                         </p>
                                     </div>
                                     <div class="col-xl-4">

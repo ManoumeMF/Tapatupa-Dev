@@ -169,7 +169,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ date('j F Y', strtotime($pS->createAt)) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($pS->createAt)->translatedFormat('d F Y') }}</td>
                                     <td>{{ $pS->objekRetribusi }}</td>
                                     <td>{{ $pS->LamaSewa }}</td>
                                     <td>

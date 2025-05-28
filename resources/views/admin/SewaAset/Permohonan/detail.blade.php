@@ -218,7 +218,7 @@
                                                     <div class="flex-fill">
                                                         <h6 class="mb-1 fs-13">Tanggal Permohonan</h6>
                                                         <span
-                                                            class="d-block fs-13 text-muted fw-normal">{{ $permohonanSewa->tanggalPermohonan }}</span>
+                                                            class="d-block fs-13 text-muted fw-normal">{{ \Carbon\Carbon::parse($permohonanSewa->tanggalPermohonan)->translatedFormat('d F Y') }}</span>
                                                     </div>
                                                 </div>
                                             </div>

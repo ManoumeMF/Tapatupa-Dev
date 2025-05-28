@@ -155,7 +155,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ date('d F Y', strtotime($pS->tanggalDisahkan)) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($pS->tanggalDisahkan)->translatedFormat('d F Y') }}</td>
                                     <td>
                                         <div class="d-flex">
                                             <div class="ms-2">

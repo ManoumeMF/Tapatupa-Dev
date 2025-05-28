@@ -76,13 +76,13 @@
                                 <div class="col-xl-12">
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                            <p class="text-muted mb-2">
+                                            <p class="fw-bold mb-2">
                                                 Ditagihkan Kepada:
                                             </p>
                                             <p class="mb-1 text-muted">
                                                 #{{ $headTagihanDetail->npwrd }}
                                             </p>
-                                            <p class="mb-1 fw-bold">
+                                            <p class="mb-1 text-muted">
                                                 {{ $headTagihanDetail->namaWajibRetribusi }}
                                             </p>
                                             <p class="mb-1 text-muted">
@@ -96,13 +96,13 @@
                                             </p>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
-                                            <p class="text-muted mb-2">
+                                            <p class="fw-bold mb-2">
                                                 Atas Objek Retribusi :
                                             </p>
                                             <p class="text-muted mb-1">
                                                 #{{ $headTagihanDetail->kodeObjekRetribusi }}
                                             </p>
-                                            <p class="fw-bold mb-1">
+                                            <p class="text-muted mb-1">
                                                 {{ $headTagihanDetail->objekRetribusi }}
                                             </p>
                                             <p class="text-muted mb-1">
@@ -120,13 +120,13 @@
                                     <p class="fs-15 mb-1">{{ $detailTagihan[0]->trxId }}</p>
                                 </div>
                                 <div class="col-xl-3">
-                                    <p class="fw-medium text-muted mb-1">Nomor Virtual Account :</p>
+                                    <p class="fw-medium text-muted mb-1">Kode Bayar/Nomor Virtual Account :</p>
                                     <p class="fs-15 mb-1">{{ $detailTagihan[0]->noVirtualAccount }}
                                         </p>
                                 </div>
                                 <div class="col-xl-3">
                                     <p class="fw-medium text-muted mb-1">Lakukan Pembayaran Dalam :</p>
-                                    <p class="fs-15 mb-1">{{ date('d F Y - H:i:s', strtotime($detailTagihan[0]->expiredDatePembayaran)) }}
+                                    <p class="fs-15 mb-1">{{ \Carbon\Carbon::parse($detailTagihan[0]->expiredDatePembayaran)->translatedFormat('d F Y - H:i:s ') }}
                                         </p>
                                 </div>
                                 @php($total = 0)
@@ -150,7 +150,7 @@
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" value="{{ $tD->idTagihanSewa }}"
-                                                            name="idTagihan[]" />
+                                                            name="idTagihan" />
                                                         <div class="text-muted">
                                                             {{ $tD->nomorTagihan }}
                                                         </div>
@@ -162,7 +162,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-muted">
-                                                            {{ date('d F Y', strtotime($tD->tanggalJatuhTempo)) }}
+                                                            {{ \Carbon\Carbon::parse($tD->tanggalJatuhTempo)->translatedFormat('d F Y') }}
                                                         </div>
                                                     </td>
                                                     <td class="text-muted">

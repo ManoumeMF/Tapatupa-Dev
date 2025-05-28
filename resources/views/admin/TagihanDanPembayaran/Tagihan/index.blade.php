@@ -143,7 +143,7 @@
                                                     {{ $tS->nomorSuratPerjanjian }}
                                                 </p>
                                                 <p class="fs-12 text-muted mb-0">
-                                                    Tanggal Perjanjian: {{ date('d F Y', strtotime($tS->tanggalDisahkan)) }}
+                                                    Tanggal Perjanjian: {{ \Carbon\Carbon::parse($tS->tanggalDisahkan)->translatedFormat('d F Y') }}
                                                 </p>
                                             </div>
                                         </div>

@@ -266,21 +266,17 @@ class PerjanjianController extends Controller
     public function detail($id)
     {        
         $perjanjianData = DB::select('CALL view_perjanjianSewaById(' . $id . ')');
-        dd($perjanjianData);
+
+        $saksiPerjanjian = DB::select('CALL view_saksiPerjanjianById(' . $id . ')');
+        //dd($perjanjianData);
 
         if ($perjanjianData) {
 
             $perjanjianSewa = $perjanjianData[0];
 
-            return response()->json([
-                'status' => 200,
-                'perjanjianSewa' => $perjanjianSewa
-            ]);
+            return view('admin.SewaAset.Perjanjian.detail', compact('perjanjianSewa', 'saksiPerjanjian'));
         } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data Perjanjian Sewa Tidak Ditemukan.'
-            ]);
+             return redirect()->route('Perjanjian.index')->with('error', 'Data Perjanjian Sewa Tidak Ditemukan!');
         }
     }
 

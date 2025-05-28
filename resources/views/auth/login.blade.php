@@ -14,7 +14,7 @@
     <meta name="keywords"
         content="dashboard template,dashboard html,bootstrap admin,dashboard admin,admin template,sales dashboard,crypto dashboard,projects dashboard,html template,html,html css,admin dashboard template,html css bootstrap,dashboard html css,pos system,bootstrap dashboard">
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('admin_resources/assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('admin_resources/assets/images/brand-logos/favicon2.ico') }}" type="image/x-icon">
 
     <!-- Main Theme Js -->
     <script src="{{ asset('admin_resources/assets/js/authentication-main.js') }}"></script>

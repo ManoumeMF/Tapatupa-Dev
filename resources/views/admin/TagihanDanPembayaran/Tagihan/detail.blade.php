@@ -162,7 +162,7 @@
                                 <div class="flex-fill">
                                     <h6 class="mb-1 fs-13">Tanggal Perjanjian</h6>
                                     <span class="d-block fs-13 text-muted fw-normal">
-                                        {{ date('d F Y', strtotime($headTagihanDetail->tanggalDisahkan)) }}
+                                        {{ \Carbon\Carbon::parse($headTagihanDetail->tanggalDisahkan)->translatedFormat('d F Y') }}
                                     </span>
                                 </div>
                             </div>
@@ -256,7 +256,7 @@
                                             <span class="fw-medium">{{ $tD->nomorTagihan }}</span>
                                         </td>
                                         <td>
-                                            {{ date('d F Y', strtotime($tD->tanggalJatuhTempo)) }}
+                                            {{ \Carbon\Carbon::parse($tD->tanggalJatuhTempo)->translatedFormat('d F Y') }}
                                         </td>
                                         <td>
                                             {{ $tD->jumlahTagihan }}

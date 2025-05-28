@@ -145,7 +145,7 @@
                                                     {{ $pS->noInvoice }}
                                                 </p>
                                                 <p class="fs-12 text-muted mb-0">
-                                                    Tanggal Pembayaran: {{ date('d F Y', strtotime($pS->tanggalPembayaran)) }}
+                                                    Tanggal Pembayaran: {{ \Carbon\Carbon::parse($pS->tanggalPembayaran)->translatedFormat('d F Y') }}
                                                 </p>
                                             </div>
                                         </div>
