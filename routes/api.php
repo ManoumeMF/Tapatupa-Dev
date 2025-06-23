@@ -41,6 +41,7 @@ Route::group(['middleware' => ['jwt.client', 'cek_login:User']], function () {
 
     // Route API untuk Permohonan Sewa
     Route::get("/permohonan-mobile/{id}", [AssetRentalMobileController::class, 'permohonanIndex'])->name('AssetRentalMobile.permohonanIndex');
+    Route::get("/permohonan-mobile/detail/{id}", [AssetRentalMobileController::class, 'permohonanDetail'])->name('AssetRentalMobile.permohonanDetail');
     Route::post("/permohonan-mobile/simpan", [AssetRentalMobileController::class, 'permohonanStore'])->name('AssetRentalMobile.permohonanStore');
 
 

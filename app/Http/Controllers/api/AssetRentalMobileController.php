@@ -254,6 +254,35 @@ class AssetRentalMobileController extends Controller
         }
     }
 
+    public function permohonanDetail($id)
+    {
+        $idStatus = "0";
+
+        $dokumenKelengkapan = DB::select('CALL cbo_dokumenKelengkapan(' . 2 . ')');
+        $dokumenPermohonan = DB::select('CALL view_dokumenPermohonanById(' . $id . ')');
+
+        $permohonanData = DB::select('CALL view_PermohonanSewaByIdAndStatus(?, ?)', [$id, $idStatus]);
+        $permohonanSewa = $permohonanData[0];
+
+        //dd($fieldEducation);
+
+        if ($permohonanSewa) {
+            return response()->json([
+                'status' => 200,
+                'detailDermohonan' => $permohonanSewa,
+                'dokumenermohonan' => $dokumenPermohonan
+
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data Permohonan Sewa Tidak Ditemukan!'
+            ]);
+        }
+
+        //return view('admin.SewaAset.Permohonan.detail', compact('permohonanSewa', 'dokumenKelengkapan', 'dokumenPermohonan'));
+    }
+
     public function objekRetribusi()
     {
         $objekRetribusi = DB::select('CALL viewAll_objekRetribusi()');
