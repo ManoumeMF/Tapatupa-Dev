@@ -301,7 +301,7 @@ class TagihanController extends Controller
                     ]
                 ],
                 'virtualAccountTrxType' => "C",
-                'expiredDate' => "2025-12-20T23:59:59+07:00",
+                'expiredDate' => $expiredAt,
                 'additionalInfo' => [
                     'clientid' => $this->clientIdGov,
                     'masa_bayar' => $detailTagihan[0]->masaBayar,
