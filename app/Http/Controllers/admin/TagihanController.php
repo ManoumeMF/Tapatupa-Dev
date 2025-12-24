@@ -167,6 +167,12 @@ class TagihanController extends Controller
         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
         $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
+        $expiredAt = now('Asia/Jakarta')
+            ->addDays(12)
+            ->endOfDay()
+            ->toIso8601String();
+
+
         //dd($headTagihanDetail);
         if ($detailTagihan[0]->trxId == "" && $detailTagihan[0]->noVirtualAccount == "") {
             $httpMethod = $request->method();
@@ -185,7 +191,7 @@ class TagihanController extends Controller
                     ]
                 ],
                 'virtualAccountTrxType' => "C",
-                'expiredDate' => "2025-12-20T23:59:59+07:00",
+                'expiredDate' => $expiredAt,
                 'additionalInfo' => [
                     'clientid' => $this->clientIdGov,
                     'prefix_real' => $this->previxReal,
@@ -242,7 +248,7 @@ class TagihanController extends Controller
                 'Authorization' => "Bearer " . $this->b2bToken,
             ])->withBody($bodyRaw, 'application/json')
                 ->post($this->paymentBaseURL . $endPointUrl);
-                
+
             //dd($response->successful());
             if ($response->successful()) {
                 $result = $response->json();
@@ -277,7 +283,7 @@ class TagihanController extends Controller
             } else {
                 return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail', 'detailTagihan'));
             }
-        }else{
+        } else {
             $httpMethod = $request->method();
 
             $dataRaw = [
@@ -310,7 +316,7 @@ class TagihanController extends Controller
             $this->b2bToken = $this->signatureService->accessToken($this->xSignature)['accessToken'];
 
             $xsignaturService = $this->signatureService->getXSignatureService($httpMethod, $bodyRaw, $endPointUrlUpdate, $this->b2bToken);
-            
+
             $response = Http::withHeaders([
                 'X-TIMESTAMP' => $this->xTimeStamp,
                 'X-PARTNER-ID' => $this->clientId,
@@ -321,41 +327,41 @@ class TagihanController extends Controller
                 'Authorization' => "Bearer " . $this->b2bToken,
             ])->withBody($bodyRaw, 'application/json')
                 ->post($this->paymentBaseURL . $endPointUrlUpdate);
-            
-                if ($response->successful()) {
-                    $result = $response->json();
-    
-                    $date = Carbon::parse(str_replace(' ', '+', $result['virtualAccountData']['expiredDate']));
-                    $formattedTime = $date->format('m/d/Y H:i:s');
-    
-                    if ($result) {
-                        $dataUpdateTagihan = json_encode([
-                            'IdTagihan' => $idTagihan,
-                            'IdTrx' => $result['virtualAccountData']['trxId'],
-                            'NoVirtualAccount' => "",
-                            'ExpiredDatePembayaran' => $formattedTime,
-                        ]);
-    
-                        DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
-    
-                        $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
-                        $headTagihanDetail = $headTagihanDetailData[0];
-                        $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
-    
-                        return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail', 'detailTagihan'));
-    
-                    } else {
-                        /*return response()->json([
-                            'error' => 'API request failed',
-                            'message' => $response->body()
-                        ], $response->status());*/
-    
-                        return redirect()->route('Tagihan.detail', $$detailTagihan[0]->idPerjanjianSewa)->with('Error: API request failed', '$response->body()');
-                    }
-                } else {
+
+            if ($response->successful()) {
+                $result = $response->json();
+
+                $date = Carbon::parse(str_replace(' ', '+', $result['virtualAccountData']['expiredDate']));
+                $formattedTime = $date->format('m/d/Y H:i:s');
+
+                if ($result) {
+                    $dataUpdateTagihan = json_encode([
+                        'IdTagihan' => $idTagihan,
+                        'IdTrx' => $result['virtualAccountData']['trxId'],
+                        'NoVirtualAccount' => "",
+                        'ExpiredDatePembayaran' => $formattedTime,
+                    ]);
+
+                    DB::statement('CALL updateCheckoutTagihan(:dataUpdateTagihan)', ['dataUpdateTagihan' => $dataUpdateTagihan]);
+
+                    $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+                    $headTagihanDetail = $headTagihanDetailData[0];
+                    $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
+
                     return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail', 'detailTagihan'));
+
+                } else {
+                    /*return response()->json([
+                        'error' => 'API request failed',
+                        'message' => $response->body()
+                    ], $response->status());*/
+
+                    return redirect()->route('Tagihan.detail', $$detailTagihan[0]->idPerjanjianSewa)->with('Error: API request failed', '$response->body()');
                 }
-        
+            } else {
+                return view('admin.TagihanDanPembayaran.Tagihan.invoice', compact('headTagihanDetail', 'detailTagihan'));
+            }
+
         }
     }
 }
