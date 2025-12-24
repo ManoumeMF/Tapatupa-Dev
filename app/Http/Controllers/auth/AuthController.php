@@ -57,7 +57,7 @@ class AuthController extends Controller
                 //return redirect()->intended('admin');
                 return redirect()->route('Dashboard.index');
             }elseif ($userRole == 'User') {
-                return redirect()->intended('user');
+                return redirect()->intended('WajibRetribusi.dashboardUser');
             } 
             
 
