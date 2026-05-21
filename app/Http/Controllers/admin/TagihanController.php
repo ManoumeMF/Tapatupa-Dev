@@ -165,6 +165,7 @@ class TagihanController extends Controller
         ]);
 
         $headTagihanDetailData = DB::select('CALL view_headTagihanByIdPerjanjian(' . $idPerjanjian . ')');
+        $headTagihanDetail = $headTagihanDetailData[0] ?? null;
         $detailTagihan = DB::select('CALL view_singleCheckoutTagihanByid(:dataTagihan)', ['dataTagihan' => $dataTagihan]);
 
         //dd($headTagihanDetail);

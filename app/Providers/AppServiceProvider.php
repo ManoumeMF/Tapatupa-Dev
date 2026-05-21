@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Spatie\LaravelPdf\Facades\Pdf;
 
@@ -35,5 +36,12 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo App\Helpers\TerbilangAngka::Terbilang( $angka ); ?>";
         });
 
+        // Nonaktifkan SSL verification di environment lokal/testing
+        // (Windows tidak memiliki CA bundle yang lengkap)
+        if (app()->environment('local', 'testing')) {
+            Http::globalOptions([
+                'verify' => false,
+            ]);
+        }
     }
 }
