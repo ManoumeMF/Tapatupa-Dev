@@ -237,6 +237,8 @@
                         @include('super_admin_menu')
                     @elseif (Auth::user()->roles->roleName == 'Admin')
                         @include('admin_menu')
+                    @elseif (Auth::user()->roles->roleName == 'User')
+                        @include('user_menu')
                     @endif
 
                     
